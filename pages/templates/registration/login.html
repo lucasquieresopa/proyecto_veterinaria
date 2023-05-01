@@ -1,0 +1,14 @@
+<!-- templates/registration/login.html -->
+<!-- se agrega una carpeta "registration" porque django por defecto busca el registro en ella-->
+
+{% extends 'base.html' %}       <!-- extiende de base.html -->
+
+{% block content %}
+
+<h2>Inicio de sesión</h2>
+<form method="post">            <!-- se especifica el method "post" porque se envía data al servidor, si se recibiera sería "get"-->
+{% csrf_token %}            <!-- cuestiones de seguridad -->
+{{ form.as_p }}             <!-- genera etiquetas de parrafos -->
+<button type="submit">Ingresar</button>
+</form>
+{% endblock content %}

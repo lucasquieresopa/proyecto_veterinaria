@@ -1,9 +1,18 @@
 <!-- templates/home.html -->
-{% extends 'base.html' %}   <!-- indica que hereda de base.html-->
+{% extends 'baseLogedIn.html' %}   <!-- indica que hereda de baseLogedIn.html-->
+
+{% block title %}Página principal{% endblock title %}
 
 {% block content %}
-<h1>Página Principal</h1>
+{% if user.is_authenticated %}  <!-- is_authenticated es siempre True si es un obj User-->
+    <!-- esto tambien esta en baseLogedIn.html pero no se como heredar-->
+    <p>Hola {{ user.username }}!</p>
+    <p><a href="{% url 'logout' %}">cerrar sesión</a></p>
 
-
-
+    {% else %}
+    <p>No tienes una sesión iniciada. Inicia sesión o solicita una cuenta con el veterinario</p>
+    <a href="{% url 'login' %}">Iniciar sesión</a> |
+    {% endif %}
 {% endblock content %}
+
+

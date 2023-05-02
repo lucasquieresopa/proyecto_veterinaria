@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'pages.apps.PagesConfig'
+    'pages.apps.PagesConfig',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -125,5 +126,8 @@ STATICFILES_DIRS = [str(BASE_DIR.joinpath('static'))] #dice a django donde busca
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = 'home' #redirecciona el login al template "home"
+LOGIN_REDIRECT_URL = 'home' #redirecciona al usuario en pagina 'login' a la pag ppal a traves del template "home"
+LOGOUT_REDIRECT_URL = 'login' #redirecciona al usuario en pag ppal a la pantalla login 
 
+
+#AUTH_USER_MODEL = 'accounts.CustomUser'

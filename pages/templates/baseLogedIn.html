@@ -1,0 +1,21 @@
+<!-- templates/base.html -->
+<!-- baseLogedIn.html es un template padre con el formato de las páginas una vez logeado
+    para que todos los demas templates hereden-->
+
+
+<header>
+    <a href="{% url 'home' %}">Pagina Principal</a> |
+    <a href="{% url 'profile' %}">Perfil</a>
+    </header>
+
+    
+    {% block content %}
+    <!-- aca es donde va el contenido de la página -->
+
+        {% if user.is_authenticated %}
+            <p>Hola {{ user.username }}!</p>
+            <p><a href="{% url 'logout' %}">cerrar sesión</a></p>
+        {% else %}
+        {% endif %}
+
+    {% endblock content %} <!-- end block es el final del contenido-->

@@ -1,8 +1,10 @@
 <!-- templates/registration/login.html -->
 <!-- se agrega una carpeta "registration" porque django por defecto busca el registro en ella-->
 
+{% block title %}Inicio de sesión{% endblock title %}
+
 {% block content %}
-    {% if form.errors %}
+    {% if form.errors %}        <!-- si el form da error (mail y cña ingresados no matchean) imprime: -->
         <p>Los datos ingresados no son validos, por favor intentelo de nuevo.</p>
     {% endif %}
 
@@ -15,7 +17,7 @@
         {% endif %}
     {% endif %}
 
-    <h2>Inicio de sesión</h2>
+    <h2>Oh My Dog!: Inicio de sesión</h2>
     <form method="post" action="{% url 'login' %}"> <!-- se especifica el method "post" porque se envía data al servidor, si se recibiera sería "get"-->
     {% csrf_token %}    <!-- cuestiones de seguridad -->
     <table>

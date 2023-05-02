@@ -1,11 +1,18 @@
 <!-- templates/base.html -->
-<!-- base.html es un template padre con el formato para que todos los demas templates hereden-->
-<header>
-    <a href="{% url 'home' %}">Pagina Principal</a> |
-    <a href="{% url 'profile' %}">Perfil</a>
-    </header>
+<!-- template base para todos los templates-->
 
-    
-    {% block content %}
-    <!-- aca es donde va el contenido de la página -->
-    {% endblock %} <!-- end block es el final del contenido-->
+{% extends 'base.html' %}
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>{% block title %}Newspaper App{% endblock title %}</title>
+</head>
+<body>
+<main>
+{% block content %}
+{% endblock content %}
+</main>
+</body>
+</html>

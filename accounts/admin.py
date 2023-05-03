@@ -8,7 +8,7 @@ class CustomUserAdmin(UserAdmin):   #extiende el admin al formato de usuario per
     form = CustomUserChangeForm
     model = CustomUser
     list_display = ['email', 'username', 'name', 'is_staff', ]  #-> controlar campos
-                                    #añadir y modificar campos
+                                    #añadir y modificar campos ->
     fieldsets = UserAdmin.fieldsets + ( 
         (None, {'fields': ('name',)}),
     )

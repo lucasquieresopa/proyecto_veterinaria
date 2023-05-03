@@ -28,7 +28,9 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-# Application definition
+# Aca se agregan todas las aplicaciones que utiliza el sistema
+# las "django." son propias de django y la mayoria se crearon con la estructura del proyecto
+# el resto son las paginas que fueron siendo creadas
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -130,4 +132,4 @@ LOGIN_REDIRECT_URL = 'home' #redirecciona al usuario en pagina 'login' a la pag 
 LOGOUT_REDIRECT_URL = 'login' #redirecciona al usuario en pag ppal a la pantalla login 
 
 
-#AUTH_USER_MODEL = 'accounts.CustomUser'
+AUTH_USER_MODEL = 'accounts.CustomUser' #customUser es el usuario personalizado base definido en accounts/models.py

@@ -21,11 +21,10 @@ from django.views.generic.base import TemplateView # new
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-
-    """el orden de las instrucciones importa. Primero busca en auth, y si no encuentra, busca en accounts"""
     path('accounts/', include('django.contrib.auth.urls')),         #apunta a la app de auth 
     path('accounts/', include('accounts.urls')), # apunta a la app accounts
-
+                                                #el orden de las instrucciones importa. Primero busca en 
+                                                # auth, y si no encuentra, busca en accounts
     path('', TemplateView.as_view(template_name='home.html'), name='home'), # 
     path("", include("pages.urls")),        #apunta el URL existente a la app pages
 ]

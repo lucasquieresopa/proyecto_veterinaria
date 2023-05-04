@@ -1,12 +1,12 @@
-{% extends 'base.html' %}   <!-- baseLogedIn.html?? dado que lo hace el veterinario desde una sesion iniciada-->
+{% extends 'baseLogedIn.html' %}   <!-- baseLogedIn.html?? dado que lo hace el veterinario desde una sesion iniciada-->
 
 {% block content %}
 
-    <h2>Registro de Clientes</h2>
+    <h2>Modificacion de datos</h2>
     <form method="post">    <!-- cuando toco el boton "Registrar" se haceun post request -->
         {% csrf_token %}    <!-- seguridad en forms -->
         
-        {% for field in registration_form %}
+        {% for field in account_form %}
             <p>
                 {{field.label_tag}}
                 {{field}}
@@ -17,17 +17,17 @@
             </p>
         {% endfor %}
 
-        {% for field in registration_form.errors %}
+        {% for field in account_form.errors %}
             {% for error in field.errors %}
                 <p>{{error}}</p>
             {% endfor %}
             </p>
         {% endfor %} 
         
-        {% if registration_form.non_field_errors %}
-            <p>{{registration_form.non_field_errors}}</p>
+        {% if account_form.non_field_errors %}
+            <p>{{account_form.non_field_errors}}</p>
         {% endif %}
-        <button type="submit">Registrar</button>
+        <button type="submit">Guardar</button>
     </form>
 
 {% endblock content %}

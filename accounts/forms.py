@@ -40,4 +40,38 @@ class CustomUserAuthenticationForm(forms.ModelForm):
             password = self.cleaned_data['password']
             if not authenticate(email=email, password=password):
                 raise forms.ValidationError("Los datos ingresados son invalidos")
-    
+
+class CustomUserModificationForm(forms.ModelForm):
+
+    class Meta:
+        model = CustomUser
+        fields = ('email', 'name', 'surname', 'telephone', 'address')
+
+        def clean_email(self):
+            if self.is_valid():
+                email = self.cleaned_data['email']
+                try:
+                    account = CustomUser.objects.exclude(pk=self.instance.pk).get(email=email)  #chequea que no exista
+                except CustomUser.DoesNotExist:
+                    return email
+                raise forms.ValidationError('Email "%s" está en uso' % email)
+        
+        def clean_name(self):
+            if self.is_valid():
+                name = self.cleaned_data['name']
+                return name
+
+        def clean_surname(self):
+            if self.is_valid():
+                surname = self.cleaned_data['surname']
+                return surname
+        
+        def clean_address(self):
+            if self.is_valid():
+                address = self.cleaned_data['address']
+                return address
+        
+        def clean_telephone(self):
+            if self.is_valid():
+                telephone = self.cleaned_data['telephone']
+                return telephone

@@ -6,9 +6,13 @@
 {% block content %}
     {% if user.is_authenticated %}  <!-- is_authenticated es siempre True si es un obj User-->
         <!-- esto tambien esta en baseLogedIn.html pero no se como heredar-->
-        <p>Hola {{ user }}!</p>
-        <p><a href="{% url 'logout' %}">cerrar sesión</a></p>
+        
 
+        <p><a href="{% url 'account-modif' %}">Modificar datos</a> |
+            <a href="{% url 'logout' %}">cerrar sesión</a>
+        </p>
+        
+        <p>Hola {{ user }}!</p>
     {% else %}
         <p>No tienes una sesión iniciada. Inicia sesión o solicita una cuenta con el veterinario</p>
         <a href="{% url 'login' %}">Iniciar sesión</a> |

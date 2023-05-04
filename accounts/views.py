@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import CustomUserCreationForm, CustomUserAuthenticationForm
+from .forms import CustomUserCreationForm, CustomUserAuthenticationForm, CustomUserModificationForm
 # from django.urls import reverse_lazy
 # from django.views import generic
 from django.contrib.auth import login, authenticate, logout
@@ -65,3 +65,30 @@ def login_view(request):
     
     context['login_form'] = form
     return render(request, 'registration/login.html', context)
+
+
+def account_modif_view(request):
+
+    if not request.user.is_authenticated:
+        return redirect('login')
+    
+    context = {}
+
+    if request.POST:
+        form = CustomUserModificationForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+    
+    else:
+        form = CustomUserModificationForm(
+            initial = {
+                "email": request.user.email,
+                "name": request.user.name,
+                "surname": request.user.surname,
+                "telephone": request.user.telephone,
+                "address": request.user.address
+            }
+        )
+    
+    context['account_form'] = form
+    return render(request, 'registration/account_modif.html', context)

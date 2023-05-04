@@ -17,20 +17,25 @@ Including another URLconf
 # proyecto_veterinaria/urls.py   (proyecto_veterinaria - config - django_project son lo mismo en la guia)
 from django.contrib import admin
 from django.urls import path, include
-from django.views.generic.base import TemplateView # new
-from accounts.views import user_registration_view
-from pages.views import HomePageView, ProfilePageView
+#from django.views.generic.base import TemplateView 
+from accounts.views import user_registration_view, logout_view, login_view
+#from pages.views import HomePageView, ProfilePageView
+from pages.views import home_view
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),         #apunta a la app de auth 
-    path('accounts/', include('accounts.urls')), # apunta a la app accounts
-                                                #el orden de las instrucciones importa. Primero busca en 
-                                                # auth, y si no encuentra, busca en accounts
+    # path('accounts/', include('accounts.urls')), # apunta a la app accounts
+    #                                             #el orden de las instrucciones importa. Primero busca en 
+    #                                             # auth, y si no encuentra, busca en accounts
     #path('', TemplateView.as_view(template_name='home.html'), name='home'), # 
-    path("", HomePageView.as_view(), name="home"),      #cuando usamos Class-Based Views se agrega as_view()
+    #path("", HomePageView.as_view(), name="home"),      #cuando usamos Class-Based Views se agrega as_view()
     #path("", include("pages.urls")),        #apunta el URL existente a la app pages
-    
+    #path("profile/", ProfilePageView.as_view(), name="profile"),
+    path("", home_view, name="home"),
+    path("login/", login_view, name="login"),
     path('client-registration/', user_registration_view, name='client-registration'),
-    path("profile/", ProfilePageView.as_view(), name="profile")
+    
+    path('logout/', logout_view, name="logout")
 ]

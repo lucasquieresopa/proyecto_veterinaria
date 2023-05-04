@@ -1,0 +1,39 @@
+
+
+{% block content %}
+    {% if form.errors %}        <!-- si el form da error (mail y cña ingresados no matchean) imprime: -->
+        <p>Los datos ingresados no son validos, por favor intentelo de nuevo.</p>
+    {% endif %}
+
+    {% if login_form.non_field_errors %}
+      <p>{{login_form.non_field_errors}}</p>
+    {% endif %}
+
+    {% if next %}
+        {% if user.is_authenticated %}
+          <p>Tu cuenta no tiene acceso a esta página.</p>
+        {% else %}
+        <p>Por favor inicia sesión para ver esta página.</p>
+        {% endif %}
+    {% endif %}
+
+    <h2>Oh My Dog!: Inicio de sesión</h2>
+    <form method="post"> <!-- se especifica el method "post" porque se envía data al servidor, si se recibiera sería "get"-->
+    {% csrf_token %}    <!-- cuestiones de seguridad -->
+    <table>
+      <tr>
+        <td>Email:</td>
+        <td>{{ login_form.email }}</td>
+      </tr>
+      <tr>
+        <td>Contraseña:</td>
+        <td>{{ login_form.password }}</td>
+      </tr>
+    </table>
+    <button type="submit">Iniciar Sesión</button>
+  </form>
+
+  {# Assumes you setup the password_reset view in your URLconf #}
+  <p><a href="{% url 'password_reset' %}">¿Olvidaste tu contraseña?</a></p>
+
+{% endblock content %}

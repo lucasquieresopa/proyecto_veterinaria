@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, CustomUserAuthenticationForm
 # from django.urls import reverse_lazy
 # from django.views import generic
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 
 
 # # Create your views here.
@@ -36,3 +36,32 @@ def user_registration_view(request):
         form = CustomUserCreationForm()
         context['registration_form'] = form
     return render(request, 'registration/client_registration.html', context)
+
+def logout_view(request):
+    """definicion del logout, mas intuitiva que hacerlo con constantes como hace la guia"""
+    logout(request)
+    return redirect('login')
+
+def login_view(request):
+    context = {}
+
+    user = request.user
+    if user.is_authenticated:
+        return redirect('home')
+    
+    if request.POST:
+        form = CustomUserAuthenticationForm(request.POST)
+        if form.is_valid():
+            email = request.POST['email']
+            password = request.POST['password']
+            user = authenticate(email=email, password=password)
+
+            if user:
+                login(request, user)
+                return redirect('home')
+    
+    else:
+        form = CustomUserAuthenticationForm()
+    
+    context['login_form'] = form
+    return render(request, 'registration/login.html', context)

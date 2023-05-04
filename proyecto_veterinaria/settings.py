@@ -128,8 +128,13 @@ STATICFILES_DIRS = [str(BASE_DIR.joinpath('static'))] #dice a django donde busca
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = 'home' #redirecciona al usuario en pagina 'login' a la pag ppal a traves del template "home"
-LOGOUT_REDIRECT_URL = 'login' #redirecciona al usuario en pag ppal a la pantalla login 
+        
+# LOGIN_REDIRECT_URL = 'home' #redirecciona al usuario en pagina 'login' a la pag ppal a traves del template "home"
+# LOGOUT_REDIRECT_URL = 'login' #redirecciona al usuario en pag ppal a la pantalla login 
+            #
+            # LOGIN_REDIRECT_URL y LOGOUT_REDIRECT_URL son constantes que emplea django.contrib.auth 
+            # que funcionan bien, pero para hacer mas legible el programa decidi hacer las redirecciones de otra manera
+            # 
 
 
 AUTH_USER_MODEL = 'accounts.CustomUser' #customUser es el usuario personalizado base definido en accounts/models.py

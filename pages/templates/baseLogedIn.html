@@ -5,19 +5,18 @@
 
 <header>
     <a href="{% url 'home' %}">Pagina Principal</a> |
-    <a href="{% url 'profile' %}">Perfil</a>
     </header>
 
     
     {% block content %}
     <!-- aca es donde va el contenido de la página -->
 
-        {% if user.is_authenticated %}
-            <p>Hola {{ user.name }}!</p>
-            <p><a href="{% url 'logout' %}">cerrar sesión</a></p>
+        {% if request.user.is_authenticated %}
+            <p>Hola {{ request.user }}!</p>
+            <p><a href="{% url 'logout' %}">Cerrar sesión</a></p>
         {% else %}
-            <p>You are not logged in</p>
-            <a href="{% url 'login' %}">Log In</a>
+            <p>No tienes una sesión iniciada</p>
+            <a href="{% url 'login' %}">Iniciar sesión</a>
         {% endif %}
 
     {% endblock content %} <!-- end block es el final del contenido-->

@@ -18,6 +18,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic.base import TemplateView # new
+from accounts.views import user_registration_view
+from pages.views import HomePageView, ProfilePageView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -25,6 +27,10 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')), # apunta a la app accounts
                                                 #el orden de las instrucciones importa. Primero busca en 
                                                 # auth, y si no encuentra, busca en accounts
-    path('', TemplateView.as_view(template_name='home.html'), name='home'), # 
-    path("", include("pages.urls")),        #apunta el URL existente a la app pages
+    #path('', TemplateView.as_view(template_name='home.html'), name='home'), # 
+    path("", HomePageView.as_view(), name="home"),      #cuando usamos Class-Based Views se agrega as_view()
+    #path("", include("pages.urls")),        #apunta el URL existente a la app pages
+    
+    path('client-registration/', user_registration_view, name='client-registration'),
+    path("profile/", ProfilePageView.as_view(), name="profile")
 ]

@@ -13,9 +13,11 @@
     <!-- aca es donde va el contenido de la página -->
 
         {% if user.is_authenticated %}
-            <p>Hola {{ user.username }}!</p>
+            <p>Hola {{ user.name }}!</p>
             <p><a href="{% url 'logout' %}">cerrar sesión</a></p>
         {% else %}
+            <p>You are not logged in</p>
+            <a href="{% url 'login' %}">Log In</a>
         {% endif %}
 
     {% endblock content %} <!-- end block es el final del contenido-->

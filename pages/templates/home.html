@@ -6,7 +6,7 @@
 {% block content %}
 {% if user.is_authenticated %}  <!-- is_authenticated es siempre True si es un obj User-->
     <!-- esto tambien esta en baseLogedIn.html pero no se como heredar-->
-    <p>Hola {{ user.username }}!</p>
+    <p>Hola {{ user }}!</p>
     <p><a href="{% url 'logout' %}">cerrar sesión</a></p>
 
     {% else %}

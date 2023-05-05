@@ -27,6 +27,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+
 
 # Aca se agregan todas las aplicaciones que utiliza el sistema
 # las "django." son propias de django y la mayoria se crearon con la estructura del proyecto

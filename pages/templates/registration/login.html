@@ -30,6 +30,9 @@
         {% endfor %} 
 
         <button type="submit">Iniciar sesión</button>
+        
     </form>
+
+    <a href="{% url 'password_reset' %}"><i>¿Olvidaste tu contraseña?</i></a>
 
 {% endblock content %}

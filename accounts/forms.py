@@ -7,17 +7,41 @@ from django.db import models
 from django.contrib.auth import authenticate
 
 
+class UserCreationForm(UserCreationForm):
+    """
+    overridea UserCreationForm para que las contraseñas sean opcionales.
+    """
+
+    def __init__(self, *args, **kwargs):
+        super(UserCreationForm, self).__init__(*args, **kwargs)
+        self.fields['password1'].required = False
+        self.fields['password2'].required = False
+        # If one field gets autocompleted but not the other, our 'neither
+        # password or both password' validation will be triggered.
+        self.fields['password1'].widget.attrs['autocomplete'] = 'off'
+        self.fields['password2'].widget.attrs['autocomplete'] = 'off'
+
+    def clean_password2(self):
+        password1 = self.cleaned_data.get("password1")
+        password2 = super(UserCreationForm, self).clean_password2()
+        if bool(password1) ^ bool(password2):
+            raise forms.ValidationError("Complete ambas contraseñas")
+        return password2
+
+
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(help_text = "obligatorio")
-    name = forms.CharField(label="Nombre")
-    surname = forms.CharField(label="Apellido")
-    telephone = forms.CharField(label="Teléfono")
-    address = forms.CharField(label="Dirección")
+    name = forms.CharField(label="Nombre", required=True)
+    surname = forms.CharField(label="Apellido", required=False)
+    telephone = forms.CharField(label="Teléfono", required=False)
+    address = forms.CharField(label="Dirección", required=False)
+    password1 = forms.CharField(label="Contraseña", help_text="Opcionalmente ingrese una contraseña para el cliente")
+    password2 = forms.CharField(label="Repetir contraseña", help_text="Si ingresó una contraseña, repitala")
     #falta pasar de Password -> Contraseña pero overrideando password quita algunas cosas
 
     class Meta(UserCreationForm):   #overridea los campos por defecto
         model = CustomUser
-        fields = ('email', 'name', 'surname', 'telephone', 'address', 'password1',)
+        fields = ('email', 'name', 'surname', 'telephone', 'address')
 
 
 # class CustomUserChangeForm(UserChangeForm):

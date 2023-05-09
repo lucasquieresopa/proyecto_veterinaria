@@ -75,6 +75,11 @@ class CustomUserModificationForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ('email', 'name', 'surname', 'telephone', 'address')
+        error_messages = {
+            'email': {
+                "unique": "El email ingresado ya se encuentra en uso",
+            },
+        }
 
         def clean_email(self):
             if self.is_valid():

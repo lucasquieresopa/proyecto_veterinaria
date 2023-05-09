@@ -35,8 +35,12 @@ class CustomUserCreationForm(UserCreationForm):
     surname = forms.CharField(label="Apellido", required=False)
     telephone = forms.CharField(label="Teléfono", required=False)
     address = forms.CharField(label="Dirección", required=False)
-    password1 = forms.CharField(label="Contraseña", help_text="Opcionalmente ingrese una contraseña para el cliente")
-    password2 = forms.CharField(label="Repetir contraseña", help_text="Si ingresó una contraseña, repitala")
+    password1 = forms.CharField(widget=forms.PasswordInput(),
+                                label="Contraseña", 
+                                help_text="Opcionalmente ingrese una contraseña para el cliente")
+    password2 = forms.CharField(widget=forms.PasswordInput(),
+                                label="Repetir contraseña", 
+                                help_text="Si ingresó una contraseña, repitala")
     #falta pasar de Password -> Contraseña pero overrideando password quita algunas cosas
 
     class Meta(UserCreationForm):   #overridea los campos por defecto
@@ -51,7 +55,8 @@ class CustomUserCreationForm(UserCreationForm):
 
 class CustomUserAuthenticationForm(forms.ModelForm):
 
-    password = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
+    password = forms.CharField(label='Contraseña', 
+                               widget=forms.PasswordInput)
 
     class Meta:
         model = CustomUser

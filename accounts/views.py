@@ -5,6 +5,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.urls import reverse_lazy
 from django.contrib.auth.views import PasswordResetView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.hashers import make_password
 
 
 # # Create your views here.

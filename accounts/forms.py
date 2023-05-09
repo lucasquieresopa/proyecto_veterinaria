@@ -72,6 +72,12 @@ class CustomUserAuthenticationForm(forms.ModelForm):
 
 class CustomUserModificationForm(forms.ModelForm):
 
+    email = forms.EmailField(help_text = "obligatorio")
+    name = forms.CharField(label="Nombre", required=True)
+    surname = forms.CharField(label="Apellido", required=False)
+    telephone = forms.CharField(label="Teléfono", required=False)
+    address = forms.CharField(label="Dirección", required=False)
+    
     class Meta:
         model = CustomUser
         fields = ('email', 'name', 'surname', 'telephone', 'address')

@@ -1,5 +1,5 @@
 <!-- templates/home.html -->
-{% extends 'baseLogedIn.html' %}   <!-- indica que hereda de baseLogedIn.html-->
+{% extends 'base.html' %}   <!-- indica que hereda de baseLogedIn.html-->
 
 {% block title %}Página principal{% endblock title %}
 
@@ -7,7 +7,7 @@
     {% if user.is_authenticated %}  <!-- is_authenticated es siempre True si es un obj User-->
         <!-- esto tambien esta en baseLogedIn.html pero no se como heredar-->
         
-
+        
         <p><a href="{% url 'account-modif' %}">Modificar datos</a> |
             <a href="{% url 'password_change' %}">Cambiar Contraseña</a> |
             <a href="{% url 'logout' %}">Cerrar sesión</a>

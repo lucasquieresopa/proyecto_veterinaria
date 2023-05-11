@@ -10,4 +10,5 @@ from django.shortcuts import render
 #     template_name = 'profile.html'
 
 def home_view(request):
-    return render(request, "home.html", {})
+    return render(request, "home.html")
+

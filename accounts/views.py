@@ -104,14 +104,14 @@ def password_reset_view(request):
     if request.POST:
         form = PasswordResetForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('login')
+            #form.save()
+            return redirect('password-reset-done')
     else:
         form = PasswordResetForm()
     context['form'] = form
     return render(request, 'registration/password_reset_form.html', context)
 
-INTERNAL_RESET_SESSION_TOKEN = "_password_reset_token"
+#INTERNAL_RESET_SESSION_TOKEN = "_password_reset_token"
 
 # class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
 #     template_name = 'users/password_reset.html'

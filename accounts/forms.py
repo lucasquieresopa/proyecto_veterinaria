@@ -148,17 +148,11 @@ class CustomUserModificationForm(forms.ModelForm):
             )
         return old_password
 
-class PasswordResetForm(forms.ModelForm):
-    email = forms.CharField(label="Email")
+class PasswordResetForm(forms.Form):
+    email = forms.CharField(label="Email",)
 
     class Meta:
-        model = CustomUser
         fields=('email',)
-        error_messages = {
-            'email': {
-                "unique": "El mail ingresado no se encuentra registrado",
-            },
-        }
 
     def clean_email(self):
         if self.is_valid():

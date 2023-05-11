@@ -1,7 +1,7 @@
 #extension de forms para personalizar el registro de clientes 
 
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPasswordForm
 from .models import CustomUser
 from django.db import models
 from django.contrib.auth import authenticate
@@ -115,3 +115,55 @@ class CustomUserModificationForm(forms.ModelForm):
             if self.is_valid():
                 telephone = self.cleaned_data['telephone']
                 return telephone
+
+# class PasswordChangeForm(SetPasswordForm):
+#     """
+#     A form that lets a user change their password by entering their old
+#     password.
+#     """
+
+#     error_messages = {
+#         #**SetPasswordForm.error_messages,
+#         "password_incorrect": "La contraseña ingresada es incorrecta",
+#     }
+#     old_password = forms.CharField(
+#         label="Contraseña actuuuual",
+#         strip=False,
+#         widget=forms.PasswordInput(
+#             attrs={"autocomplete": "current-password", "autofocus": True}
+#         ),
+#     )
+
+#     field_order = ["old_password", "new_password1", "new_password2"]
+
+    def clean_old_password(self):
+        """
+        Validate that the old_password field is correct.
+        """
+        old_password = self.cleaned_data["old_password"]
+        if not self.user.check_password(old_password):
+            raise forms.ValidationError(
+                self.error_messages["password_incorrect"],
+                code="password_incorrect",
+            )
+        return old_password
+
+class PasswordResetForm(forms.ModelForm):
+    email = forms.CharField(label="Email")
+
+    class Meta:
+        model = CustomUser
+        fields=('email',)
+        error_messages = {
+            'email': {
+                "unique": "El mail ingresado no se encuentra registrado",
+            },
+        }
+
+    def clean_email(self):
+        if self.is_valid():
+            email = self.cleaned_data['email']
+            if CustomUser.objects.filter(email=email).exists():
+                return email
+            else:
+                raise forms.ValidationError("El mail ingresado no se encuentra registrado")

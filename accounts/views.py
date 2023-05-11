@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import CustomUserCreationForm, CustomUserAuthenticationForm, CustomUserModificationForm
+from .forms import CustomUserCreationForm, CustomUserAuthenticationForm, CustomUserModificationForm, PasswordResetForm
 # from django.views import generic
 from django.contrib.auth import login, authenticate, logout
 from django.urls import reverse_lazy
@@ -96,6 +96,23 @@ def account_modif_view(request):
     context['account_form'] = form
     return render(request, 'registration/account_modif.html', context)
 
+
+def password_reset_view(request):
+
+    context = {}
+
+    if request.POST:
+        form = PasswordResetForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = PasswordResetForm()
+    context['form'] = form
+    return render(request, 'registration/password_reset_form.html', context)
+
+INTERNAL_RESET_SESSION_TOKEN = "_password_reset_token"
+
 # class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
 #     template_name = 'users/password_reset.html'
 #     email_template_name = 'users/password_reset_email.html'
@@ -105,3 +122,4 @@ def account_modif_view(request):
 #                       " If you don't receive an email, " \
 #                       "please make sure you've entered the address you registered with, and check your spam folder."
 #     success_url = reverse_lazy('users-home')
+

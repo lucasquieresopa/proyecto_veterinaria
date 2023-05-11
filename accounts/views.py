@@ -106,7 +106,7 @@ def password_reset_view(request):
         form = ResetPasswordForm(request.POST)
         if form.is_valid():
             #form.save()
-            return redirect('password-reset-done')
+            return redirect('password_reset_done')
     else:
         form = ResetPasswordForm()
     context['form'] = form

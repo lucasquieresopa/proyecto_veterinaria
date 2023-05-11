@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
-from .forms import CustomUserCreationForm, CustomUserAuthenticationForm, CustomUserModificationForm
+from .forms import CustomUserCreationForm, CustomUserAuthenticationForm, CustomUserModificationForm, ResetPasswordForm, CustomPasswordChangeForm
 # from django.views import generic
 from django.contrib.auth import login, authenticate, logout
 from django.urls import reverse_lazy
-from django.contrib.auth.views import PasswordResetView
+from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.hashers import make_password
+from django.contrib import messages
 
 
 # # Create your views here.
@@ -96,6 +97,46 @@ def account_modif_view(request):
     context['account_form'] = form
     return render(request, 'registration/account_modif.html', context)
 
+
+def password_reset_view(request):
+
+    context = {}
+
+    if request.POST:
+        form = ResetPasswordForm(request.POST)
+        if form.is_valid():
+            #form.save()
+            return redirect('password-reset-done')
+    else:
+        form = ResetPasswordForm()
+    context['form'] = form
+    return render(request, 'registration/password_reset_form.html', context)
+
+#INTERNAL_RESET_SESSION_TOKEN = "_password_reset_token"
+
+class ChangePasswordView(PasswordChangeView):
+    form_class = CustomPasswordChangeForm
+    success_url = reverse_lazy('password_success')
+
+
+# def password_change(request):
+#     #user is authenticated?
+#     user = request.user
+#     if request.method == 'POST':
+#         form = SetPasswordForm(user, request.POST)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request, "Tu contraseña fue cambiada")
+#             return redirect('login')
+#         else:
+#             for error in list(form.errors.values()):
+#                 messages.error(request, error)
+
+#     form = SetPasswordForm(user)
+#     return render(request, 'password_reset_confirm.html', {'form': form})
+
+
+
 # class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
 #     template_name = 'users/password_reset.html'
 #     email_template_name = 'users/password_reset_email.html'
@@ -105,3 +146,4 @@ def account_modif_view(request):
 #                       " If you don't receive an email, " \
 #                       "please make sure you've entered the address you registered with, and check your spam folder."
 #     success_url = reverse_lazy('users-home')
+

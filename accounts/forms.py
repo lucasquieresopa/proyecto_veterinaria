@@ -1,10 +1,13 @@
 #extension de forms para personalizar el registro de clientes 
 
+import gettext
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from .models import CustomUser
 from django.db import models
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, password_validation
+from django.utils.translation import gettext_lazy as _
+from django.core.exceptions import ValidationError
 
 
 class UserCreationForm(UserCreationForm):
@@ -47,11 +50,6 @@ class CustomUserCreationForm(UserCreationForm):
         model = CustomUser
         fields = ('email', 'name', 'surname', 'telephone', 'address')
 
-
-# class CustomUserChangeForm(UserChangeForm):
-#     class Meta:
-#         model = CustomUser
-#         fields = ('mail', 'nombre', 'surname', 'tel', 'address')
 
 class CustomUserAuthenticationForm(forms.ModelForm):
 
@@ -115,3 +113,191 @@ class CustomUserModificationForm(forms.ModelForm):
             if self.is_valid():
                 telephone = self.cleaned_data['telephone']
                 return telephone
+
+# class PasswordChangeForm(SetPasswordForm):
+#     """
+#     A form that lets a user change their password by entering their old
+#     password.
+#     """
+
+#     error_messages = {
+#         #**SetPasswordForm.error_messages,
+#         "password_incorrect": "La contraseña ingresada es incorrecta",
+#     }
+#     old_password = forms.CharField(
+#         label="Contraseña actuuuual",
+#         strip=False,
+#         widget=forms.PasswordInput(
+#             attrs={"autocomplete": "current-password", "autofocus": True}
+#         ),
+#     )
+
+#     field_order = ["old_password", "new_password1", "new_password2"]
+
+    # def clean_old_password(self):
+    #     """
+    #     Validate that the old_password field is correct.
+    #     """
+    #     old_password = self.cleaned_data["old_password"]
+    #     if not self.user.check_password(old_password):
+    #         raise forms.ValidationError(
+    #             self.error_messages["password_incorrect"],
+    #             code="password_incorrect",
+    #         )
+    #     return old_password
+
+# class PasswordChangeForm(forms.Form):
+
+#     old_password = forms.CharField(label="Contraseña actual",
+#                                 widget=forms.PasswordInput(attrs={
+#                                     'class': 'form-control',
+#                                     'type': 'password'
+#                                 }))
+#     new_password = forms.CharField(label="Nueva contraseña",
+#                                 widget=forms.PasswordInput(attrs={
+#                                     'class': 'form-control',
+#                                     'type': 'password'
+#                                 }))
+#     new_password2 = forms.CharField(label="Repetir contraseña",
+#                                 widget=forms.PasswordInput(attrs={
+#                                     'class': 'form-control',
+#                                     'type': 'password'
+#                                 }))
+
+#     class Meta:
+#         models = CustomUser
+#         fields=('old_password', 'new_password', 'new_password2',)
+
+#     def clean_old_password(self):
+#         if self.is_valid():
+#             old_password = self.cleaned_data['old_password']
+
+
+
+
+class CustomPasswordChangeForm(PasswordChangeForm):
+
+    old_password = forms.CharField(label="Contraseña actual",
+                                widget=forms.PasswordInput(attrs={
+                                    'class': 'form-control',
+                                    'type': 'password'
+                                }))
+    new_password = forms.CharField(label="Nueva contraseña",
+                                widget=forms.PasswordInput(attrs={
+                                    'class': 'form-control',
+                                    'type': 'password'
+                                }))
+    new_password2 = forms.CharField(label="Repetir contraseña",
+                                widget=forms.PasswordInput(attrs={
+                                    'class': 'form-control',
+                                    'type': 'password'
+                                }))
+
+    error_messages = {
+        **PasswordChangeForm.error_messages,
+        "password_incorrect": _(
+            "Tu contraseña actual es incorrecta, ingresala nuevamente"
+        ),
+        "password_mismatch": "Las contraseñas no son iguales.",
+        'required': 'Por favor ingrese una contraseña.',
+        #'min_length': "La contraseña debe tener 6 caracteres o mas"
+    }
+
+    class Meta:
+        models = CustomUser
+        fields = ['new_password1', 'new_password2']
+
+
+
+
+class ResetPasswordForm(forms.Form):
+    email = forms.CharField(label="Email",)
+
+    class Meta:
+        fields=('email',)
+
+    def clean_email(self):
+        if self.is_valid():
+            email = self.cleaned_data['email']
+            if CustomUser.objects.filter(email=email).exists():
+                return email
+            else:
+                raise forms.ValidationError("El mail ingresado no se encuentra registrado")
+            
+# class SetPasswordForm(forms.Form):
+#     """
+#     A form that lets a user set their password without entering the old
+#     password
+#     """
+
+#     error_messages = {
+#         "password_mismatch": _("Las contraseñas no coinciden"),
+#     }
+#     new_password1 = forms.CharField(
+#         label=_("New password"),
+#         widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
+#         strip=False,
+#         help_text=password_validation.password_validators_help_text_html(),
+#     )
+#     new_password2 = forms.CharField(
+#         label=_("New password confirmation"),
+#         strip=False,
+#         widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
+#     )
+
+#     def __init__(self, user, *args, **kwargs):
+#         self.user = user
+#         super().__init__(*args, **kwargs)
+
+#     def clean_new_password2(self):
+#         password1 = self.cleaned_data.get("new_password1")
+#         password2 = self.cleaned_data.get("new_password2")
+#         if password1 and password2 and password1 != password2:
+#             raise ValidationError(
+#                 self.error_messages["password_mismatch"],
+#                 code="password_mismatch",
+#             )
+#         password_validation.validate_password(password2, self.user)
+#         return password2
+
+#     def save(self, commit=True):
+#         password = self.cleaned_data["new_password1"]
+#         self.user.set_password(password)
+#         if commit:
+#             self.user.save()
+#         return self.user
+
+
+# class CustomPasswordChangeForm(SetPasswordForm):
+#     """
+#     A form that lets a user change their password by entering their old
+#     password.
+#     """
+
+#     error_messages = {
+#         **SetPasswordForm.error_messages,
+#         "password_incorrect": _(
+#             "Tu contraseña actual es incorrecta, ingresala nuevamente"
+#         ),
+#     }
+#     old_password = forms.CharField(
+#         label=_("Old password"),
+#         strip=False,
+#         widget=forms.PasswordInput(
+#             attrs={"autocomplete": "current-password", "autofocus": True}
+#         ),
+#     )
+
+#     field_order = ["old_password", "new_password1", "new_password2"]
+
+#     def clean_old_password(self):
+#         """
+#         Validate that the old_password field is correct.
+#         """
+#         old_password = self.cleaned_data["old_password"]
+#         if not self.user.check_password(old_password):
+#             raise ValidationError(
+#                 self.error_messages["password_incorrect"],
+#                 code="password_incorrect",
+#             )
+#         return old_password

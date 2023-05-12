@@ -137,3 +137,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 AUTH_USER_MODEL = 'accounts.CustomUser' #customUser es el usuario personalizado base definido en accounts/models.py
+
+
+
+"""EMAIL CREDENTIALS"""
+DEFAULT_FROM_EMAIL = 'workorbit@gmail.com'
+SERVER_EMAIL = 'workorbit@gmail.com'
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_HOST_USER = 'e12436402b811a'
+EMAIL_HOST_PASSWORD = '1ee84a0130eb63'
+EMAIL_PORT = 587
+
+
+
+
+

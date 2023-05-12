@@ -9,6 +9,8 @@ from django.contrib.auth.hashers import make_password
 from django.contrib import messages
 from .models import CustomUser
 from django.utils.crypto import get_random_string
+from django.core.mail import EmailMessage
+from proyecto_veterinaria.settings import EMAIL_HOST_USER
 
 
 # # Create your views here.
@@ -25,7 +27,13 @@ def user_registration_view(request):
             user = form.save()
             user.set_password(password)
             email = form.cleaned_data['email']
+            mail = EmailMessage("Registro exitoso", 
+                      "La contraseña para {} es {}".format(email, password), 
+                      EMAIL_HOST_USER,
+                      ["lucassalanitro32@gmail.com"])
             form.save()
+            mail.send()
+            
             return redirect('login')
         else:
             context['registration_form'] = form

@@ -1,5 +1,9 @@
+from typing import Optional
+import warnings
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.utils.crypto import get_random_string
+from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 
@@ -52,6 +56,9 @@ class CustomUser(AbstractBaseUser):
     is_staff =                  models.BooleanField(default=False)
     is_admin =                  models.BooleanField(default=False)
     last_login =                models.DateTimeField(verbose_name="last login", auto_now=True)
+    # password =                  models.CharField(_("password"), 
+    #                                             max_length=128, 
+    #                                             default=get_random_string(length=32))
     #hay campos que se crean automáticamente, como password, date_joined y id
     #se pueden comprobar todos los campos en el archivo de migrations
 
@@ -61,6 +68,10 @@ class CustomUser(AbstractBaseUser):
     REQUIRED_FIELDS = ['name',]    #no permite registros si no tiene estos campos completos
 
     objects = CustomUserManager()
+
+    # def __init__(self, *args, **kwargs):
+    #     super(AbstractBaseUser, self).__init__(self, *args, **kwargs)
+    #     self.password = get_random_string(length=6)
 
     def __str__(self):
         """cuando se imprima un objeto CustomUser se imprimira su nombre + apellido"""

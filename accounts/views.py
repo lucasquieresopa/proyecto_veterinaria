@@ -7,19 +7,12 @@ from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages
+from .models import CustomUser
+from django.utils.crypto import get_random_string
 
 
 # # Create your views here.
 
-# class SignUpView(generic.CreateView):
-#     """SignUpView es subclase de CreateView"""
-
-#     form_class = CustomUserCreationForm   
-#     success_url = reverse_lazy('login')  #indica que ante un registro exitoso se redirija al template 'login'.
-#                                         #reverse_lazy() y no reverse() porque para las generic class-based views 
-#                                         # las URL no se cargan cuando se importa el archivo, entonces reverse_lazy() 
-#                                         # las ejecuta cuando esten disponibles
-#     template_name = 'registration/signup.html'
 
 def user_registration_view(request):
     """definición del comportamiento de la pantalla de registro de clientes"""
@@ -28,11 +21,11 @@ def user_registration_view(request):
     if request.POST:
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
+            password = "hola123" #get_random_string(length=6)
+            user = form.save()
+            user.set_password(password)
+            email = form.cleaned_data['email']
             form.save()
-            email = form.cleaned_data.get('email')
-            #raw_password = form.cleaned_data.get('password1')
-            #account = authenticate(email=email, password=raw_password)
-            #login(request, account)
             return redirect('login')
         else:
             context['registration_form'] = form
@@ -41,10 +34,12 @@ def user_registration_view(request):
         context['registration_form'] = form
     return render(request, 'registration/client_registration.html', context)
 
+
 def logout_view(request):
     """definicion del logout, mas intuitiva que hacerlo con constantes como hace la guia"""
     logout(request)
     return redirect('login')
+
 
 def login_view(request):
     context = {}

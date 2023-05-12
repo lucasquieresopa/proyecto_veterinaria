@@ -10,45 +10,21 @@ from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ValidationError
 
 
-class UserCreationForm(UserCreationForm):
-    """
-    overridea UserCreationForm para que las contraseñas sean opcionales.
-    """
 
-    def __init__(self, *args, **kwargs):
-        super(UserCreationForm, self).__init__(*args, **kwargs)
-        self.fields['password1'].required = False
-        self.fields['password2'].required = False
-        # If one field gets autocompleted but not the other, our 'neither
-        # password or both password' validation will be triggered.
-        self.fields['password1'].widget.attrs['autocomplete'] = 'off'
-        self.fields['password2'].widget.attrs['autocomplete'] = 'off'
-
-    def clean_password2(self):
-        password1 = self.cleaned_data.get("password1")
-        password2 = super(UserCreationForm, self).clean_password2()
-        if bool(password1) ^ bool(password2):
-            raise forms.ValidationError("Complete ambas contraseñas")
-        return password2
-
-
-class CustomUserCreationForm(UserCreationForm):
+class CustomUserCreationForm(forms.ModelForm):
+#class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(help_text = "obligatorio")
     name = forms.CharField(label="Nombre", required=True)
     surname = forms.CharField(label="Apellido", required=False)
     telephone = forms.CharField(label="Teléfono", required=False)
     address = forms.CharField(label="Dirección", required=False)
-    password1 = forms.CharField(widget=forms.PasswordInput(),
-                                label="Contraseña", 
-                                help_text="Opcionalmente ingrese una contraseña para el cliente")
-    password2 = forms.CharField(widget=forms.PasswordInput(),
-                                label="Repetir contraseña", 
-                                help_text="Si ingresó una contraseña, repitala")
-    #falta pasar de Password -> Contraseña pero overrideando password quita algunas cosas
 
-    class Meta(UserCreationForm):   #overridea los campos por defecto
+
+    class Meta:   #overridea los campos por defecto
         model = CustomUser
         fields = ('email', 'name', 'surname', 'telephone', 'address')
+
+
 
 
 class CustomUserAuthenticationForm(forms.ModelForm):
@@ -114,64 +90,7 @@ class CustomUserModificationForm(forms.ModelForm):
                 telephone = self.cleaned_data['telephone']
                 return telephone
 
-# class PasswordChangeForm(SetPasswordForm):
-#     """
-#     A form that lets a user change their password by entering their old
-#     password.
-#     """
-
-#     error_messages = {
-#         #**SetPasswordForm.error_messages,
-#         "password_incorrect": "La contraseña ingresada es incorrecta",
-#     }
-#     old_password = forms.CharField(
-#         label="Contraseña actuuuual",
-#         strip=False,
-#         widget=forms.PasswordInput(
-#             attrs={"autocomplete": "current-password", "autofocus": True}
-#         ),
-#     )
-
-#     field_order = ["old_password", "new_password1", "new_password2"]
-
-    # def clean_old_password(self):
-    #     """
-    #     Validate that the old_password field is correct.
-    #     """
-    #     old_password = self.cleaned_data["old_password"]
-    #     if not self.user.check_password(old_password):
-    #         raise forms.ValidationError(
-    #             self.error_messages["password_incorrect"],
-    #             code="password_incorrect",
-    #         )
-    #     return old_password
-
-# class PasswordChangeForm(forms.Form):
-
-#     old_password = forms.CharField(label="Contraseña actual",
-#                                 widget=forms.PasswordInput(attrs={
-#                                     'class': 'form-control',
-#                                     'type': 'password'
-#                                 }))
-#     new_password = forms.CharField(label="Nueva contraseña",
-#                                 widget=forms.PasswordInput(attrs={
-#                                     'class': 'form-control',
-#                                     'type': 'password'
-#                                 }))
-#     new_password2 = forms.CharField(label="Repetir contraseña",
-#                                 widget=forms.PasswordInput(attrs={
-#                                     'class': 'form-control',
-#                                     'type': 'password'
-#                                 }))
-
-#     class Meta:
-#         models = CustomUser
-#         fields=('old_password', 'new_password', 'new_password2',)
-
-#     def clean_old_password(self):
-#         if self.is_valid():
-#             old_password = self.cleaned_data['old_password']
-
+#class CustomPasswordCreateForm
 
 
 

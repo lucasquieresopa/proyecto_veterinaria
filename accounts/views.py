@@ -21,7 +21,7 @@ def user_registration_view(request):
     if request.POST:
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            password = "hola123" #get_random_string(length=6)
+            password = get_random_string(length=6)
             user = form.save()
             user.set_password(password)
             email = form.cleaned_data['email']

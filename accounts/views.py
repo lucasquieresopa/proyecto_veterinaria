@@ -22,25 +22,35 @@ def user_registration_view(request):
     context = {}
     if request.POST:
         form = CustomUserCreationForm(request.POST)
+
         if form.is_valid():
             password = get_random_string(length=6)
-            user = form.save()
+            user = form.save(commit=False)
             user.set_password(password)
             email = form.cleaned_data['email']
-            mail = EmailMessage("Registro exitoso", 
-                      "La contraseña para {} es {}".format(email, password), 
-                      EMAIL_HOST_USER,
-                      ["lucassalanitro32@gmail.com"])
-            form.save()
+            mail = EmailMessage(
+                                "Registro exitoso", 
+                                "La contraseña para {} es {}".format(email, password), 
+                                "ohmydog@@gmail.com",
+                                ["e12436402b811a@inbox.mailtrap.io"]
+            )
             mail.send()
+            form.save()
+            
             
             return redirect('login')
+        
         else:
             context['registration_form'] = form
+
     else:
         form = CustomUserCreationForm()
         context['registration_form'] = form
+
     return render(request, 'registration/client_registration.html', context)
+
+
+
 
 
 def logout_view(request):

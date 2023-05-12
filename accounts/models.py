@@ -69,9 +69,7 @@ class CustomUser(AbstractBaseUser):
 
     objects = CustomUserManager()
 
-    # def __init__(self, *args, **kwargs):
-    #     super(AbstractBaseUser, self).__init__(self, *args, **kwargs)
-    #     self.password = get_random_string(length=6)
+
 
     def __str__(self):
         """cuando se imprima un objeto CustomUser se imprimira su nombre + apellido"""

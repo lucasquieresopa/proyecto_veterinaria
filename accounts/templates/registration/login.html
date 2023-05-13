@@ -4,7 +4,19 @@
 {% extends 'baseLogedIn.html' %}
 
 {% block content %}
-
+<header>
+    <nav class="navbar navbar-expand-lg  header-ar">
+        <div class="container">
+            <p class="navbar-brand header__marca p-2">Oh My Dog!</p>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+        </div>
+    </nav>
+</header>
+<main>
     <h2>Inicio de sesión</h2>
     <form method="post">    <!-- cuando toco el boton "Registrar" se haceun post request -->
         {% csrf_token %}    <!-- seguridad en forms -->
@@ -32,8 +44,9 @@
  
         <button type="submit">Iniciar sesión</button>
         
-    </form>
+    </form> 
 
-    <a href="{% url 'password_reset' %}"><i>¿Olvidaste tu contraseña?</i></a>
+
+</main>
 
 {% endblock content %}

@@ -1,24 +1,86 @@
 <!-- templates/home.html -->
-{% extends 'base.html' %}   <!-- indica que hereda de baseLogedIn.html-->
+{% extends 'base.html' %} 
+{% load static %}  <!-- indica que hereda de baseLogedIn.html-->
 
 {% block title %}Página principal{% endblock title %}
 
 {% block content %}
-    {% if user.is_authenticated %}  <!-- is_authenticated es siempre True si es un obj User-->
-        <!-- esto tambien esta en baseLogedIn.html pero no se como heredar-->
-        
-        
-        <p><a href="{% url 'account_modif' %}">Modificar datos</a> |
-            <a href="{% url 'password_change' %}">Cambiar Contraseña</a> |
-            <a href="{% url 'logout' %}">Cerrar sesión</a>
-        </p>
-        
-        <p>Hola {{ user }}!</p>
-    {% else %}
-        <p>No tienes una sesión iniciada. Inicia sesión o solicita una cuenta con el veterinario</p>
-        <a href="{% url 'login' %}">Iniciar sesión</a> |
-    {% endif %}
+    <header>
+        {% if user.is_authenticated %}
+            <nav class="navbar navbar-expand-lg" style="background-color: #f0965b ;">
+                <div class="container">
+                    <p class="navbar-brand header__marca p-2">Oh my dog !!</p>
 
-{% endblock content %}
+                    
+                    <div class="collapse navbar-collapse show " id="navbarBasic">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="{% url 'password_change' %}">Adoptar</a>
+                            </li>
+                
+                        </ul>
+                            <ul class="navbar-nav mb-2 mb-lg-0 ">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle icono-user role="button" data-bs-toggle="dropdown" aria-expanded="False">
+                                        <i class="bi bi-person-circle">
+                                            Hola {{ user }}!
+                                        </i>
+                                    </a>
+                                    <ul class="dropdown-menu"> 
+                                        <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a></li>
+                                        <li>
+                                            <a class="dropdown-item" href="{% url 'password_change' %}">Cambiar Contraseña</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{% url 'account_modif' %}">Modificar datos</a>
+                                        </li>
+                                    </ul>
+                                        
+                                
+                                </li>
+                            </ul>
+                        </ul>
+                        
+                    </div>
+                </div>
+            </nav> 
+        {% else%}
+        <nav class="navbar navbar-expand-lg" style="background-color: #f0965b ;">
+            <div class="container">
+                <p class="navbar-brand header_marca p-2">Oh my dog !!</p>
+
+                
+                <div class="collapse navbar-collapse show " id="navbarBasic">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{% url 'password_change' %}">Adoptar</a>
+                        </li>
+            
+                    </ul>
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle icono-user" role="button" data-bs-toggle="dropdown" aria-expanded="False">
+                                    <i class="bi bi-person-circle">
+                
+                                    </i>
+                                </a>
+                                <ul class="dropdown-menu"> 
+                                    <li><a class="dropdown-item" href="{% url 'login' %}">Iniciar Sesión</a></li>
+                                
+                                </ul>
+                                    
+                            
+                            </li>
+                        </ul>
+                    </ul>
+                    
+                </div>
+            </div>
+        </nav> 
+        {% endif%}
+
+    </header>
+
+{% endblock content%}
 
 

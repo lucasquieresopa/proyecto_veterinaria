@@ -1,0 +1,34 @@
+/*
+body {
+    background-color: #a4d2dc ;
+    color: #4497b0 ; 
+    color: #f0965b ;
+}
+*/
+html {
+    box-sizing: border-box;
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background-color: #a4d2dc;
+}
+
+a {
+    text-decoration: none;
+}
+/********** Inicio de formatos **********/
+
+.icono-user i {
+    font-size: 2rem;
+
+
+
+}
+.header-ar {
+    background-color: #f0965b;
+}

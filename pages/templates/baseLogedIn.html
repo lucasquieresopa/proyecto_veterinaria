@@ -8,7 +8,10 @@
     
     {% block content %}
     <!-- aca es donde va el contenido de la página -->
+    <header>
+        
 
+    </header>
         {% if request.user.is_authenticated %}
             <p>Hola {{ request.user }}!</p>
             <p><a href="{% url 'logout' %}">Cerrar sesión</a></p>

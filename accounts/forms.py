@@ -2,7 +2,7 @@
 
 import gettext
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, SetPasswordForm
 from .models import CustomUser
 from django.db import models
 from django.contrib.auth import authenticate, password_validation
@@ -90,17 +90,8 @@ class CustomUserModificationForm(forms.ModelForm):
                 telephone = self.cleaned_data['telephone']
                 return telephone
 
-#class CustomPasswordCreateForm
 
-
-
-class CustomPasswordChangeForm(PasswordChangeForm):
-
-    old_password = forms.CharField(label="Contraseña actual",
-                                widget=forms.PasswordInput(attrs={
-                                    'class': 'form-control',
-                                    'type': 'password'
-                                }))
+class CustomPasswordSetForm(SetPasswordForm):
     new_password = forms.CharField(label="Nueva contraseña",
                                 widget=forms.PasswordInput(attrs={
                                     'class': 'form-control',
@@ -111,25 +102,22 @@ class CustomPasswordChangeForm(PasswordChangeForm):
                                     'class': 'form-control',
                                     'type': 'password'
                                 }))
-
-    error_messages = {
-        **PasswordChangeForm.error_messages,
-        "password_incorrect": _(
-            "Tu contraseña actual es incorrecta, ingresala nuevamente"
-        ),
-        "password_mismatch": "Las contraseñas no son iguales.",
-        'required': 'Por favor ingrese una contraseña.',
-        #'min_length': "La contraseña debe tener 6 caracteres o mas"
-    }
-
+    
     class Meta:
         models = CustomUser
         fields = ['new_password1', 'new_password2']
 
 
+class CustomPasswordChangeForm(PasswordChangeForm):
+    old_password = forms.CharField(label="Contraseña actual",
+                                widget=forms.PasswordInput(attrs={
+                                    'class': 'form-control',
+                                    'type': 'password'
+                                }))
+    
+    
 
-
-class ResetPasswordForm(forms.Form):
+class CustomResetPasswordForm(forms.Form):
     email = forms.CharField(label="Email",)
 
     class Meta:

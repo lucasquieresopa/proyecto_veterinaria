@@ -10,6 +10,8 @@ from django.contrib import messages
 from .models import CustomUser
 from django.utils.crypto import get_random_string
 from django.core.mail import EmailMessage
+#from django.contrib.auth.decorators import login_required
+
 
 
 
@@ -137,7 +139,16 @@ class CustomPasswordChangeDoneView(PasswordChangeDoneView):
 
 
 
-
+def profile_view(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    user = request.user
+    context = {
+        'user': user
+    }
+    return render(request, 'profile.html', context)
+    
+    
 # def password_change(request):
 #     #user is authenticated?
 #     user = request.user

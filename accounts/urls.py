@@ -30,4 +30,5 @@ urlpatterns = [       #apunta a la app de auth
 
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_succeed.html'),
         name='password_reset_complete'),
+    path('profile/',views.profile_view, name= 'profile'),
 ]

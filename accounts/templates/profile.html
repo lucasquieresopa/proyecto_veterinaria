@@ -3,6 +3,68 @@
 {% extends 'home.html' %}   <!-- indica que hereda de base.html-->
 
 {% block content %}
-<h1>Perfil</h1>
 
-{% endblock content %}
+
+<main>
+    
+
+<div class="container card-izq" >
+  <div class="row">
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          
+          <h5>{{ user.name }} {{ user.surname }}</h5>
+          <p class="text-secondary">{{ user.email }}</p>
+          <p class="text-muted">{{ user.bio }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="card mb-3">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-3">
+              <h6 class="mb-0">Nombre Completo</h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+              {{ user.name }} {{ user.surname }}
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <h6 class="mb-0">Correo Electrónico</h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+              {{ user.email }}
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <h6 class="mb-0">Dirección</h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+              {{ user.address }}
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <h6 class="mb-0">Teléfono</h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+              {{ user.telephone }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</main>
+
+{% endblock  %}

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import CustomUserCreationForm, CustomUserAuthenticationForm, CustomUserModificationForm, ResetPasswordForm, CustomPasswordChangeForm
+from .forms import CustomUserCreationForm, CustomUserAuthenticationForm, CustomUserModificationForm, CustomResetPasswordForm, CustomPasswordChangeForm
 # from django.views import generic
 from django.contrib.auth import login, authenticate, logout
 from django.urls import reverse_lazy
@@ -116,12 +116,12 @@ def password_reset_view(request):
     context = {}
 
     if request.POST:
-        form = ResetPasswordForm(request.POST)
+        form = CustomResetPasswordForm(request.POST)
         if form.is_valid():
             #form.save()
             return redirect('password_reset_done')
     else:
-        form = ResetPasswordForm()
+        form = CustomResetPasswordForm()
     context['form'] = form
     return render(request, 'registration/password_reset_form.html', context)
 

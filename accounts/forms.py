@@ -117,7 +117,7 @@ class CustomPasswordChangeForm(PasswordChangeForm):
     
     
 
-class ResetPasswordForm(forms.Form):
+class CustomResetPasswordForm(forms.Form):
     email = forms.CharField(label="Email",)
 
     class Meta:

@@ -5,8 +5,7 @@ from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [       #apunta a la app de auth 
-    path('', views.login_view, 
-        name="login"),
+    #path('', views.login_view, name="login"),      -----> pasé login a pr_vet/url para que sea /login/ y no /account/login/
     path('client_registration/', views.user_registration_view, 
         name='client_registration'),
     path('logout/', views.logout_view, 

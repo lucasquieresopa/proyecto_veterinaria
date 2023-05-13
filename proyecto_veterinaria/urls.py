@@ -24,6 +24,7 @@ from django.urls import path, include
 from django.contrib.auth import views as auth_views
 #from pages.views import home2
 from django import urls 
+from accounts.views import login_view
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -39,7 +40,7 @@ urlpatterns = [
     #path("home/", home2, name="home2"),
     path('',include('pages.urls')),
 
-    #path("login/", login_view, name="login"),
+    path("login/", login_view, name="login"),
     path('accounts/', include('accounts.urls')),
     #path('logout/', logout_view, name="logout"),
     #path('modif/', account_modif_view, name='account-modif'),

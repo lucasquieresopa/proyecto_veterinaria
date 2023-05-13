@@ -3,14 +3,14 @@ from .forms import CustomUserCreationForm, CustomUserAuthenticationForm, CustomU
 # from django.views import generic
 from django.contrib.auth import login, authenticate, logout
 from django.urls import reverse_lazy
-from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages
 from .models import CustomUser
 from django.utils.crypto import get_random_string
 from django.core.mail import EmailMessage
-from proyecto_veterinaria.settings import EMAIL_HOST_USER
+
 
 
 # # Create your views here.
@@ -127,9 +127,15 @@ def password_reset_view(request):
 
 #INTERNAL_RESET_SESSION_TOKEN = "_password_reset_token"
 
-class ChangePasswordView(PasswordChangeView):
-    form_class = CustomPasswordChangeForm
-    success_url = reverse_lazy('password_success')
+# class CustomChangePasswordView(PasswordChangeView):
+#     form_class = CustomPasswordChangeForm
+#     success_url = reverse_lazy('password_change_done')
+
+
+class CustomPasswordChangeDoneView(PasswordChangeDoneView):
+    template_name = "registration/password_change_done.html"
+
+
 
 
 # def password_change(request):

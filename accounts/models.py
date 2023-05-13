@@ -1,7 +1,8 @@
+import datetime
 from typing import Optional
 import warnings
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.utils.crypto import get_random_string
 from django.utils.translation import gettext_lazy as _
 
@@ -46,7 +47,7 @@ class CustomUserManager(BaseUserManager):
     #     return user
 
 
-class CustomUser(AbstractBaseUser):
+class CustomUser(AbstractBaseUser, PermissionsMixin):
     email =                     models.EmailField(verbose_name="email", unique=True)    #.foreignKey ??
     name =                      models.CharField(max_length=25)   #slug es texto corto
     surname =                   models.CharField(max_length=30, blank=True, null=True)
@@ -55,7 +56,8 @@ class CustomUser(AbstractBaseUser):
     is_active =                 models.BooleanField(default=True)
     is_staff =                  models.BooleanField(default=False)
     is_admin =                  models.BooleanField(default=False)
-    last_login =                models.DateTimeField(verbose_name="last login", auto_now=True)
+    last_login =                models.DateTimeField(verbose_name="last login", default=datetime.datetime.now)
+    is_veterinario =            models.BooleanField(default=False)
     # password =                  models.CharField(_("password"), 
     #                                             max_length=128, 
     #                                             default=get_random_string(length=32))

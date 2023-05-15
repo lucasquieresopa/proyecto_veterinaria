@@ -42,6 +42,7 @@ urlpatterns = [
 
     path("login/", login_view, name="login"),
     path('accounts/', include('accounts.urls')),
+    path("dogs/", include('dogs.urls')),
     #path('logout/', logout_view, name="logout"),
     #path('modif/', account_modif_view, name='account-modif'),
 

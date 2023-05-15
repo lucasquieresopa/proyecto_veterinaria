@@ -137,18 +137,40 @@ def password_reset_view(request):
 class CustomPasswordChangeDoneView(PasswordChangeDoneView):
     template_name = "registration/password_change_done.html"
 
-
-
-def profile_view(request):
+def list_users(request):
     if not request.user.is_authenticated:
         return redirect('login')
-    user = request.user
+    if not request.user.is_veterinario:
+        return redirect('home')
+    users = CustomUser.objects.filter(is_veterinario=False, is_admin=False)
+    return render(request, 'list_users.html', {'users': users})
+
+def profile_view(request,pk):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    user = CustomUser.objects.get(pk=pk)
     context = {
         'user': user
     }
+    
     return render(request, 'profile.html', context)
+
     
-    
+def search_user(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    if not request.user.is_veterinario:
+        return redirect('home')
+    if request.method == 'POST':
+        buscado = request.POST['buscado']
+        users = CustomUser.objects.filter(name__contains=buscado)
+        return render(request, 'search_results.html', {'buscado': buscado, 'users': users})
+    else:
+        return redirect(request, 'search_results.html',{})
+            
+
+
+
 # def password_change(request):
 #     #user is authenticated?
 #     user = request.user

@@ -31,8 +31,15 @@ a {
 }
 .header-ar {
     background-color: #f0965b;
+    padding: 1rem;
+    
 }
 
 .card-izq {
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    
+}
+.row-1{
+    margin-bottom: 3rem;
 }

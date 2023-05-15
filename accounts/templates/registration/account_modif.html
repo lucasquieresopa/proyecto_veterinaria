@@ -1,7 +1,7 @@
 {% extends 'base.html' %}   <!-- baseLogedIn.html?? dado que lo hace el veterinario desde una sesion iniciada-->
 
 {% block content %}
-
+<main>
     <h2>Modificacion de datos</h2>
     <form method="post">    <!-- cuando toco el boton "Registrar" se haceun post request -->
         {% csrf_token %}    <!-- seguridad en forms -->
@@ -30,5 +30,15 @@
         {% endif %}
         <button type="submit">Guardar</button>
     </form>
+</main>
+        <div>
+            <a href="{% url 'home' %}" class="btn btn-primary"><i>Volver</i></a>
+
+        </div>
+        
+
+
+
+    
 
 {% endblock content %}

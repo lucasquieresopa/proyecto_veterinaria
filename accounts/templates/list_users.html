@@ -1,0 +1,46 @@
+{% extends 'home.html' %}
+
+{% block content %}
+<main>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="text-center">Lista de usuarios</h2>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Correo</th>
+                            <th>Telefono</th>
+                            <th>Direccion</th>
+                            <th>Ver perfil</th>
+
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                            <tr>
+
+                                <td>{{ user.name }}</td>
+                                <td>{{ user.surname }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.telephone }}</td>
+                                <td>{{ user.address}}</td>
+                                <td>
+                                            <a class="dropdown-item" href="{% url 'profile' user.id %}">Entrar perfil</a>
+                                </td>
+                                
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+               
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock content %}

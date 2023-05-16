@@ -3,7 +3,7 @@ from .forms import DogCreationForm
 
 # Create your views here.
 
-def dog_registration_view(request):
+def dog_registration_view(request, user_id):
     """definición del comportamiento de la pantalla de registro de clientes"""
 
     user = request.user
@@ -16,8 +16,7 @@ def dog_registration_view(request):
 
         if form.is_valid():
             dog = form.save(commit=False)
-            dog.owner = request.user.email
-
+            dog.owner = user_id
             dog.save()
             return redirect('home')
         

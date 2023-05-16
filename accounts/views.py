@@ -44,12 +44,12 @@ def user_registration_view(request):
             #                     ["e12436402b811a@inbox.mailtrap.io"]
             # )
             # mail.send()
-            
+
             form.save()
             #dog_context['dog_registration'] 
             
             
-            return redirect('dog_registration')
+            return redirect('dog_registration', user.id)
         
         else:
             context['registration_form'] = form

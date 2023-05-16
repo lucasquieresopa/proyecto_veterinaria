@@ -14,8 +14,11 @@
                 {% if field.help_text %}
                 <small style="color: grey;">{{field.help_text}}</small>
                 {% endif %}
+
+                
             </p>
         {% endfor %}
+        <a> * campos obligatorios</a>
 
         {% for field in registration_form %}
             {% for error in field.errors %}

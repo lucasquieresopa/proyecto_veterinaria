@@ -20,7 +20,9 @@ from django.core.mail import EmailMessage
 
 def user_registration_view(request):
     """definición del comportamiento de la pantalla de registro de clientes"""
-
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('home')
     context = {}
     if request.POST:
         form = CustomUserCreationForm(request.POST)

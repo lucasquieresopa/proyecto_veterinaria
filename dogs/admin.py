@@ -13,7 +13,7 @@ class DogAdmin(admin.ModelAdmin):
     add_form = DogCreationForm
     model = Dog
 
-    list_display = ['name', 'age', 'sex', 'breed']
+    list_display = ['name', 'age', 'sex', 'breed', 'owner']
     fieldsets = ()
     add_fieldsets = add_fieldsets = (
         (None, {

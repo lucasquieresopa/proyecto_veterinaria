@@ -27,7 +27,7 @@ class CustomUserAdmin(UserAdmin):
     add_fieldsets = add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'name', 'is_veterinario'),}),)
+            'fields': ('email', 'name', 'surname', 'is_veterinario'),}),)
     search_fields = ['email']
     ordering = ['email']
     filter_horizontal = ()

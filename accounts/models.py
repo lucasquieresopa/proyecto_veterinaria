@@ -5,6 +5,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.utils.crypto import get_random_string
 from django.utils.translation import gettext_lazy as _
+from dogs.models import Dog
 
 # Create your models here.
 
@@ -58,11 +59,12 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_admin =                  models.BooleanField(default=False)
     last_login =                models.DateTimeField(verbose_name="last login", default=datetime.datetime.now)
     is_veterinario =            models.BooleanField(default=False)
-    # password =                  models.CharField(_("password"), 
-    #                                             max_length=128, 
-    #                                             default=get_random_string(length=32))
-    #hay campos que se crean automáticamente, como password, date_joined y id
-    #se pueden comprobar todos los campos en el archivo de migrations
+    
+    dogs = models.ForeignKey(
+        Dog,
+        on_delete=models.CASCADE,
+        null=True
+    )
 
     #keywords:
 

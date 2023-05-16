@@ -10,6 +10,7 @@ from django.contrib import messages
 from .models import CustomUser
 from django.utils.crypto import get_random_string
 from django.core.mail import EmailMessage
+from dogs.views import dog_registration_view
 #from django.contrib.auth.decorators import login_required
 
 
@@ -32,18 +33,23 @@ def user_registration_view(request):
             password = get_random_string(length=6)
             user = form.save(commit=False)
             user.set_password(password)
-            email = form.cleaned_data['email']
-            mail = EmailMessage(
-                                "Registro exitoso", 
-                                "La contraseña para {} es {}".format(email, password), 
-                                "ohmydog@@gmail.com",
-                                ["e12436402b811a@inbox.mailtrap.io"]
-            )
-            mail.send()
+
+
+
+            # email = form.cleaned_data['email']
+            # mail = EmailMessage(
+            #                     "Registro exitoso", 
+            #                     "La contraseña para {} es {}".format(email, password), 
+            #                     "ohmydog@@gmail.com",
+            #                     ["e12436402b811a@inbox.mailtrap.io"]
+            # )
+            # mail.send()
+            
             form.save()
+            #dog_context['dog_registration'] 
             
             
-            return redirect('login')
+            return redirect('dog_registration')
         
         else:
             context['registration_form'] = form

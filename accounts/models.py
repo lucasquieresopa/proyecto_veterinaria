@@ -60,11 +60,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     last_login =                models.DateTimeField(verbose_name="last login", default=datetime.datetime.now)
     is_veterinario =            models.BooleanField(default=False)
     
-    dogs = models.ForeignKey(
-        Dog,
-        on_delete=models.CASCADE,
-        null=True
-    )
 
     #keywords:
 
@@ -72,8 +67,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['name',]    #no permite registros si no tiene estos campos completos
 
     objects = CustomUserManager()
-
-
 
     def __str__(self):
         """cuando se imprima un objeto CustomUser se imprimira su nombre + apellido"""

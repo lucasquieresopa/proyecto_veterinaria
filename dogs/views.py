@@ -15,7 +15,10 @@ def dog_registration_view(request):
         form = DogCreationForm(request.POST)
 
         if form.is_valid():
-            form.save()
+            dog = form.save(commit=False)
+            dog.owner = request.user.email
+
+            dog.save()
             return redirect('home')
         
         else:

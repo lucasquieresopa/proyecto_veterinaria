@@ -11,3 +11,21 @@ class DogCreationForm(forms.ModelForm):
     class Meta:  
         model = Dog
         fields = ('name', 'age', 'sex', 'breed')
+
+
+
+    def __init__(self, *args, **kwargs):
+      self.user = kwargs.pop('user')  # cache the user object you pass in
+      super(DogCreationForm, self).__init__(*args, **kwargs)
+
+
+    def clean(self):
+        """se ejecuta antes del form para validar lo ingresado en el login"""
+        if self.is_valid():
+            name = self.cleaned_data['name']
+
+            if self.user.dog_set.filter(name=name).exists():
+                raise forms.ValidationError('El cliente ya posee un perro con ese nombre.')
+
+        return self.cleaned_data
+    

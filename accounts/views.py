@@ -151,8 +151,8 @@ def profile_view(request, pk):
     
     user = CustomUser.objects.get(pk=pk)
     #objects = user.objects.first()
-    for dog in user.dog_set.all():
-        print(dog)
+    # for dog in user.dog_set.all():
+    #     print(dog)
     dogs = user.dog_set.all()
 
     context = {

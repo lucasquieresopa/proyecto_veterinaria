@@ -1,9 +1,10 @@
 from django.shortcuts import redirect, render
 from .forms import DogCreationForm
+from accounts.views import actual_user_id
 
 # Create your views here.
 
-def dog_registration_view(request, user_id):
+def dog_registration_view(request):
     """definición del comportamiento de la pantalla de registro de clientes"""
 
     user = request.user
@@ -16,7 +17,7 @@ def dog_registration_view(request, user_id):
 
         if form.is_valid():
             dog = form.save(commit=False)
-            dog.owner = user_id
+            dog.owner = request.session['id']
             dog.save()
             return redirect('home')
         

@@ -10,13 +10,20 @@ from django.contrib import messages
 from .models import CustomUser
 from django.utils.crypto import get_random_string
 from django.core.mail import EmailMessage
-from dogs.views import dog_registration_view
+#from dogs.views import dog_registration_view
 #from django.contrib.auth.decorators import login_required
 
 
-
+actual_user_id = 1
 
 # # Create your views here.
+# class ActualUserID:
+#     user_id=1
+
+#     def set_id(self, id):
+#         self.user_id = id
+#     def get_id(self):
+#         return self.user_id
 
 
 def user_registration_view(request):
@@ -34,7 +41,9 @@ def user_registration_view(request):
             user = form.save(commit=False)
             user.set_password(password)
 
-
+            #set actualuser
+            #actual_user_id = user.id
+            request.session['id'] = user.id
 
             # email = form.cleaned_data['email']
             # mail = EmailMessage(
@@ -45,11 +54,11 @@ def user_registration_view(request):
             # )
             # mail.send()
 
-            form.save()
+            user.save()
             #dog_context['dog_registration'] 
             
             
-            return redirect('dog_registration', user.id)
+            return redirect('dog_registration')
         
         else:
             context['registration_form'] = form

@@ -17,5 +17,5 @@ class Dog(models.Model):
     age = models.IntegerField()
     sex = models.CharField(max_length=10, choices=Sex.choices)
     breed = models.CharField(max_length=20, choices=Breed.choices)
-    owner = models.IntegerField("Dueño", blank=False, default=1)
+    owner = models.ForeignKey(CustomUser, blank=False, default=1, null=True)
     

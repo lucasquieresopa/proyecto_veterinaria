@@ -43,8 +43,7 @@ def user_registration_view(request):
             #dog_context['dog_registration'] 
             
             return redirect('dog_registration', pk=user.id)
-            #return redirect('dog_registration')
-            #return redirect('dog_registration', pk=user.id)
+     
         
         else:
             context['registration_form'] = form
@@ -152,12 +151,14 @@ def profile_view(request, pk):
     
     user = CustomUser.objects.get(pk=pk)
     #objects = user.objects.first()
-    #dogs = user.dogs.all()
+    for dog in user.dog_set.all():
+        print(dog)
+    dogs = user.dog_set.all()
 
     context = {
         'user': user, 
         'actual_user': request.user, 
-        #'dogs': dogs
+        'dogs': dogs
     }
     return render(request, 'profile.html', context)
 

@@ -11,7 +11,8 @@ def dog_registration_view(request, pk):
     user = request.user
     if not user.is_authenticated or not user.is_veterinario:
         return redirect('home')
-    context = { 'usuario' : request.user}
+    
+    #context = { 'usuario' : request.user}
     user_owner = CustomUser.objects.get(pk=pk)
     # context = {
     #     'user_owner': user_owner

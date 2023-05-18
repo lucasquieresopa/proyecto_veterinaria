@@ -42,7 +42,7 @@ def user_registration_view(request):
             user.save()
             #dog_context['dog_registration'] 
             
-            return redirect('home')
+            return redirect('dog_registration', pk=user.id)
             #return redirect('dog_registration')
             #return redirect('dog_registration', pk=user.id)
         
@@ -149,9 +149,15 @@ def list_users(request):
 def profile_view(request, pk):
     if not request.user.is_authenticated:
         return redirect('login')
+    
     user = CustomUser.objects.get(pk=pk)
+    #objects = user.objects.first()
+    #dogs = user.dogs.all()
+
     context = {
-        'user': user, 'actual_user': request.user
+        'user': user, 
+        'actual_user': request.user, 
+        #'dogs': dogs
     }
     return render(request, 'profile.html', context)
 

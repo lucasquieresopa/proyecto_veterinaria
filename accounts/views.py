@@ -30,14 +30,14 @@ def user_registration_view(request):
             user.set_password(password)
 
 
-            # email = form.cleaned_data['email']
-            # mail = EmailMessage(
-            #                     "Registro exitoso", 
-            #                     "La contraseña para {} es {}".format(email, password), 
-            #                     "ohmydog@@gmail.com",
-            #                     ["e12436402b811a@inbox.mailtrap.io"]
-            # )
-            # mail.send()
+            email = form.cleaned_data['email']
+            mail = EmailMessage(
+                                "Registro exitoso", 
+                                "La contraseña para {} es {}".format(email, password), 
+                                "ohmydog@@gmail.com",
+                                ["e12436402b811a@inbox.mailtrap.io"]
+            )
+            mail.send()
 
             user.save()
             #dog_context['dog_registration'] 
@@ -150,9 +150,8 @@ def profile_view(request, pk):
         return redirect('login')
     user = CustomUser.objects.get(pk=pk)
     context = {
-        'user': user
+        'user': user, 'actual_user': request.user
     }
-    
     return render(request, 'profile.html', context)
 
     

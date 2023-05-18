@@ -1,9 +1,13 @@
+
+
 {% extends 'base.html' %}   <!-- baseLogedIn.html?? dado que lo hace el veterinario desde una sesion iniciada-->
+
+
 
 {% block content %}
 
     <h2>Registro de Clientes</h2>
-    <form method="post">    <!-- cuando toco el boton "Registrar" se haceun post request -->
+    <form method="post">     <!--cuando toco el boton "Registrar" se haceun post request -->
         {% csrf_token %}    <!-- seguridad en forms -->
         
         {% for field in registration_form %}
@@ -31,8 +35,15 @@
             <p>{{registration_form.non_field_errors}}</p>
         </div>
         {% endif %}
+        <!--
+        <button type="submit">Registrar</button>
+        <a class="dropdown-item" href="{% url 'profile' user.id %}">Registrar</a>
         
+        <a class="fcc-btn" href="{% url 'dog_registration' user.id %}">Registrar</a>
+        -->
         <button type="submit">Registrar</button>
     </form>
+
+    <a> {{user.name}} </a>
 
 {% endblock content %}

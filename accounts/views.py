@@ -14,18 +14,6 @@ from django.core.mail import EmailMessage
 #from django.contrib.auth.decorators import login_required
 
 
-actual_user_id = 1
-
-# # Create your views here.
-# class ActualUserID:
-#     user_id=1
-
-#     def set_id(self, id):
-#         self.user_id = id
-#     def get_id(self):
-#         return self.user_id
-
-
 def user_registration_view(request):
     """definición del comportamiento de la pantalla de registro de clientes"""
     user = request.user
@@ -41,9 +29,6 @@ def user_registration_view(request):
             user = form.save(commit=False)
             user.set_password(password)
 
-            #set actualuser
-            #actual_user_id = user.id
-            request.session['id'] = user.id
 
             # email = form.cleaned_data['email']
             # mail = EmailMessage(
@@ -57,8 +42,8 @@ def user_registration_view(request):
             user.save()
             #dog_context['dog_registration'] 
             
-            
             return redirect('dog_registration')
+            #return redirect('dog_registration', pk=user.id)
         
         else:
             context['registration_form'] = form
@@ -67,6 +52,7 @@ def user_registration_view(request):
         form = CustomUserCreationForm()
         context['registration_form'] = form
 
+    context["user"] = user
     return render(request, 'registration/client_registration.html', context)
 
 
@@ -145,15 +131,11 @@ def password_reset_view(request):
     context['form'] = form
     return render(request, 'registration/password_reset_form.html', context)
 
-#INTERNAL_RESET_SESSION_TOKEN = "_password_reset_token"
-
-# class CustomChangePasswordView(PasswordChangeView):
-#     form_class = CustomPasswordChangeForm
-#     success_url = reverse_lazy('password_change_done')
-
 
 class CustomPasswordChangeDoneView(PasswordChangeDoneView):
     template_name = "registration/password_change_done.html"
+
+
 
 def list_users(request):
     if not request.user.is_authenticated:
@@ -163,7 +145,7 @@ def list_users(request):
     users = CustomUser.objects.filter(is_veterinario=False, is_admin=False)
     return render(request, 'list_users.html', {'users': users})
 
-def profile_view(request,pk):
+def profile_view(request, pk):
     if not request.user.is_authenticated:
         return redirect('login')
     user = CustomUser.objects.get(pk=pk)
@@ -187,33 +169,4 @@ def search_user(request):
         return redirect(request, 'search_results.html',{})
             
 
-
-
-# def password_change(request):
-#     #user is authenticated?
-#     user = request.user
-#     if request.method == 'POST':
-#         form = SetPasswordForm(user, request.POST)
-#         if form.is_valid():
-#             form.save()
-#             messages.success(request, "Tu contraseña fue cambiada")
-#             return redirect('login')
-#         else:
-#             for error in list(form.errors.values()):
-#                 messages.error(request, error)
-
-#     form = SetPasswordForm(user)
-#     return render(request, 'password_reset_confirm.html', {'form': form})
-
-
-
-# class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
-#     template_name = 'users/password_reset.html'
-#     email_template_name = 'users/password_reset_email.html'
-#     subject_template_name = 'users/password_reset_subject'
-#     success_message = "We've emailed you instructions for setting your password, " \
-#                       "if an account exists with the email you entered. You should receive them shortly." \
-#                       " If you don't receive an email, " \
-#                       "please make sure you've entered the address you registered with, and check your spam folder."
-#     success_url = reverse_lazy('users-home')
 

@@ -42,7 +42,8 @@ def user_registration_view(request):
             user.save()
             #dog_context['dog_registration'] 
             
-            return redirect('dog_registration')
+            return redirect('home')
+            #return redirect('dog_registration')
             #return redirect('dog_registration', pk=user.id)
         
         else:

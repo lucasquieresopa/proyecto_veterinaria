@@ -13,9 +13,9 @@ from django.core.exceptions import ValidationError
 
 class CustomUserCreationForm(forms.ModelForm):
 #class CustomUserCreationForm(UserCreationForm):
-    email = forms.EmailField(help_text = "obligatorio")
-    name = forms.CharField(label="Nombre", required=True)
-    surname = forms.CharField(label="Apellido", required=False)
+    email = forms.EmailField(help_text = "*")
+    name = forms.CharField(label="Nombre", required=True, help_text = "*")
+    surname = forms.CharField(label="Apellido", required=True, help_text = "*")
     telephone = forms.CharField(label="Teléfono", required=False)
     address = forms.CharField(label="Dirección", required=False)
 
@@ -48,7 +48,7 @@ class CustomUserModificationForm(forms.ModelForm):
 
     email = forms.EmailField(help_text = "obligatorio")
     name = forms.CharField(label="Nombre", required=True)
-    surname = forms.CharField(label="Apellido", required=False)
+    surname = forms.CharField(label="Apellido", required=True)
     telephone = forms.CharField(label="Teléfono", required=False)
     address = forms.CharField(label="Dirección", required=False)
     

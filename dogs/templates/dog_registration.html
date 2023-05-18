@@ -1,0 +1,35 @@
+{% extends 'base.html' %}   <!-- baseLogedIn.html?? dado que lo hace el veterinario desde una sesion iniciada-->
+
+{% block content %}
+
+    <h2>Registro de Perros</h2>
+    <form method="post">    <!-- cuando toco el boton "Registrar" se haceun post request -->
+        {% csrf_token %}    <!-- seguridad en forms -->
+        
+        {% for field in dog_registration %}
+            <p>
+                {{field.label_tag}}
+                {{field}}
+
+                {% if field.help_text %}
+                <small style="color: grey;">{{field.help_text}}</small>
+                {% endif %}
+            </p>
+        {% endfor %}
+
+        {% for field in dog_registration %}
+            {% for error in field.errors %}
+                <p style="color: red;">{{error}}</p>
+            {% endfor %}
+        {% endfor %} 
+        
+        {% if dog_registration.non_field_errors %}
+        <div style="color: red;">
+            <p>{{dog_registration.non_field_errors}}</p>
+        </div>
+        {% endif %}
+        
+        <button type="submit">Registrar</button>
+    </form>
+
+{% endblock content %}

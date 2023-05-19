@@ -77,7 +77,7 @@ def dog_modification_view(request, dog_id, user_owner_id):
         form = DogModificationForm(request.POST, instance=dog, user=user_owner)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            return redirect('dog_modification_succeed', user_owner_id=user_owner.id, dog_id=dog.id)
     else:
         form = DogModificationForm(
             initial = {
@@ -101,10 +101,12 @@ def dog_modification_view(request, dog_id, user_owner_id):
                                                     }
     )
 
-# def dog_modification_done(request, dog_id):
-#     return render(request, 'dog_modification_succeed.html', {'dog_id': dog_id})
 
-def dog_modification_done(request):
-    return render(request, 'home.html')
+def dog_modification_done(request, dog_id, user_owner_id):
+    return render(request, 'dog_modification_succeed.html', {
+                                                            'dog_id': dog_id,
+                                                            'user_owner_id': user_owner_id,
+                                                            }
+    )
 
 

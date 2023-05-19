@@ -23,17 +23,20 @@
                 <p>{{form.non_field_errors}}</p>
             </div>
         {% endif %}
-        <button type="submit">Guardar</button>
 
         {% for field in form %}
             {% for error in field.errors %}
                 <p style="color: red;">{{error}}</p>
             {% endfor %}
         {% endfor %} 
+        
+        <button type="submit">Guardar</button>
+
+        
     </form>
 </main>
         <div>
-            <a href="{% url 'home' %}" class="btn btn-primary">Volver</a>
+            <a href="{% url 'dog_profile' user_owner_id=user.id dog_id=dog.id %}" class="btn btn-primary">Volver</a>
 
         </div>
         

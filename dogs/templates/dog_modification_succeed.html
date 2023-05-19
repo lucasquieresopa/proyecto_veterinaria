@@ -6,6 +6,6 @@
 	Los datos del perro fueron cambiados correctamente.
 </p>
 
-<a href="{% url 'dog_profile' dog_id %}">Volver</a>
+<a href="{% url 'dog_profile' user_owner_id=user_owner_id dog_id=dog_id %}">Volver</a>
 
 {% endblock %}

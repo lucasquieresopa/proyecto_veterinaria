@@ -44,6 +44,8 @@ class CustomUserAuthenticationForm(forms.ModelForm):
             if not authenticate(email=email, password=password):
                 raise forms.ValidationError("Los datos ingresados son invalidos")
 
+
+
 class CustomUserModificationForm(forms.ModelForm):
 
     email = forms.EmailField(help_text = "obligatorio")

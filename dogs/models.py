@@ -38,7 +38,7 @@ class Dog(models.Model):
         medium = "Mediano"
         short = "pequeño"
 
-        
+
     def default_value():
         return '-'
     
@@ -74,6 +74,7 @@ class Dog(models.Model):
         #null=True, 
         default=default_value
     )
+    hidden = models.BooleanField(default=False)
     owner = models.ForeignKey(
         CustomUser, 
         blank=True, 

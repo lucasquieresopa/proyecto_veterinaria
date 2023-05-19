@@ -36,15 +36,6 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    # def create_user_veterinario(self, email, name, password):
-    #     user = self.create_user(
-    #         email=self.normalize_email(email),   #convierte los char de email a lowercase
-    #         password=password,
-    #         name=name
-    #     )
-    #     user.is_admin = True
-    #     user.save(using=self._db)
-    #     return user
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):

@@ -75,17 +75,22 @@
                       </thead>
                       <tbody>
                           {% for dog in dogs %}
-                              <tr>
+                            {% if not dog.hidden %}
+                                <tr>
 
-                                  <td>{{ dog.name }}</td>
-                                  <td>{{ dog.age }}</td>
-                                  <td>{{ dog.sex }}</td>
-                                  <td>{{ dog.breed }}</td>
-                                  <td>
-                                    <a class="dropdown-item" href="{% url 'dog_profile' dog.id %}">Ver perro</a>
-                                  </td>
+                                    <td>{{ dog.name }}</td>
+                                    <td>{{ dog.age }}</td>
+                                    <td>{{ dog.sex }}</td>
+                                    <td>{{ dog.breed }}</td>
+                                    <td>
+                                      <a class="dropdown-item" href="{% url 'dog_profile' dog.id %}">Ver perro</a>
+                                    </td>
+                                    <td>
+                                      <a class="dropdown-item" href="{% url 'profile' user.id %}">Ocultar</a>
+                                    </td>
 
-                              </tr>
+                                </tr>
+                            {% endif %}
                           {% endfor %}
                       </tbody>
                   </table>

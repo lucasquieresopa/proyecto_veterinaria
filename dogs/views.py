@@ -74,7 +74,7 @@ def dog_modification_view(request, dog_id, user_owner_id):
     if request.POST:
         #form = DogModificationForm(request.POST, user=user_owner)
 
-        form = DogModificationForm(request.POST, instance=dog)
+        form = DogModificationForm(request.POST, instance=dog, user=user_owner)
         if form.is_valid():
             dog_updated = form.save(commit=False)
             dog_updated.owner = user_owner
@@ -92,7 +92,7 @@ def dog_modification_view(request, dog_id, user_owner_id):
         #         'size': dog.size
         #     }
         # )
-        form = DogModificationForm(instance=dog)
+        form = DogModificationForm(instance=dog, user=user_owner)
     
 
     return render(request, 'dog_modification.html', {

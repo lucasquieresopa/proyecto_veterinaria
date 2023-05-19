@@ -44,10 +44,9 @@ class DogModificationForm(forms.ModelForm):
         model = Dog
         fields = ('name', 'age', 'sex', 'breed', 'color', 'size', 'description')
     
-    # def __init__(self, *args, **kwargs):
-    #     self.dog_id = kwargs.pop('dog_id')  # cache the user object you pass in
-    #     self.user_owner_id = kwargs.pop('user')
-    #     super(DogModificationForm, self).__init__(*args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')  # cache the user object you pass in
+        super(DogModificationForm, self).__init__(*args, **kwargs)
 
 
     def clean_name(self):
@@ -56,22 +55,24 @@ class DogModificationForm(forms.ModelForm):
         #     print('2')
         #     name = self.cleaned_data['name']
 
-        #     if self.user.dog_set.filter(name=name).exists():
-        #         print('3')
-        #         raise forms.ValidationError('El cliente ya posee un perro con ese nombre.')
+        
+
+
+        
             
         if self.is_valid():
             name = self.cleaned_data['name']
-            return name
     
-    # def clean_name(self):
-    #     if self.is_valid():
-    #         name = self.cleaned_data['name']
-    #         try:
-    #             account = self.user.dog_set.exclude(pk=self.dog_id).get(id=self.dog_id)  #chequea que no exista
-    #         except Dog.DoesNotExist:
-    #             return name
-    #         raise forms.ValidationError('El nombre "%s" está en uso' % name)
+            # try:
+            #     account = self.user.dog_set.exclude(pk=self.instance.pk).get(name=name)  #chequea que no exista
+            # except Dog.DoesNotExist:
+            #     return name
+            # raise forms.ValidationError('El nombre "%s" está en uso' % name)
+    
+            if self.user.dog_set.filter(name=name).exists():
+                raise forms.ValidationError('El cliente ya posee un perro con ese nombre.')
+          
+        return self.cleaned_data
         
         
     def clean_age(self):

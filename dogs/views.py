@@ -76,22 +76,22 @@ def dog_modification_view(request, dog_id, user_owner_id):
 
         form = DogModificationForm(request.POST, instance=dog, user=user_owner)
         if form.is_valid():
-            dog_updated = form.save(commit=False)
-            dog_updated.owner = user_owner
-            dog_updated = form.save(commit=True)
+            form.save()
             return redirect('home')
     else:
-        # form = DogModificationForm(
-        #     initial = {
-        #         'name': dog.name,
-        #         'age': dog.age,
-        #         'sex': dog.sex,
-        #         'breed': dog.breed,
-        #         'color': dog.color,
-        #         'description': dog.description,
-        #         'size': dog.size
-        #     }
-        # )
+        form = DogModificationForm(
+            initial = {
+                'name': dog.name,
+                'age': dog.age,
+                'sex': dog.sex,
+                'breed': dog.breed,
+                'color': dog.color,
+                'description': dog.description,
+                'size': dog.size
+            },
+            instance=dog, 
+            user=user_owner
+        )
         form = DogModificationForm(instance=dog, user=user_owner)
     
 

@@ -97,11 +97,10 @@ def account_modif_view(request):
     if not request.user.is_authenticated:
         return redirect('login')
     
-    context = {}
 
     if request.POST:
         form = CustomUserModificationForm(request.POST, instance=request.user)
-        if form.is_valid:
+        if form.is_valid():
             form.save()
             return redirect('account_modif_succeed')
     
@@ -116,8 +115,7 @@ def account_modif_view(request):
             }
         )
     
-    context['account_form'] = form
-    return render(request, 'registration/account_modif.html', context)
+    return render(request, 'registration/account_modif.html', {'account_form': form})
 
 
 def account_modif_done(request):

@@ -50,29 +50,16 @@ class DogModificationForm(forms.ModelForm):
 
 
     def clean_name(self):
-        # print('1')
-        # if self.is_valid():
-        #     print('2')
-        #     name = self.cleaned_data['name']
-
-        
-
-
-        
-            
+ 
         if self.is_valid():
             name = self.cleaned_data['name']
     
-            # try:
-            #     account = self.user.dog_set.exclude(pk=self.instance.pk).get(name=name)  #chequea que no exista
-            # except Dog.DoesNotExist:
-            #     return name
-            # raise forms.ValidationError('El nombre "%s" está en uso' % name)
+            try:
+                idk = self.user.dog_set.exclude(pk=self.instance.pk).get(name=name)  #chequea que no exista
+            except Dog.DoesNotExist:
+                return name
+            raise forms.ValidationError('El nombre "%s" está en uso' % name)
     
-            if self.user.dog_set.filter(name=name).exists():
-                raise forms.ValidationError('El cliente ya posee un perro con ese nombre.')
-          
-        return self.cleaned_data
         
         
     def clean_age(self):

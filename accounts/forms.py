@@ -63,6 +63,7 @@ class CustomUserModificationForm(forms.ModelForm):
             },
         }
 
+    
     def clean_email(self):
         if self.is_valid():
             email = self.cleaned_data['email']

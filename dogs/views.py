@@ -1,8 +1,9 @@
 from django.shortcuts import redirect, render
 from accounts import forms
-
 from accounts.models import CustomUser
+
 from .forms import DogCreationForm
+from .models import Dog
 
 # Create your views here.
 def clean_name(name, user_owner):
@@ -59,3 +60,12 @@ def dog_registration_view(request, pk):
     return render(request, 'dog_registration.html', context)
 
     
+def dog_profile_view(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    dog = Dog.objects.get(pk=pk)
+    context = {
+        'dog': dog,
+    }
+
+    return render(request, 'dog_profile.html', context)

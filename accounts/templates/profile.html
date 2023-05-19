@@ -68,9 +68,9 @@
                       <thead>
                           <tr>
                               <th>Nombre</th>
-                              <th>Apellido</th>
-                              <th>Correo</th>
-                              <th>Telefono</th>
+                              <th>Edad</th>
+                              <th>Sexo</th>
+                              <th>Raza</th>
                           </tr>
                       </thead>
                       <tbody>
@@ -78,10 +78,13 @@
                               <tr>
 
                                   <td>{{ dog.name }}</td>
-                                  <td>{{ dog.sex }}</td>
                                   <td>{{ dog.age }}</td>
+                                  <td>{{ dog.sex }}</td>
                                   <td>{{ dog.breed }}</td>
-                                  
+                                  <td>
+                                    <a class="dropdown-item" href="{% url 'dog_profile' dog.id %}">Ver perro</a>
+                                  </td>
+
                               </tr>
                           {% endfor %}
                       </tbody>

@@ -103,7 +103,7 @@ def account_modif_view(request):
         form = CustomUserModificationForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect('account_modif_done')
+            return redirect('account_modif_succeed')
     
     else:
         form = CustomUserModificationForm(
@@ -121,7 +121,6 @@ def account_modif_view(request):
 
 
 def account_modif_done(request):
-    
     return render(request, 'registration/account_modif_succeed.html')
 
 

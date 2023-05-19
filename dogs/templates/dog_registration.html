@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <h2>Registro de Perros para {{ usuario.name }}</h2>
+    <h2>Registrar perro</h2>
     <form method="post">    <!-- cuando toco el boton "Registrar" se haceun post request -->
         {% csrf_token %}    <!-- seguridad en forms -->
         

@@ -74,7 +74,7 @@ def login_view(request):
     
     if request.POST:
         form = CustomUserAuthenticationForm(request.POST)
-        if form.is_valid():
+        if form.is_valid:
             email = request.POST['email']
             password = request.POST['password']
             user = authenticate(email=email, password=password)
@@ -101,7 +101,7 @@ def account_modif_view(request):
 
     if request.POST:
         form = CustomUserModificationForm(request.POST, instance=request.user)
-        if form.is_valid():
+        if form.is_valid:
             form.save()
             return redirect('account_modif_succeed')
     
@@ -157,14 +157,15 @@ def profile_view(request, pk):
     if not request.user.is_authenticated:
         return redirect('login')
     
-    user = CustomUser.objects.get(pk=pk)
+    user_owner = CustomUser.objects.get(pk=pk)
+    print(f'prof id {user_owner.id}')
     #objects = user.objects.first()
     # for dog in user.dog_set.all():
     #     print(dog)
-    dogs = user.dog_set.all()
+    dogs = user_owner.dog_set.all()
 
     context = {
-        'user': user, 
+        'user': user_owner, 
         'actual_user': request.user, 
         'dogs': dogs
     }

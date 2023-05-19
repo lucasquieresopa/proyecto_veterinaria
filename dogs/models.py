@@ -46,7 +46,9 @@ class Dog(models.Model):
     name = models.CharField(
         max_length=15
     )
-    age = models.PositiveIntegerField()
+    age = models.PositiveIntegerField(
+        null=True,
+    )
     sex = models.CharField(
         max_length=10, 
         choices=Sex.choices
@@ -57,22 +59,22 @@ class Dog(models.Model):
     )
     color = models.CharField(
         max_length=20, 
-        #blank=True, 
+        blank=True, 
         choices=Color.choices, 
-        #null=True, 
-        default=default_value
+        null=True, 
+        #default=default_value
     )
     size = models.CharField(
         max_length=10,
-        #null=True, 
-        #blank=True, 
-        default=default_value
+        null=True, 
+        blank=True, 
+        #default=default_value
     )
     description = models.TextField(
         max_length=100, 
-        #blank=True, 
-        #null=True, 
-        default=default_value
+        blank=True, 
+        null=True, 
+        #default=default_value
     )
     hidden = models.BooleanField(default=False)
     owner = models.ForeignKey(

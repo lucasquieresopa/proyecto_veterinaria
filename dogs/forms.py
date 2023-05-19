@@ -51,43 +51,36 @@ class DogModificationForm(forms.ModelForm):
 
     def clean_name(self):
  
-        if self.is_valid():
-            name = self.cleaned_data['name']
+        name = self.cleaned_data['name']
     
-            try:
-                idk = self.user.dog_set.exclude(pk=self.instance.pk).get(name=name)  #chequea que no exista
-            except Dog.DoesNotExist:
-                return name
-            raise forms.ValidationError('El nombre "%s" está en uso' % name)
+        try:
+            idk = self.user.dog_set.exclude(pk=self.instance.pk).get(name=name)  #chequea que no exista
+        except Dog.DoesNotExist:
+            return name
+        raise forms.ValidationError('El nombre "%s" está en uso' % name)
     
         
         
     def clean_age(self):
-        if self.is_valid():
-            age = self.cleaned_data['age']
-            return age
+        age = self.cleaned_data['age']
+        return age
 
     def clean_sex(self):
-        if self.is_valid():
-            sex = self.cleaned_data['sex']
-            return sex
+        sex = self.cleaned_data['sex']
+        return sex
         
     def clean_breed(self):
-        if self.is_valid():
-            breed = self.cleaned_data['breed']
-            return breed
+        breed = self.cleaned_data['breed']
+        return breed
         
     def clean_color(self):
-        if self.is_valid():
-            color = self.cleaned_data['color']
-            return color
+        color = self.cleaned_data['color']
+        return color
         
     def clean_size(self):
-        if self.is_valid():
-            size = self.cleaned_data['size']
-            return size
+        size = self.cleaned_data['size']
+        return size
         
     def clean_description(self):
-        if self.is_valid():
-            description = self.cleaned_data['description']
-            return description
+        description = self.cleaned_data['description']
+        return description

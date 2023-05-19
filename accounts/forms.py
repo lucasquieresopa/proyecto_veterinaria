@@ -65,33 +65,29 @@ class CustomUserModificationForm(forms.ModelForm):
 
     
     def clean_email(self):
-        if self.is_valid():
-            email = self.cleaned_data['email']
-            try:
-                account = CustomUser.objects.exclude(pk=self.instance.pk).get(email=email)  #chequea que no exista
-            except CustomUser.DoesNotExist:
-                return email
-            raise forms.ValidationError('Email "%s" está en uso' % email)
+ 
+        email = self.cleaned_data['email']
+        try:
+            account = CustomUser.objects.exclude(pk=self.instance.pk).get(email=email)  #chequea que no exista
+        except CustomUser.DoesNotExist:
+            return email
+        raise forms.ValidationError('Email "%s" está en uso' % email)
         
     def clean_name(self):
-        if self.is_valid():
-            name = self.cleaned_data['name']
-            return name    
+        name = self.cleaned_data['name']
+        return name
 
     def clean_surname(self):
-        if self.is_valid():
-            surname = self.cleaned_data['surname']
-            return surname
-        
+        surname = self.cleaned_data['surname']
+        return surname
+
     def clean_address(self):
-        if self.is_valid():
-            address = self.cleaned_data['address']
-            return address
+        address = self.cleaned_data['address']
+        return address
         
     def clean_telephone(self):
-        if self.is_valid():
-            telephone = self.cleaned_data['telephone']
-            return telephone            
+        telephone = self.cleaned_data['telephone']
+        return telephone            
 
 
 class CustomPasswordSetForm(SetPasswordForm):

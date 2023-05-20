@@ -95,18 +95,17 @@
                       </tbody>
                   </table>
       {% endif %}
-
-      
       </div>
-
     </div>
-    
   </div>
   {% if actual_user.is_veterinario %}
     <a href="{% url 'dog_registration' user.id %}" class="btn btn-primary">Añadir Perro</a>
+    <a href="{% url 'hidden_dogs' user.id %}" class="btn btn-primary">Ver perros ocultos</a>
   {% endif %}
   </div>
   <a href="{% url 'home' %}" class="btn btn-primary">Volver</a>
+
+
 
 </main>
 

@@ -3,7 +3,9 @@
 {% extends 'home.html' %}   <!-- indica que hereda de base.html-->
 
 {% block content %}
-
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+</head>
 
 <main>
     
@@ -83,9 +85,37 @@
     <div class="container card-izq " >    
         <a href="{% url 'profile' user_owner.id %}" class="btn btn-primary">Volver</a>
         <a href="{% url 'dog_modification' dog_id=dog.id user_owner_id=user_owner.id %}" class="btn btn-primary">Modificar datos de perro</a>
+        <!--<a href="{% url 'profile' user_owner.id %}" class="btn btn-primary" name="hide_dog">Ocultar perro</a>-->
+        <button class="btn btn-primary" id="hide_dog_button">Ocultar perro</button>
+
     </div>
 
+    <script>
+        
 
+        $(document).on('click', '#hide_dog_button', function(){
+            //var dog_id = dog.id
+            $.ajax({
+                type:'POST',
+                url:"{% url 'hide_dog' dog.id %}",
+                data:{
+                    //dog: $('#dog').val(),
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                    action: 'post',
+                },
+                success: function(response){
+                    console.log(response);
+
+                },
+                error: function(response){
+                    alert("sucedió un error")
+                }
+            })
+        })
+    </script>
+    
+
+    
 
 </main>
 

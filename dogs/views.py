@@ -1,9 +1,12 @@
 from django.shortcuts import redirect, render
 from accounts import forms
 from accounts.models import CustomUser
+from django.contrib.auth.decorators import login_required
 
 from .forms import DogCreationForm, DogModificationForm
 from .models import Dog
+
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -39,8 +42,8 @@ def dog_registration_view(request, pk):
         #context['dog_registration'] = form
         context = {
                 'dog_registration' : form
-            }
-
+                }
+        
     return render(request, 'dog_registration.html', context)
 
     
@@ -51,13 +54,13 @@ def dog_profile_view(request, dog_id, user_owner_id):
     
     dog = Dog.objects.get(pk=dog_id)
     user_owner = CustomUser.objects.get(pk=user_owner_id)
-    print(f'dog {dog.id}, owner {user_owner.id}')
     context = {
         'dog': dog,
         'user_owner': user_owner,
     }
 
     return render(request, 'dog_profile.html', context)
+
 
 
 def dog_modification_view(request, dog_id, user_owner_id):
@@ -109,4 +112,26 @@ def dog_modification_done(request, dog_id, user_owner_id):
                                                             }
     )
 
+@ login_required
+def hide_dog(request, dog_id):
+    if request.POST.get('action') == 'post':
+        #dog_id = int(request.POST.get('dog_id'))
+        dog = Dog.objects.get(id=dog_id)
+        print(dog.hidden)
+        dog.hidden = True
+        dog.save()
+        print(dog.hidden)
+    return JsonResponse({'hidden': True})
 
+
+@ login_required
+def hidden_dogs_view(request, user_id):
+
+    user = CustomUser.objects.get(id=user_id)
+    hidden_dogs = user.dog_set.filter(hidden=True)
+
+    context = {
+        'user_id': user_id,
+        'hidden_dogs': hidden_dogs,
+    }
+    return render(request, 'hidden_dogs_list.html', context)

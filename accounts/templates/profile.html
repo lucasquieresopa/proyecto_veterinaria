@@ -62,8 +62,9 @@
       </div>
 
 
-      {% if dogs.count > 0 %}
-        <h2 class="text-center">Lista de perros del usuario</h2>
+      
+        <h2 class="text-center">Lista de perros del usuario:</h2>
+          {% if dogs_shown.count > 0 %}
                   <table class="table table-hover">
                       <thead>
                           <tr>
@@ -74,8 +75,8 @@
                           </tr>
                       </thead>
                       <tbody>
-                          {% for dog in dogs %}
-                            {% if not dog.hidden %}
+                          {% for dog in dogs_shown %}
+
                                 <tr>
 
                                     <td>{{ dog.name }}</td>
@@ -85,16 +86,18 @@
                                     <td>
                                       <a class="dropdown-item" href="{% url 'dog_profile' user_owner_id=user.id dog_id=dog.id %}">Ver perro</a>
                                     </td>
-                                    <td>
-                                      <a class="dropdown-item" href="{% url 'profile' user.id %}">Ocultar</a>
-                                    </td>
+
 
                                 </tr>
-                            {% endif %}
+              
                           {% endfor %}
                       </tbody>
                   </table>
-      {% endif %}
+            {% else %}
+            <div>
+              <a>El usuario no posee perros visibles</a>
+            </div>
+            {% endif %}
       </div>
     </div>
   </div>

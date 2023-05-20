@@ -151,21 +151,18 @@ def list_users(request):
     users = CustomUser.objects.filter(is_veterinario=False, is_admin=False)
     return render(request, 'list_users.html', {'users': users})
 
+
 def profile_view(request, pk):
     if not request.user.is_authenticated:
         return redirect('login')
     
     user_owner = CustomUser.objects.get(pk=pk)
-    print(f'prof id {user_owner.id}')
-    #objects = user.objects.first()
-    # for dog in user.dog_set.all():
-    #     print(dog)
     dogs = user_owner.dog_set.all()
 
     context = {
         'user': user_owner, 
         'actual_user': request.user, 
-        'dogs': dogs
+        'dogs_shown': dogs.filter(hidden=False)
     }
     return render(request, 'profile.html', context)
 

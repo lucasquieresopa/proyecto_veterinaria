@@ -160,8 +160,8 @@ def profile_view(request, pk):
     dogs = user_owner.dog_set.all()
 
     context = {
-        'user': user_owner, 
-        'actual_user': request.user, 
+        'client': user_owner, 
+        'vet': request.user, 
         'dogs_shown': dogs.filter(hidden=False)
     }
     return render(request, 'profile.html', context)

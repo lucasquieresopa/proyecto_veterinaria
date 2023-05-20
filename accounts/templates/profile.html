@@ -1,6 +1,6 @@
 <!-- templates/home.html -->
 
-{% extends 'home.html' %}   <!-- indica que hereda de base.html-->
+{% extends 'base.html' %}   <!-- indica que hereda de base.html-->
 
 {% block content %}
 
@@ -14,9 +14,9 @@
       <div class="card">
         <div class="card-body">
           
-          <h5>{{ user.name }} {{ user.surname }}</h5>
-          <p class="text-secondary">{{ user.email }}</p>
-          <p class="text-muted">{{ user.bio }}</p>
+          <h5>{{ client.name }} {{ client.surname }}</h5>
+          <p class="text-secondary">{{ client.email }}</p>
+          <p class="text-muted">{{ client.bio }}</p>
         </div>
       </div>
     </div>
@@ -28,7 +28,7 @@
               <h6 class="mb-0">Nombre Completo</h6>
             </div>
             <div class="col-sm-9 text-secondary">
-              {{ user.name }} {{ user.surname }}
+              {{ client.name }} {{ client.surname }}
             </div>
           </div>
           <hr>
@@ -37,7 +37,7 @@
               <h6 class="mb-0">Correo Electrónico</h6>
             </div>
             <div class="col-sm-9 text-secondary">
-              {{ user.email }}
+              {{ client.email }}
             </div>
           </div>
           <hr>
@@ -46,7 +46,7 @@
               <h6 class="mb-0">Dirección</h6>
             </div>
             <div class="col-sm-9 text-secondary">
-              {{ user.address }}
+              {{ client.address }}
             </div>
           </div>
           <hr>
@@ -55,7 +55,7 @@
               <h6 class="mb-0">Teléfono</h6>
             </div>
             <div class="col-sm-9 text-secondary">
-              {{ user.telephone }}
+              {{ client.telephone }}
             </div>
           </div>
         </div>
@@ -101,7 +101,7 @@
       </div>
     </div>
   </div>
-  {% if actual_user.is_veterinario %}
+  {% if vet.is_veterinario %}
     <a href="{% url 'dog_registration' user.id %}" class="btn btn-primary">Añadir Perro</a>
     <a href="{% url 'hidden_dogs' user.id %}" class="btn btn-primary">Ver perros ocultos</a>
   {% endif %}

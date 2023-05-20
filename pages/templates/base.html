@@ -56,40 +56,43 @@
                                     </ul>
 
 
-                                </ul>
-                                <ul class="navbar-nav mb-2 mb-lg-0 ">
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle icono-user role="button" data-bs-toggle="dropdown" aria-expanded="False">
-                                            {% if user.is_veterinario %}
-                                                <i class="bi bi-person-circle">
-                                                    Hola Veterinario!
-                                                </i>
-                                            {% else %}
-                                                <i class="bi bi-person-circle">
-                                                    Hola {{ user }}!
-                                                </i>
-                                            {% endif %}
-                                        </a>
-                                        <ul class="dropdown-menu"> 
-                                            <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a></li>
-                                            <li>
-                                                <a class="dropdown-item" href="{% url 'password_change' %}">Cambiar Contraseña</a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" href="{% url 'account_modif' %}">Modificar datos</a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" href="{% url 'profile' user.id %}">Ver mi perfil</a>
-                                            </li>
-    
-                                        </ul>
-                                            
-                                    
-                                    </li>
-                                </ul>
-                            </ul>
+                                
 
                                 {% endif %}
+
+
+                                </ul>
+                                    <ul class="navbar-nav mb-2 mb-lg-0 ">
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle icono-user role="button" data-bs-toggle="dropdown" aria-expanded="False">
+                                                {% if user.is_veterinario %}
+                                                    <i class="bi bi-person-circle">
+                                                        Veterinario
+                                                    </i>
+                                                {% else %}
+                                                    <i class="bi bi-person-circle">
+                                                        {{ user }}
+                                                    </i>
+                                                {% endif %}
+                                            </a>
+                                            <ul class="dropdown-menu"> 
+                                                <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a></li>
+                                                <li>
+                                                    <a class="dropdown-item" href="{% url 'password_change' %}">Cambiar Contraseña</a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" href="{% url 'account_modif' %}">Modificar datos</a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" href="{% url 'profile' user.id %}">Ver mi perfil</a>
+                                                </li>
+
+                                            </ul>
+                                                
+                                        
+                                        </li>
+                                    </ul>
+                                </ul>
                         
 
                         {% else %}  <!-- user no autenticado-->

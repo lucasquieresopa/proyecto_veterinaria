@@ -3,13 +3,45 @@ from .models import Dog
 
 class DogCreationForm(forms.ModelForm):
 
-    name = forms.CharField(label="Nombre", required=True, help_text="*")
-    age = forms.IntegerField(label="Edad (aproximada)", required=True, help_text="*")
-    sex = forms.CharField(label="Sexo", required=True, help_text="*")
-    breed = forms.CharField(label="Raza", required=True, help_text="*")
-    color = forms.CharField(label="Color", required=False)
-    size = forms.CharField(label="Tamaño", required=False)
-    description = forms.CharField(label="Descripción", required=False)
+    name = forms.CharField(
+        label="Nombre", 
+        required=True, 
+        help_text="*"
+    )
+    age = forms.IntegerField(
+        label="Edad (aproximada)", 
+        required=True, 
+        help_text="*",
+        min_value=0,
+    )
+    sex = forms.CharField(
+        label="Sexo", 
+        required=True, 
+        help_text="*",
+        widget=forms.Select(choices=Dog.Sex.choices),
+    )
+    breed = forms.CharField(
+        label="Raza", 
+        required=True, 
+        help_text="*",
+        widget=forms.Select(choices=Dog.Breed.choices),
+    )
+    color = forms.CharField(
+        label="Color", 
+        required=True,
+        help_text="*",
+        widget=forms.Select(choices=Dog.Color.choices),
+    )
+    size = forms.CharField(
+        label="Tamaño", 
+        required=True,
+        help_text="*",
+        widget=forms.Select(choices=Dog.Size.choices),
+    )
+    description = forms.CharField(
+        label="Descripción", 
+        required=False
+    )
 
     class Meta:  
         model = Dog
@@ -32,13 +64,43 @@ class DogCreationForm(forms.ModelForm):
     
 class DogModificationForm(forms.ModelForm):
 
-    name = forms.CharField(label="Nombre", required=True, help_text="*")
-    age = forms.IntegerField(label="Edad (aproximada)", required=True, help_text="*")
-    sex = forms.CharField(label="Sexo", required=True, help_text="*")
-    breed = forms.CharField(label="Raza", required=True, help_text="*")
-    color = forms.CharField(label="Color", required=False)
-    size = forms.CharField(label="Tamaño", required=False)
-    description = forms.CharField(label="Descripción", required=False)
+    name = forms.CharField(
+        label="Nombre", 
+        required=True, 
+        help_text="*"
+    )
+    age = forms.IntegerField(
+        label="Edad (aproximada)", 
+        required=True, 
+        help_text="*",
+        min_value=0,
+    )
+    sex = forms.CharField(
+        label="Sexo", 
+        required=True, 
+        help_text="*",
+        widget=forms.Select(choices=Dog.Sex.choices),
+    )
+    breed = forms.CharField(
+        label="Raza", 
+        required=True, 
+        help_text="*",
+        widget=forms.Select(choices=Dog.Breed.choices),
+    )
+    color = forms.CharField(
+        label="Color", 
+        required=False,
+        widget=forms.Select(choices=Dog.Color.choices),
+    )
+    size = forms.CharField(
+        label="Tamaño", 
+        required=False,
+        widget=forms.Select(choices=Dog.Size.choices),
+    )
+    description = forms.CharField(
+        label="Descripción", 
+        required=False
+    )
 
     class Meta:  
         model = Dog

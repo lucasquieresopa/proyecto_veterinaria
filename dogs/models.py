@@ -6,11 +6,11 @@ from accounts.models import CustomUser
 class Dog(models.Model):
 
     class Sex(models.TextChoices):
-        male = "Macho"
-        female = "Hembra"
+        macho = "Macho"
+        hembra = "Hembra"
     
     class Breed(models.TextChoices):
-        no_breed = "Sin raza"
+        sin_raza = "Sin raza"
         coker = "Coker"
         pastor_aleman = "Pastor aleman"
         bulldog = "Bulldog"
@@ -27,16 +27,16 @@ class Dog(models.Model):
         #...
     
     class Color(models.TextChoices):
-        white = "Blanco"
-        black = "Negro"
-        brown = "Marrón"
-        black_and_white = "Blanco y negro"
-        other = "Otro color"
+        blanco = "Blanco"
+        negro = "Negro"
+        marron = "Marrón"
+        blanco_y_negro = "Blanco y negro"
+        otro = "Otro color"
 
     class Size(models.TextChoices):
-        big = "Grande"
-        medium = "Mediano"
-        short = "pequeño"
+        grande = "Grande"
+        mediano = "Mediano"
+        pequeño = "pequeño"
 
 
     def default_value():

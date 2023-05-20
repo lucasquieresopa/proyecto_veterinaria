@@ -24,13 +24,10 @@ def dog_registration_view(request, pk):
         form = DogCreationForm(request.POST, user=user_owner)
 
         if form.is_valid():
-            #clean_name(name=request.POST['name'], user_owner=user_owner)
-            # if user_owner.dog_set.filter(name=request.POST['name']).exists():
-            #     raise forms.ValidationError('El cliente ya posee un perro con ese nombre.')
             dog = form.save(commit=False)
             dog.owner = user_owner
             dog.save()
-            return redirect('home')
+            return redirect('dog_registration_succeed', user_owner_id=user_owner.id)
         
         else:
             #context['dog_registration'] = form
@@ -47,6 +44,13 @@ def dog_registration_view(request, pk):
     return render(request, 'dog_registration.html', context)
 
     
+def dog_registration_done(request, user_owner_id):
+    return render(request, 'dog_registration_succeed.html', {
+                                                            'client_id': user_owner_id,
+                                                            }
+    )
+
+
 def dog_profile_view(request, dog_id, user_owner_id):
 
     if not request.user.is_authenticated:

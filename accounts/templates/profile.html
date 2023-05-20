@@ -84,7 +84,7 @@
                                     <td>{{ dog.sex }}</td>
                                     <td>{{ dog.breed }}</td>
                                     <td>
-                                      <a class="dropdown-item" href="{% url 'dog_profile' user_owner_id=user.id dog_id=dog.id %}">Ver perro</a>
+                                      <a class="dropdown-item" href="{% url 'dog_profile' user_owner_id=client.id dog_id=dog.id %}">Ver perro</a>
                                     </td>
 
 
@@ -102,8 +102,8 @@
     </div>
   </div>
   {% if vet.is_veterinario %}
-    <a href="{% url 'dog_registration' user.id %}" class="btn btn-primary">Añadir Perro</a>
-    <a href="{% url 'hidden_dogs' user.id %}" class="btn btn-primary">Ver perros ocultos</a>
+    <a href="{% url 'dog_registration' client.id %}" class="btn btn-primary">Añadir Perro</a>
+    <a href="{% url 'hidden_dogs' client.id %}" class="btn btn-primary">Ver perros ocultos</a>
   {% endif %}
   </div>
   <a href="{% url 'home' %}" class="btn btn-primary">Volver</a>

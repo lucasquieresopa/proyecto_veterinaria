@@ -1,21 +1,14 @@
 <!-- templates/registration/login.html -->
 <!-- se agrega una carpeta "registration" porque django por defecto busca el registro en ella-->
 
-{% extends 'baseLogedIn.html' %}
+{% extends 'base.html' %}
+
+{% block header %}
+    
+
+{% endblock %}
 
 {% block content %}
-<header>
-    <nav class="navbar navbar-expand-lg  header-ar">
-        <div class="container">
-            <p class="navbar-brand header__marca p-2">Oh My Dog!</p>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-        </div>
-    </nav>
-</header>
 <main>
     <h2>Inicio de sesión</h2>
     <form method="post">    <!-- cuando toco el boton "Registrar" se haceun post request -->

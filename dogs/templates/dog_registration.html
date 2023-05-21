@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <h2>Registro de Perros para {{ usuario.name }}</h2>
+    <h2>Registrar perro</h2>
     <form method="post">    <!-- cuando toco el boton "Registrar" se haceun post request -->
         {% csrf_token %}    <!-- seguridad en forms -->
         
@@ -28,6 +28,8 @@
             <p>{{dog_registration.non_field_errors}}</p>
         </div>
         {% endif %}
+
+        <div> * Obligatorio </div>
         
         <button type="submit">Registrar</button>
     </form>

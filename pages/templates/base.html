@@ -23,8 +23,110 @@
 <body>
   
     <!-- <a href="{% url 'home' %}">Pagina Principal</a> -->
-    {% block header %}
-    {% endblock  %}
+    <header>
+        
+            <nav class="navbar navbar-expand-lg header-ar">
+                <div class="container">
+                    <p class="navbar-brand header__marca p-2">Oh my dog !!</p>
+
+                    
+                    <div class="collapse navbar-collapse show " id="navbarBasic">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Inicio</a>
+                            </li>
+
+                            {% if user.is_authenticated %}
+
+
+                                {% if user.is_veterinario %}
+                                    
+                                    <li class="nav-item">
+                                        <a class="nav-link active" aria-current="page" href="{% url 'list_users' %}">Lista de Clientes</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active" aria-current="page" href="{% url 'client_registration' %}">Registrar cliente</a>
+                                    </li>
+                                    <ul>
+                                        <form class="d-flex" method=POST action="{% url 'search_user' %}">
+                                            {% csrf_token %}
+                                            
+                                            <input type="search" class="form-control me-2" placeholder="Buscar Cliente" aria-label="Search" name="buscado">
+                                            
+                                            <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+                                            
+                                        </form>
+                                    </ul>
+
+
+                                
+
+                                {% endif %}
+
+
+                                </ul>
+                                    <ul class="navbar-nav mb-2 mb-lg-0 ">
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle icono-user role="button" data-bs-toggle="dropdown" aria-expanded="False">
+                                                {% if user.is_veterinario %}
+                                                    <i class="bi bi-person-circle">
+                                                        Veterinario
+                                                    </i>
+                                                {% else %}
+                                                    <i class="bi bi-person-circle">
+                                                        {{ user }}
+                                                    </i>
+                                                {% endif %}
+                                            </a>
+                                            <ul class="dropdown-menu"> 
+                                                <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a></li>
+                                                <li>
+                                                    <a class="dropdown-item" href="{% url 'password_change' %}">Cambiar Contraseña</a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" href="{% url 'account_modif' %}">Modificar datos</a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" href="{% url 'profile' user.id %}">Ver mi perfil</a>
+                                                </li>
+
+                                            </ul>
+                                                
+                                        
+                                        </li>
+                                    </ul>
+                                </ul>
+                        
+
+                        {% else %}  <!-- user no autenticado-->
+
+                            </ul>
+                                <ul class="navbar-nav ml-auto">
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle icono-user" role="button" data-bs-toggle="dropdown" aria-expanded="False">
+                                            <i class="bi bi-person-circle">
+                        
+                                            </i>
+                                        </a>
+                                        <ul class="dropdown-menu"> 
+                                            <li><a class="dropdown-item" href="{% url 'login' %}">Iniciar Sesión</a></li>
+                                        
+                                        </ul>
+                                            
+                                    
+                                    </li>
+                                </ul>
+                            </ul>
+
+                        {% endif %}
+                
+                </div>
+            </div>
+        </nav> 
+
+
+    </header>
+
 {% block content %}
 {% endblock content %}
 {% if messages %}

@@ -74,7 +74,7 @@ def login_view(request):
     
     if request.POST:
         form = CustomUserAuthenticationForm(request.POST)
-        if form.is_valid():
+        if form.is_valid:
             email = request.POST['email']
             password = request.POST['password']
             user = authenticate(email=email, password=password)
@@ -90,17 +90,19 @@ def login_view(request):
     return render(request, 'registration/login.html', context)
 
 
+
+
 def account_modif_view(request):
 
     if not request.user.is_authenticated:
         return redirect('login')
     
-    context = {}
 
     if request.POST:
         form = CustomUserModificationForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
+            return redirect('account_modif_succeed')
     
     else:
         form = CustomUserModificationForm(
@@ -113,8 +115,12 @@ def account_modif_view(request):
             }
         )
     
-    context['account_form'] = form
-    return render(request, 'registration/account_modif.html', context)
+    return render(request, 'registration/account_modif.html', {'account_form': form})
+
+
+def account_modif_done(request):
+    return render(request, 'registration/account_modif_succeed.html')
+
 
 
 def password_reset_view(request):
@@ -145,20 +151,18 @@ def list_users(request):
     users = CustomUser.objects.filter(is_veterinario=False, is_admin=False)
     return render(request, 'list_users.html', {'users': users})
 
+
 def profile_view(request, pk):
     if not request.user.is_authenticated:
         return redirect('login')
     
-    user = CustomUser.objects.get(pk=pk)
-    #objects = user.objects.first()
-    for dog in user.dog_set.all():
-        print(dog)
-    dogs = user.dog_set.all()
+    user_owner = CustomUser.objects.get(pk=pk)
+    dogs = user_owner.dog_set.all()
 
     context = {
-        'user': user, 
-        'actual_user': request.user, 
-        'dogs': dogs
+        'client': user_owner, 
+        'vet': request.user, 
+        'dogs_shown': dogs.filter(hidden=False)
     }
     return render(request, 'profile.html', context)
 

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main>
+
+    <h2 class="text-center">Lista de perros del usuario</h2>
+                {% if hidden_dogs.exists %}  
+                  <table class="table table-hover">
+                      <thead>
+                          <tr>
+                              <th>Nombre</th>
+                              <th>Edad</th>
+                              <th>Sexo</th>
+                              <th>Raza</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                      
+                          {% for dog in hidden_dogs %}
+                                <tr>
+
+                                    <td>{{ dog.name }}</td>
+                                    <td>{{ dog.age }}</td>
+                                    <td>{{ dog.sex }}</td>
+                                    <td>{{ dog.breed }}</td>
+                                    <td>
+                                      <a class="dropdown-item" href="{% url 'dog_profile' user_owner_id=user.id dog_id=dog.id %}">Ver perro</a>
+                                    </td>
+
+                                </tr>
+                            
+                          {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <tr>
+                        No hay perros ocultos para este usuario
+                    </tr>
+                {% endif %}
+                
+            
+        <div>         
+            <a href="{% url 'profile' user_id %}" class="btn btn-primary">Volver</a>
+        </div> 
+</main>
+
+{% endblock  %}

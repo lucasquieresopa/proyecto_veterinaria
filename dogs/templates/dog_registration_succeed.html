@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<p>
+	El perro fue registrado correctamente.
+</p>
+
+<a href="{% url 'profile' pk=client_id %}">Volver</a>
+
+{% endblock %}

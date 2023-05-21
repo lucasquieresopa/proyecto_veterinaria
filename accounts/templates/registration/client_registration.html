@@ -35,15 +35,12 @@
             <p>{{registration_form.non_field_errors}}</p>
         </div>
         {% endif %}
-        <!--
-        <button type="submit">Registrar</button>
-        <a class="dropdown-item" href="{% url 'profile' user.id %}">Registrar</a>
         
-        <a class="fcc-btn" href="{% url 'dog_registration' user.id %}">Registrar</a>
-        -->
-        <button type="submit">Registrar</button>
+        <div>
+            <button type="submit">Registrar</button>
+        </div>
+        
     </form>
 
-    <a> {{user.name}} </a>
 
 {% endblock content %}

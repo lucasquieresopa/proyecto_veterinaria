@@ -14,13 +14,21 @@
                             <div class="col-md-12">
                                 <h2 class="text-center">Calendario de turnos</h2>
                                 <hr>
-                               <!--<div id="calendar" >
-                                    <li>
-                                        Estado: {{Shift.d}}
-                                    </li>
-
-
-                                </div>-->
+                               
+                                <form id="appointment-form" method="POST" action="{% url 'save_appointment' %}">
+                                    {% csrf_token %}
+                                    <label for="date">Fecha:</label>
+                                    <input type="date" name="date" id="date" required>
+                                    
+                                    <label for="time">Horario:</label>
+                                    <select name="time" id="time" required>
+                                      <option value="morning">Mañana</option>
+                                      <option value="afternoon">Tarde</option>
+                                    </select>
+                                    
+                                    <button type="submit">Guardar</button>
+                                  </form>
+                                  
                                 <div class="col-md-6">
                                     <button type="button" class="btn btn-primary btn-lg" onclick="registerShift();">Reservar turno  </button>
 
@@ -47,14 +55,15 @@
       var calendar = new FullCalendar.Calendar(calendarEl, {
         
         initialView: 'dayGridMonth',
-        nowIndicator: true,
+        
         navLinks: true,
-        selectMirror: true,
+        selecmirror: true,
+        
        
         headerToolbar: {
-          left: 'prev,next today',
+          left: 'prev',
           center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay',
+          right: 'next',
           
           
           

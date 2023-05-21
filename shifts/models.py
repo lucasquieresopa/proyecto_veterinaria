@@ -13,25 +13,22 @@ SERVICE_CHOICES = (
 )
 
 TIME_CHOICES = (
-    ("3 PM", "3 PM"),
-    ("3:30 PM", "3:30 PM"),
-    ("4 PM", "4 PM"),
-    ("4:30 PM", "4:30 PM"),
-    ("5 PM", "5 PM"),
-    ("5:30 PM", "5:30 PM"),
-    ("6 PM", "6 PM"),
-    ("6:30 PM", "6:30 PM"),
-    ("7 PM", "7 PM"),
-    ("7:30 PM", "7:30 PM"),
+    ("Mañana", "Mañana"),
+    ("Tarde", "Tarde"),
 )
-
+STATUS_CHOICES = (
+    ("Pendiente", "Pendiente"),
+    ("Confirmado", "Confirmado"),
+    ("Cancelado", "Cancelado"),
+)
 class Appointment(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True) 
-    service = models.CharField(max_length=50, choices=SERVICE_CHOICES, default="Doctor care")
+    #service = models.CharField(max_length=50, choices=SERVICE_CHOICES, default="Doctor care")
     day = models.DateField(default=datetime.now)
-    time = models.CharField(max_length=10, choices=TIME_CHOICES, default="3 PM")
+    time = models.CharField(max_length=10, choices=TIME_CHOICES, default="Mañana")
     time_ordered = models.DateTimeField(default=datetime.now, blank=True)
+    status = models.CharField(max_length=50, default="Pendiente")  
     def __str__(self):
-        return f" | day: {self.day} | time: {self.time}"
+        return f" | day: {self.day} | time: {self.time} | user: {self.user.mail} |"
 
 

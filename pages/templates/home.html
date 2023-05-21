@@ -21,12 +21,17 @@
                                 <a class="nav-link active" aria-current="page" href="{% url 'booking' %}">Turnos</a>
                             </li>
                             {% if user.is_veterinario %}
-                                
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="{% url 'staff-panel' %}">Turnos</a>
+                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link active" aria-current="page" href="{% url 'list_users' %}">Lista de Clientes</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link active" aria-current="page" href="{% url 'client_registration' %}">Registrar cliente</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="{% url 'staff-panel' %}">Turnos</a>
                                 </li>
                                 <ul>
                                     <form class="d-flex" method=POST action="{% url 'search_user' %}">

@@ -144,12 +144,13 @@ AUTH_USER_MODEL = 'accounts.CustomUser' #customUser es el usuario personalizado 
 
 
 """EMAIL CREDENTIALS"""
+
+
+
+
 EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
-EMAIL_HOST_USER = '856fd85ae95649'
-EMAIL_HOST_PASSWORD = 'd5e79787db043b'
-EMAIL_PORT = '465'
-
-
-
+EMAIL_HOST_USER = '97deb8493f48e5'
+EMAIL_HOST_PASSWORD = '401034f1cfe59c'
+EMAIL_PORT = '2525'
 
 

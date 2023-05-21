@@ -36,7 +36,7 @@ def booking(request):
 def bookingSubmit(request):
     user = request.user
     times = [
-        "3 PM","3:30 PM","4 PM","4:30 PM","5 PM","5:30 PM","6 PM","6:30 PM","7 PM","7:30 PM","8 PM"
+        "Mañana","Tarde"
     ]
     today = datetime.now()
     minDate = today.strftime("%Y-%m-%d")
@@ -54,16 +54,15 @@ def bookingSubmit(request):
 
         if service != None:
             if day <= maxDate and  day >= minDate:
-                if date == 'Monday' or date == 'Saturday' or date == 'Wednesday':
-                    if Appointment.objects.filter(day=day).count() < 11:
-                        if Appointment.objects.filter(day=day, time=time).count() < 1:
+                if date != 'Sunday':
+                    if Appointment.objects.filter(day=day).count() < 10:
+                        if Appointment.objects.filter(day=day, time=time).count() < 10:
                             AppointmentForm = Appointment.objects.get_or_create(
                                 user=user,
-                                service=service,
                                 day=day,
                                 time=time,
                             )
-                            messages.success(request, 'Turno reservado con éxito')
+                            messages.success(request, 'Espere la confirmación de su turno por mail')
                             return redirect('home')
                         else:
                             messages.success(request, 'El horario ya está reservado')
@@ -211,6 +210,47 @@ def checkEditTime(times, day, id):
         if Appointment.objects.filter(day=day, time=k).count() < 1 or time == k:
             x.append(k)
     return x
+
+
+
+def confirmAppointment(request, id):
+    appointment = Appointment.objects.get(pk=id)
+    appointment.status = "Confirmado"
+    appointment.save()
+    messages.success(request, "Turno confirmado!")
+    return redirect('staffPanel')
+
+
+def cancelAppointment(request, id):
+    appointment = Appointment.objects.get(pk=id)
+    appointment.status = "Cancelado"
+    appointment.save()
+    messages.success(request, "Turno cancelado!")
+    return redirect('staffPanel')
+
+def views_calendar(request):
+    return render(request, 'calendar.html')
+
+def save_appointment(request):
+    user = request.user
+    if request.method == 'POST':
+        date = request.POST.get('date')
+        time = request.POST.get('time')
+        
+        
+        # Guardar la cita en la base de datos
+        AppointmentForm = Appointment.objects.get_or_create(
+                                user=user,
+                                day=date,
+                                time=time,
+                            )
+        
+        # Redirigir a una página de éxito o a otra vista
+        messages.success(request, 'Espere la confirmación de su turno por mail')
+        return redirect('home')
+    
+    return render(request, 'calendar.html')
+
 
 
 

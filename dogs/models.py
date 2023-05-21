@@ -90,3 +90,29 @@ class Dog(models.Model):
     
 
     
+class Attention(models.Model):
+
+    class Type(models.TextChoices):
+
+        radiografia = "Radiografia"
+        primeros_auxilios = "Primeros auxilios"
+        operacion = "Operacion"
+
+    dog = models.ForeignKey(
+        Dog,
+        blank = True
+        on_delete=models.on_delete=CASCADE,
+        null=True,
+    )
+    tipo = models.CharField(
+        choices=Type.choices,
+        max_length=20,
+        null=True,
+        blank=True,
+
+    )
+    descripcion = models.TextField(
+        max_length=50,
+        blank=True,
+        null=True
+    )

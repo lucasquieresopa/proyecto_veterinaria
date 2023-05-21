@@ -146,3 +146,37 @@ class DogModificationForm(forms.ModelForm):
     def clean_description(self):
         description = self.cleaned_data['description']
         return description
+    
+
+class DogAtentionRegister(forms.ModelForm):
+
+    tipo = forms.CharField(
+        label="Tipo de atención", 
+        required=True, 
+        help_text="*"
+    )
+    descripcion = forms.TextField(
+        label="Descripción", 
+        required=False, 
+    )
+
+    class Meta:  
+        model = Attention
+        fields = ('name', 'age', 'sex', 'breed', 'color', 'size', 'description')
+
+
+    # def __init__(self, *args, **kwargs):
+    #    """se activa cuando se registra una atencion"""
+    #     self.user = kwargs.pop('user')  # cache the user object you pass in
+    #     super(DogCreationForm, self).__init__(*args, **kwargs)
+
+
+    # def clean(self):
+    #     """valida algun campo importante"""
+    #     if self.is_valid():
+    #         name = self.cleaned_data['name']
+
+    #         if self.user.dog_set.filter(name=name).exists():
+    #             raise forms.ValidationError('El cliente ya posee un perro con ese nombre.')
+
+    #     return self.cleaned_data

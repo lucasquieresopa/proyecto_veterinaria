@@ -1,0 +1,86 @@
+{% extends 'home.html' %}   <!-- baseLogedIn.html?? dado que lo hace el veterinario desde una sesion iniciada-->
+{% load static %}
+
+{% block content %}
+<!--this show calendar for shifts -->
+<main>
+
+    <div class="container-md">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card shadow-lg p-3 mb-5 bg-white rounded">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h2 class="text-center">Calendario de turnos</h2>
+                                <hr>
+                               <!--<div id="calendar" >
+                                    <li>
+                                        Estado: {{Shift.d}}
+                                    </li>
+
+
+                                </div>-->
+                                <div class="col-md-6">
+                                    <button type="button" class="btn btn-primary btn-lg" onclick="registerShift();">Reservar turno  </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+{%endblock%}
+
+{% block js %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+<script src="{% static 'fullcalendar/core/index.global.js' %}"></script>
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var calendarEl = document.getElementById('calendar');
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        
+        initialView: 'dayGridMonth',
+        nowIndicator: true,
+        navLinks: true,
+        selectMirror: true,
+       
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay',
+          
+          
+          
+        },
+        events: [
+            {% for shift in user.Shift %}
+                {
+                title: '{{shift.pet.name}}',
+                start: '{{shift.date}}',
+                url: '/shifts/{{shift.id}}',
+                color: 'green',
+                textColor: 'white'
+                },
+            {% endfor %}
+            ], 
+        locale: 'es',
+        shifts : 'all_shifts' 
+
+      });
+      calendar.render();
+    
+      getNextReleases(calendar);
+    });
+
+    
+
+  </script>
+
+{%endblock%}    

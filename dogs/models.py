@@ -1,4 +1,5 @@
 from django.db import models
+from accounts.models import CustomUser
 
 # Create your models here.
 
@@ -16,3 +17,9 @@ class Dog(models.Model):
     age = models.IntegerField()
     sex = models.CharField(max_length=10, choices=Sex.choices)
     breed = models.CharField(max_length=20, choices=Breed.choices)
+    owner = models.ForeignKey(CustomUser, blank=True, on_delete=models.CASCADE, null=True)
+
+    def __str__(self) -> str:
+        return self.name
+
+    

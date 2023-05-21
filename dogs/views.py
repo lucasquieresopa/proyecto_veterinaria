@@ -3,7 +3,7 @@ from accounts import forms
 from accounts.models import CustomUser
 from django.contrib.auth.decorators import login_required
 
-from .forms import DogCreationForm, DogModificationForm
+from .forms import DogCreationForm, DogModificationForm, AttentionRegisterForm
 from .models import Dog
 
 from django.http import JsonResponse
@@ -139,3 +139,49 @@ def hidden_dogs_view(request, user_id):
         'hidden_dogs': hidden_dogs,
     }
     return render(request, 'hidden_dogs_list.html', context)
+
+
+
+@login_required
+def attention_registration_view(request, dog_id, client_id):
+    """definición del comportamiento de la pantalla de registro de clientes"""
+
+    actual_dog = Dog.objects.get(pk=dog_id)
+
+    if request.POST:
+        #form = AttentionRegisterForm(request.POST, dog=actual_dog)
+        form = AttentionRegisterForm(request.POST)
+
+        if form.is_valid():
+            attention = form.save(commit=False)
+            attention.dog = actual_dog
+            attention.save()
+            return redirect('dog_profile', user_owner_id=client_id, dog_id=actual_dog.id)
+        
+        else:
+            context = {
+                'attention_form' : form
+            }
+    else:
+        #form = AttentionRegisterForm(dog=actual_dog)
+        form = AttentionRegisterForm()
+
+        context = {
+                'attention_form' : form
+                }
+        
+    return render(request, 'attention_form.html', context)
+
+
+@ login_required
+def attentions_list(request, dog_id, client_id):
+
+    actual_dog = Dog.objects.get(pk=dog_id)
+    attentions = actual_dog.attention_set.all()
+
+    context = {
+        'client_id': client_id,
+        'dog_id': actual_dog.id,
+        'attentions': attentions,
+    }
+    return render(request, 'attentions_list.html', context)

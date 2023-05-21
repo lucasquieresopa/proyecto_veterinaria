@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main>
+
+    <h2 class="text-center">Lista de atenciones del perro</h2>
+                {% if attentions.exists %}  
+                  <table class="table table-hover">
+                      <thead>
+                          <tr>
+                              <th>Tipo</th>
+                              <th>Descripción</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                      
+                          {% for attention in attentions %}
+                                <tr>
+
+                                    <td>{{ attention.type }}</td>
+                                    <td>{{ attention.description }}</td>
+
+                                </tr>
+                            
+                          {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <tr>
+                        No hay atenciones para este perro
+                    </tr>
+                {% endif %}
+                
+            
+        <div>         
+            <a href="{% url 'dog_profile' user_owner_id=client_id dog_id=dog_id %}" class="btn btn-primary">Volver</a>
+        </div> 
+</main>
+
+{% endblock  %}

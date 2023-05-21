@@ -142,14 +142,10 @@ def hidden_dogs_view(request, user_id):
 
 
 
-
+@login_required
 def attention_registration_view(request, dog_id, client_id):
     """definición del comportamiento de la pantalla de registro de clientes"""
 
-    user = request.user
-    if not user.is_authenticated or not user.is_veterinario:
-        return redirect('home')
-    
     actual_dog = Dog.objects.get(pk=dog_id)
 
     if request.POST:
@@ -175,3 +171,17 @@ def attention_registration_view(request, dog_id, client_id):
                 }
         
     return render(request, 'attention_form.html', context)
+
+
+@ login_required
+def attentions_list(request, dog_id, client_id):
+
+    actual_dog = Dog.objects.get(pk=dog_id)
+    attentions = actual_dog.attention_set.all()
+
+    context = {
+        'client_id': client_id,
+        'dog_id': actual_dog.id,
+        'attentions': attentions,
+    }
+    return render(request, 'attentions_list.html', context)

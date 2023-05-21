@@ -12,5 +12,6 @@ urlpatterns = [
     path('hidden_dogs/<user_id>', views.hidden_dogs_view, name="hidden_dogs"),
 
     path('attention_form/<client_id>/<dog_id>/', views.attention_registration_view, name='attention_form'),
+    path('attentions/<client_id>/<dog_id>/', views.attentions_list, name="attentions_list"),
 
 ]

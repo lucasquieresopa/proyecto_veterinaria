@@ -116,3 +116,45 @@ class Attention(models.Model):
         blank=True,
         null=True
     )
+
+
+class Vaccine(models.Model):
+
+    class Type(models.TextChoices):
+
+        antirrabica = "Radiografia"
+        antimoquillo = "Primeros auxilios"
+
+    dog = models.ForeignKey(
+        Dog,
+        blank = True,
+        on_delete=models.CASCADE,
+        null=True,
+    )
+    type = models.CharField(
+        choices=Type.choices,
+        max_length=20,
+        null=True,
+        blank=True,
+
+    )
+    brand = models.CharField(
+        max_length=20,
+        blank=True,
+        null=True
+    )
+    lot = models.CharField(
+        max_length=15,
+        blank=True,
+        null=True
+    )
+    dosis_number = models.PositiveIntegerField(
+        null=True,
+    )
+    total_dosis = models.PositiveIntegerField(
+        null=True,
+    )
+    date_of_application = models.DateField(
+        null=True,
+        blank=True,
+    )

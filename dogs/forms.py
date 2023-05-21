@@ -153,7 +153,8 @@ class AttentionRegisterForm(forms.ModelForm):
     type = forms.CharField(
         label="Tipo de atención", 
         required=True, 
-        help_text="*"
+        help_text="*",
+        widget=forms.Select(choices=Attention.Type.choices)
     )
     description = forms.CharField(
         label="Descripción", 

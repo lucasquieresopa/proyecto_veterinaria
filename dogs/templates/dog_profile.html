@@ -84,17 +84,22 @@
 
     <div class="container card-izq " >    
         <a href="{% url 'profile' user_owner.id %}" class="btn btn-primary">Volver</a>
-        <a href="{% url 'dog_modification' dog_id=dog.id user_owner_id=user_owner.id %}" class="btn btn-primary">Modificar datos de perro</a>
-        <!--<a href="{% url 'profile' user_owner.id %}" class="btn btn-primary" name="hide_dog">Ocultar perro</a>-->
-        <button class="btn btn-primary" id="hide_dog_button">Ocultar perro</button>
 
+    </div>
+
+    <div class="container card-der " >    
+        <a href="{% url 'dog_modification' dog_id=dog.id user_owner_id=user_owner.id %}" class="btn btn-primary">Modificar datos de perro</a>
+        <button class="btn btn-primary" id="hide_dog_button">Ocultar perro</button>
+        <a href="{% url 'dog_modification' dog_id=dog.id user_owner_id=user_owner.id %}" class="btn btn-primary">Ver atenciones</a>
+        <a href="{% url 'attention_form' dog_id=dog.id client_id=user_owner.id %}" class="btn btn-primary">Registrar atención</a>
+        <a href="{% url 'dog_modification' dog_id=dog.id user_owner_id=user_owner.id %}" class="btn btn-primary">Ver libreta de vacunación</a>
+        <a href="{% url 'dog_modification' dog_id=dog.id user_owner_id=user_owner.id %}" class="btn btn-primary">Registrar vacuna</a>
     </div>
 
     <script>
         
 
         $(document).on('click', '#hide_dog_button', function(){
-            //var dog_id = dog.id
             $.ajax({
                 type:'POST',
                 url:"{% url 'hide_dog' dog.id %}",

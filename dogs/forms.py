@@ -1,5 +1,5 @@
 from django import forms
-from .models import Dog
+from .models import Dog, Attention
 
 class DogCreationForm(forms.ModelForm):
 
@@ -148,21 +148,21 @@ class DogModificationForm(forms.ModelForm):
         return description
     
 
-class DogAtentionRegister(forms.ModelForm):
+class AttentionRegisterForm(forms.ModelForm):
 
-    tipo = forms.CharField(
+    type = forms.CharField(
         label="Tipo de atención", 
         required=True, 
         help_text="*"
     )
-    descripcion = forms.TextField(
+    description = forms.CharField(
         label="Descripción", 
         required=False, 
     )
 
     class Meta:  
         model = Attention
-        fields = ('name', 'age', 'sex', 'breed', 'color', 'size', 'description')
+        fields = ('type', 'description')
 
 
     # def __init__(self, *args, **kwargs):

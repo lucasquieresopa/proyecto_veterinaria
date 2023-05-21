@@ -100,18 +100,18 @@ class Attention(models.Model):
 
     dog = models.ForeignKey(
         Dog,
-        blank = True
-        on_delete=models.on_delete=CASCADE,
+        blank = True,
+        on_delete=models.CASCADE,
         null=True,
     )
-    tipo = models.CharField(
+    type = models.CharField(
         choices=Type.choices,
         max_length=20,
         null=True,
         blank=True,
 
     )
-    descripcion = models.TextField(
+    description = models.TextField(
         max_length=50,
         blank=True,
         null=True

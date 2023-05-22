@@ -25,7 +25,7 @@
                                     <td>{{ dog.sex }}</td>
                                     <td>{{ dog.breed }}</td>
                                     <td>
-                                      <a class="dropdown-item" href="{% url 'dog_profile' user_owner_id=user.id dog_id=dog.id %}">Ver perro</a>
+                                      <a class="dropdown-item" href="{% url 'dog_profile' user_owner_id=client_id dog_id=dog.id %}">Ver perro</a>
                                     </td>
 
                                 </tr>
@@ -41,7 +41,7 @@
                 
             
         <div>         
-            <a href="{% url 'profile' user_id %}" class="btn btn-secondary">Atrás</a>
+            <a href="{% url 'profile' client_id %}" class="btn btn-secondary">Atrás</a>
         </div> 
 </main>
 

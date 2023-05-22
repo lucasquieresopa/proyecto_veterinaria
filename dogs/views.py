@@ -133,7 +133,7 @@ def hidden_dogs_view(request, user_id):
     hidden_dogs = user.dog_set.filter(hidden=True)
 
     context = {
-        'user_id': user_id,
+        'client_id': user_id,
         'hidden_dogs': hidden_dogs,
     }
     return render(request, 'hidden_dogs_list.html', context)

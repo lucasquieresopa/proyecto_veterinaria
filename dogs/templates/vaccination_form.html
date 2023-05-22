@@ -2,12 +2,22 @@
 
 {% block content %}
 
-    <h2>Registrar vacunación</h2>
+<style>
+    .text-center {
+    text-align: center;
+    }
+  
+    p {
+      font-size:20px;
+    }
+</style>
+
+    <h2 style="text-align:center;">Registrar vacunación</h2>
     <form method="post">    <!-- cuando toco el boton "Registrar" se haceun post request -->
         {% csrf_token %}    <!-- seguridad en forms -->
         
         {% for field in vaccination_form %}
-            <p>
+            <p style="text-align:center;">
                 {{field.label_tag}}
                 {{field}}
 
@@ -30,9 +40,11 @@
         </div>
         {% endif %}
 
-        <div> * Obligatorio </div>
+        <p style="text-align:center; color:grey"> * campos obligatorios</p>
         
-        <button type="submit">Registrar</button>
+        <div class="text-center">
+            <button class="btn btn-primary" >Registrar</button>
+        </div>
     </form>
 
 {% endblock content %}

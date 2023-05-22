@@ -98,27 +98,37 @@
     
 
 <div>
-    <div class="text-left" >    
-        <a href="{% url 'profile' user_owner.id %}" class="btn btn-secondary">Volver</a>
-    </div>  
+     
     <div class="text-right" >    
         <a href="{% url 'dog_modification' dog_id=dog.id user_owner_id=user_owner.id %}" class="btn btn-primary">Modificar datos de perro</a>
-        <button class="btn btn-primary" id="hide_dog_button">Ocultar perro</button><br><br>
+        
+        {% if user.is_veterinario %}
+            <button class="btn btn-dark" id="hide_dog_button">Ocultar perro</button><br><br>
+        {% endif %}
     </div>
+    <div class="text-left" >    
+        <a href="{% url 'profile' user_owner.id %}" class="btn btn-secondary">Atrás</a>
+    </div> 
     </div>
 </div> 
 <div class="col-md-3">
     <div class="container card-izq " > 
         <a href="{% url 'attentions_list' dog_id=dog.id client_id=user_owner.id %}" class="btn btn-info">Ver atenciones</a>
+        
+        {% if user.is_veterinario %}
         <hr>
         <a href="{% url 'attention_form' dog_id=dog.id client_id=user_owner.id %}" class="btn btn-primary">Registrar atención</a><br><br><br><br>
+        {% endif %}
     </div>
     
     <div class="container card-izq " >    
             
         <a href="{% url 'vaccinations' dog_id=dog.id client_id=user_owner.id %}" class="btn btn-info">Ver libreta de vacunación</a><br>
+        
+        {% if user.is_veterinario %}
         <hr>
         <a href="{% url 'vaccination_form' dog_id=dog.id client_id=user_owner.id %}" class="btn btn-primary">Registrar vacuna</a><br>
+        {% endif %}
     </div>
       
 </div>

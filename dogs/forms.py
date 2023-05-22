@@ -167,7 +167,7 @@ class AttentionRegisterForm(forms.ModelForm):
         help_text="*",
         widget=forms.Select(choices=Attention.Type.choices)
     )
-    description = forms.CharField(
+    description = forms.SlugField(
         label="Descripción", 
         required=False, 
     )

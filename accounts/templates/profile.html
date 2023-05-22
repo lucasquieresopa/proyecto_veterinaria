@@ -109,11 +109,11 @@
             {% endif %}
       </div>
     </div>
-      <a href="{% url 'home' %}" class="btn btn-secondary">Volver</a>
+      <a href="{% url 'home' %}" class="btn btn-secondary">Atrás</a>
     {% if vet.is_veterinario %}
     
       <a href="{% url 'dog_registration' client.id %}" class="btn btn-primary">Añadir Perro</a>
-      <a href="{% url 'hidden_dogs' client.id %}" class="btn btn-primary">Ver perros ocultos</a>
+      <a href="{% url 'hidden_dogs' client.id %}" class="btn btn-dark">Ver perros ocultos</a>
     {% endif %}
   </div>
   

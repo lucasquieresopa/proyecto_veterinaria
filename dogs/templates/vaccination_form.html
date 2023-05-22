@@ -11,7 +11,7 @@
       font-size:20px;
     }
 </style>
-
+<div class="col-md-4 mx-auto">
     <h2 style="text-align:center;">Registrar vacunación</h2>
     <form method="post">    <!-- cuando toco el boton "Registrar" se haceun post request -->
         {% csrf_token %}    <!-- seguridad en forms -->
@@ -48,5 +48,5 @@
             <button class="btn btn-primary" >Registrar</button>
         </div>
     </form>
-
+</div>
 {% endblock content %}

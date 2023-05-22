@@ -2,6 +2,8 @@
 
 {% block content %}
 <main>
+    <br>
+    <div class="col-md-4 mx-auto">
     <h2>Modificacion de datos del perro</h2>
     <form method="post">    <!-- cuando toco el boton "Registrar" se haceun post request -->
         {% csrf_token %}    <!-- seguridad en forms -->
@@ -35,6 +37,7 @@
 
         
     </form>
+    </div>
 </main>
         <div>
             <a href="{% url 'dog_profile' user_owner_id=user.id dog_id=dog.id %}" class="btn btn-primary">Volver</a>

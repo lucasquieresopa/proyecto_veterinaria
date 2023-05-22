@@ -16,7 +16,8 @@ class DogCreationForm(forms.ModelForm):
         required=True,
         help_text="*",
         widget=forms.widgets.DateInput(
-            attrs={'type': 'date', 'placeholder': 'yyyy-mm-dd (DOB)', 'class': 'form-control'})
+            attrs={'type': 'date', 'placeholder': 'yyyy-mm-dd (DOB)', 'class': 'form-control'}),
+        validators=[MaxValueValidator(date.today)]
     )
     sex = forms.CharField(
         label="Sexo", 

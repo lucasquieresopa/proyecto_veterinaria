@@ -2,9 +2,10 @@ import datetime
 from typing import Optional
 import warnings
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin 
 from django.utils.crypto import get_random_string
 from django.utils.translation import gettext_lazy as _
+
 
 # Create your models here.
 
@@ -49,6 +50,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_admin =                  models.BooleanField(default=False)
     last_login =                models.DateTimeField(verbose_name="last login", default=datetime.datetime.now)
     is_veterinario =            models.BooleanField(default=False)
+    
     
     # dogs = models.ForeignKey(
     #     Dog,

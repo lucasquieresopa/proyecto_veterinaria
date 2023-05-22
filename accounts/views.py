@@ -10,14 +10,13 @@ from django.contrib import messages
 from .models import CustomUser
 from django.utils.crypto import get_random_string
 from django.core.mail import EmailMessage
-#from dogs.views import dog_registration_view
-#from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def user_registration_view(request):
     """definición del comportamiento de la pantalla de registro de clientes"""
     user = request.user
-    if not user.is_authenticated or not user.is_veterinario:
+    if not user.is_veterinario:
         return redirect('home')
 
     context = {}
@@ -91,7 +90,7 @@ def login_view(request):
 
 
 
-
+@login_required
 def account_modif_view(request):
 
     if not request.user.is_authenticated:
@@ -117,12 +116,12 @@ def account_modif_view(request):
     
     return render(request, 'registration/account_modif.html', {'account_form': form})
 
-
+@login_required
 def account_modif_done(request):
     return render(request, 'registration/account_modif_succeed.html')
 
 
-
+@login_required
 def password_reset_view(request):
 
     context = {}
@@ -142,7 +141,7 @@ class CustomPasswordChangeDoneView(PasswordChangeDoneView):
     template_name = "registration/password_change_done.html"
 
 
-
+@login_required
 def list_users(request):
     if not request.user.is_authenticated:
         return redirect('login')
@@ -151,7 +150,7 @@ def list_users(request):
     users = CustomUser.objects.filter(is_veterinario=False, is_admin=False)
     return render(request, 'list_users.html', {'users': users})
 
-
+@login_required
 def profile_view(request, pk):
     if not request.user.is_authenticated:
         return redirect('login')
@@ -166,7 +165,7 @@ def profile_view(request, pk):
     }
     return render(request, 'profile.html', context)
 
-    
+@login_required
 def search_user(request):
     if not request.user.is_authenticated:
         return redirect('login')

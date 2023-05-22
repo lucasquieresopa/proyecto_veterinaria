@@ -50,11 +50,11 @@ def dog_registration_done(request, user_owner_id):
                                                             }
     )
 
-
+@login_required
 def dog_profile_view(request, dog_id, user_owner_id):
 
-    if not request.user.is_authenticated:
-        return redirect('login')
+    # if not request.user.is_authenticated:
+    #     return redirect('login')
     
     dog = Dog.objects.get(pk=dog_id)
     user_owner = CustomUser.objects.get(pk=user_owner_id)
@@ -66,7 +66,7 @@ def dog_profile_view(request, dog_id, user_owner_id):
     return render(request, 'dog_profile.html', context)
 
 
-
+@login_required
 def dog_modification_view(request, dog_id, user_owner_id):
 
     user = request.user
@@ -108,7 +108,7 @@ def dog_modification_view(request, dog_id, user_owner_id):
                                                     }
     )
 
-
+@login_required
 def dog_modification_done(request, dog_id, user_owner_id):
     return render(request, 'dog_modification_succeed.html', {
                                                             'dog_id': dog_id,

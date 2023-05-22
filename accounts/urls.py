@@ -36,8 +36,8 @@ urlpatterns = [       #apunta a la app de auth
     path('password_reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_peticion_done.html'),
         name='password_reset_done'),
 
-    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_succeed.html'),
-        name='password_reset_complete'),
+    # path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_succeed.html'),
+    #     name='password_reset_complete'),
     
     
     #PERFIL Y BUSQUEDA

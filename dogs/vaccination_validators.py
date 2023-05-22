@@ -5,17 +5,23 @@ def dosis_validator(actual, total):
         return False
     return True
 
+
 def dog_age(dog_dob):
     return (datetime.now() - dog_dob).days/365
 
 
+def diff_month(d1, d2):
+    return (d1.year - d2.year) * 12 + d1.month - d2.month
 
-def age_validator(vaccine_dop, dog_dob, vaccine_type):
+
+def age_validator(vaccine_dop, dog, vaccine_type):
 
     if vaccine_type=="Antirrabica":
-        if ((vaccine_dop - dog_dob).days/12) > 4:
-            return True
+        if diff_month(vaccine_dop, dog.date_of_birth) > 4:
+            return False
     if vaccine_type=="Antimoquillo":
-        if ((vaccine_dop - dog_dob).days/12) > 2:
-            return True
-    return False
+        if diff_month(vaccine_dop, dog.date_of_birth) > 2:
+            return False
+    return True
+
+

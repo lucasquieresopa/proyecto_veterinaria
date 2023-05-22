@@ -34,16 +34,18 @@
             </p>
         {% endfor %}
 
+        <p style="text-align:center; color:grey"> * campos obligatorios</p>
+
         {% for field in dog_registration %}
             {% for error in field.errors %}
-                <p style="color: red;">{{error}}</p>
+                <p style="color: red; text-align:center">{{error}}</p>
             {% endfor %}
         {% endfor %} 
 
-        <p style="text-align:center; color:grey"> * campos obligatorios</p>
+        
         
         {% if dog_registration.non_field_errors %}
-        <div style="color: red;">
+        <div style="color: red; text-align:center">
             <p>{{dog_registration.non_field_errors}}</p>
         </div>
         {% endif %}

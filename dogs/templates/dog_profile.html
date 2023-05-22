@@ -102,7 +102,7 @@
     <div class="text-right" >    
         <a href="{% url 'dog_modification' dog_id=dog.id user_owner_id=user_owner.id %}" class="btn btn-primary">Modificar datos de perro</a>
         
-        {% if user.is_veterinario %}
+        {% if user.is_veterinario and not dog.hidden %}
             <button class="btn btn-dark" id="hide_dog_button">Ocultar perro</button><br><br>
         {% endif %}
     </div>
@@ -149,7 +149,6 @@
                     action: 'post',
                 },
                 success: function(response){
-                    console.log(response);
 
                 },
                 error: function(response){

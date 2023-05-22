@@ -85,7 +85,7 @@
     
 
     <div class="container card-der " >    
-        <a href="{% url 'dog_modification' dog_id=dog.id user_owner_id=user_owner.id %}" class="btn btn-secundary">Modificar datos de perro</a>
+        <a href="{% url 'dog_modification' dog_id=dog.id user_owner_id=user_owner.id %}" class="btn btn-primary">Modificar datos de perro</a>
         <button class="btn btn-primary" id="hide_dog_button">Ocultar perro</button><br><br>
     </div>
     
@@ -96,8 +96,8 @@
 
     <div class="container card-der " >    
             
-        <a href="{% url 'dog_modification' dog_id=dog.id user_owner_id=user_owner.id %}" class="btn btn-primary">Ver libreta de vacunación</a>
-        <a href="{% url 'dog_modification' dog_id=dog.id user_owner_id=user_owner.id %}" class="btn btn-primary">Registrar vacuna</a><br>
+        <a href="{% url 'vaccinations' dog_id=dog.id client_id=user_owner.id %}" class="btn btn-primary">Ver libreta de vacunación</a>
+        <a href="{% url 'vaccination_form' dog_id=dog.id client_id=user_owner.id %}" class="btn btn-primary">Registrar vacuna</a><br>
     </div>
 
     <div class="container card-izq " >    

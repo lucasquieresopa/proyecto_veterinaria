@@ -46,7 +46,7 @@ class Dog(models.Model):
     name = models.CharField(
         max_length=15
     )
-    age = models.PositiveIntegerField(
+    date_of_birth = models.DateField(
         null=True,
     )
     sex = models.CharField(
@@ -118,7 +118,7 @@ class Attention(models.Model):
     )
 
 
-class Vaccine(models.Model):
+class Vaccination(models.Model):
 
     class Type(models.TextChoices):
 

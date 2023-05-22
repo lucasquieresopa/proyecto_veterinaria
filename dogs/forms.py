@@ -1,5 +1,5 @@
 from django import forms
-from .models import Dog, Attention
+from .models import Dog, Attention, Vaccination
 
 class DogCreationForm(forms.ModelForm):
 
@@ -8,11 +8,12 @@ class DogCreationForm(forms.ModelForm):
         required=True, 
         help_text="*"
     )
-    age = forms.IntegerField(
-        label="Edad (aproximada)", 
-        required=True, 
+    date_of_birth = forms.DateField(
+        label="Fecha de nacimiento",
+        required=True,
         help_text="*",
-        min_value=0,
+        widget=forms.widgets.DateInput(
+            attrs={'type': 'date', 'placeholder': 'yyyy-mm-dd (DOB)', 'class': 'form-control'})
     )
     sex = forms.CharField(
         label="Sexo", 
@@ -45,7 +46,12 @@ class DogCreationForm(forms.ModelForm):
 
     class Meta:  
         model = Dog
-        fields = ('name', 'age', 'sex', 'breed', 'color', 'size', 'description')
+        fields = ('name', 'date_of_birth', 'sex', 'breed', 'color', 'size', 'description')
+        widgets = {
+            'date_of_birth': forms.DateInput(
+                attrs={'type': 'date', 'placeholder': 'yyyy-mm-dd (DOB)', 'class': 'form-control'}
+            )
+        }
 
 
     def __init__(self, *args, **kwargs):
@@ -62,6 +68,7 @@ class DogCreationForm(forms.ModelForm):
 
         return self.cleaned_data
     
+
 class DogModificationForm(forms.ModelForm):
 
     name = forms.CharField(
@@ -69,11 +76,12 @@ class DogModificationForm(forms.ModelForm):
         required=True, 
         help_text="*"
     )
-    age = forms.IntegerField(
-        label="Edad (aproximada)", 
-        required=True, 
+    date_of_birth = forms.DateField(
+        label="Fecha de nacimiento",
+        required=True,
         help_text="*",
-        min_value=0,
+        widget=forms.widgets.DateInput(
+            attrs={'type': 'date', 'placeholder': 'yyyy-mm-dd (DOB)', 'class': 'form-control'})
     )
     sex = forms.CharField(
         label="Sexo", 
@@ -104,7 +112,7 @@ class DogModificationForm(forms.ModelForm):
 
     class Meta:  
         model = Dog
-        fields = ('name', 'age', 'sex', 'breed', 'color', 'size', 'description')
+        fields = ('name', 'date_of_birth', 'sex', 'breed', 'color', 'size', 'description')
     
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')  # cache the user object you pass in
@@ -123,9 +131,9 @@ class DogModificationForm(forms.ModelForm):
     
         
         
-    def clean_age(self):
-        age = self.cleaned_data['age']
-        return age
+    def clean_date_of_birth(self):
+        date_of_birth = self.cleaned_data['date_of_birth']
+        return date_of_birth
 
     def clean_sex(self):
         sex = self.cleaned_data['sex']
@@ -166,18 +174,42 @@ class AttentionRegisterForm(forms.ModelForm):
         fields = ('type', 'description')
 
 
-    # def __init__(self, *args, **kwargs):
-    #    """se activa cuando se registra una atencion"""
-    #     self.user = kwargs.pop('user')  # cache the user object you pass in
-    #     super(DogCreationForm, self).__init__(*args, **kwargs)
+class VaccinationRegisterForm(forms.ModelForm):
 
+    type = forms.CharField(
+        label="Tipo de vacuna", 
+        required=True, 
+        help_text="*",
+        widget=forms.Select(choices=Vaccination.Type.choices)
+    )
+    brand = forms.CharField(
+        label="Marca", 
+        required=True, 
+        help_text="*",
+    )
+    lot = forms.CharField(
+        label="Lote", 
+        required=True, 
+        help_text="*",
+    )
+    dosis_number = forms.IntegerField(
+        min_value=1,
+        required=True, 
+        help_text="*",
 
-    # def clean(self):
-    #     """valida algun campo importante"""
-    #     if self.is_valid():
-    #         name = self.cleaned_data['name']
+    )
+    total_dosis = forms.IntegerField(
+        min_value=1,
+        required=True, 
+        help_text="*",
+    )
+    date_of_application = forms.DateField(
+        required=True, 
+        help_text="*",
+        widget=forms.widgets.DateInput(
+            attrs={'type': 'date', 'placeholder': 'yyyy-mm-dd (DOB)', 'class': 'form-control'})
+    )
 
-    #         if self.user.dog_set.filter(name=name).exists():
-    #             raise forms.ValidationError('El cliente ya posee un perro con ese nombre.')
-
-    #     return self.cleaned_data
+    class Meta:  
+        model = Vaccination
+        fields = ('type', 'brand', 'lot', 'dosis_number', 'total_dosis', 'date_of_application')

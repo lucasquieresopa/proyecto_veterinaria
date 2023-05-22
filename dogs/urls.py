@@ -14,4 +14,7 @@ urlpatterns = [
     path('attention_form/<client_id>/<dog_id>/', views.attention_registration_view, name='attention_form'),
     path('attentions/<client_id>/<dog_id>/', views.attentions_list, name="attentions_list"),
 
+    path('vaccinations/<client_id>/<dog_id>/', views.vaccinations_list, name="vaccinations"),
+    path('vaccination_form/<client_id>/<dog_id>/', views.vaccination_registration_view, name='vaccination_form'),
+
 ]

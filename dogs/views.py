@@ -3,7 +3,7 @@ from accounts import forms
 from accounts.models import CustomUser
 from django.contrib.auth.decorators import login_required
 
-from .forms import DogCreationForm, DogModificationForm, AttentionRegisterForm
+from .forms import DogCreationForm, DogModificationForm, AttentionRegisterForm, VaccinationRegisterForm
 from .models import Dog
 
 from django.http import JsonResponse
@@ -89,7 +89,7 @@ def dog_modification_view(request, dog_id, user_owner_id):
         form = DogModificationForm(
             initial = {
                 'name': dog.name,
-                'age': dog.age,
+                'date_of_birth': dog.date_of_birth,
                 'sex': dog.sex,
                 'breed': dog.breed,
                 'color': dog.color,
@@ -185,3 +185,48 @@ def attentions_list(request, dog_id, client_id):
         'attentions': attentions,
     }
     return render(request, 'attentions_list.html', context)
+
+
+@login_required
+def vaccination_registration_view(request, dog_id, client_id):
+    """definición del comportamiento de la pantalla de registro de clientes"""
+
+    actual_dog = Dog.objects.get(pk=dog_id)
+
+    if request.POST:
+        #form = AttentionRegisterForm(request.POST, dog=actual_dog)
+        form = VaccinationRegisterForm(request.POST)
+
+        if form.is_valid():
+            attention = form.save(commit=False)
+            attention.dog = actual_dog
+            attention.save()
+            return redirect('dog_profile', user_owner_id=client_id, dog_id=actual_dog.id)
+        
+        else:
+            context = {
+                'vaccination_form' : form
+            }
+    else:
+        #form = AttentionRegisterForm(dog=actual_dog)
+        form = VaccinationRegisterForm()
+
+        context = {
+                'vaccination_form' : form
+                }
+        
+    return render(request, 'vaccination_form.html', context)
+
+
+@ login_required
+def vaccinations_list(request, dog_id, client_id):
+
+    actual_dog = Dog.objects.get(pk=dog_id)
+    vaccinations = actual_dog.vaccination_set.all()
+
+    context = {
+        'client_id': client_id,
+        'dog_id': actual_dog.id,
+        'vaccinations': vaccinations,
+    }
+    return render(request, 'vaccinations_list.html', context)

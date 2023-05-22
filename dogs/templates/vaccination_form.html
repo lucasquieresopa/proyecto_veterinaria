@@ -1,0 +1,37 @@
+{% extends 'base.html' %}   <!-- baseLogedIn.html?? dado que lo hace el veterinario desde una sesion iniciada-->
+
+{% block content %}
+
+    <h2>Registrar vacunación</h2>
+    <form method="post">    <!-- cuando toco el boton "Registrar" se haceun post request -->
+        {% csrf_token %}    <!-- seguridad en forms -->
+        
+        {% for field in vaccination_form %}
+            <p>
+                {{field.label_tag}}
+                {{field}}
+
+                {% if field.help_text %}
+                <small style="color: grey;">{{field.help_text}}</small>
+                {% endif %}
+            </p>
+        {% endfor %}
+
+        {% for field in vaccination_form %}
+            {% for error in field.errors %}
+                <p style="color: red;">{{error}}</p>
+            {% endfor %}
+        {% endfor %} 
+        
+        {% if vaccination_form.non_field_errors %}
+        <div style="color: red;">
+            <p>{{vaccination_form.non_field_errors}}</p>
+        </div>
+        {% endif %}
+
+        <div> * Obligatorio </div>
+        
+        <button type="submit">Registrar</button>
+    </form>
+
+{% endblock content %}

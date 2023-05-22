@@ -5,12 +5,21 @@
 {% block content %}
 
 
+<style>
+
+.text-right {
+  text-align: right;
+}
+
+</style>
+
+
 <main>
     
 
 <div class="container card-izq " >
-  <div class="row row-1">
-    <div class="col-md-3">
+  <div class="row row-1" >
+    <div class="col-md-3" >
       <div class="card">
         <div class="card-body">
           
@@ -100,13 +109,16 @@
             {% endif %}
       </div>
     </div>
+      <a href="{% url 'home' %}" class="btn btn-secondary">Volver</a>
+    {% if vet.is_veterinario %}
+    
+      <a href="{% url 'dog_registration' client.id %}" class="btn btn-primary">Añadir Perro</a>
+      <a href="{% url 'hidden_dogs' client.id %}" class="btn btn-primary">Ver perros ocultos</a>
+    {% endif %}
   </div>
-  {% if vet.is_veterinario %}
-    <a href="{% url 'dog_registration' client.id %}" class="btn btn-primary">Añadir Perro</a>
-    <a href="{% url 'hidden_dogs' client.id %}" class="btn btn-primary">Ver perros ocultos</a>
-  {% endif %}
+  
   </div>
-  <a href="{% url 'home' %}" class="btn btn-primary">Volver</a>
+  
 
 
 

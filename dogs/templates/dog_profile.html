@@ -7,102 +7,123 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 </head>
 
+<style>
+
+    .text-right {
+    text-align: right;
+    }
+    .text-left {
+    text-align: left;
+    }
+</style>
+
 <main>
     
 
-    <div class="container card-izq " >
-    <div class="row row-1">
-        <div class="col-md-9">
-        <div class="card mb-3">
-            <div class="card-body">
-            <div class="row">
-                <div class="col-sm-3">
-                <h6 class="mb-0">Nombre</h6>
+    <div class="container card-izq ">
+        <div class="row row-1">
+            <div class="col-md-9">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                            <h6 class="mb-0">Nombre</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            {{ dog.name }}
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Edad</h6>
+                        </div>
+                    <div class="col-sm-9 text-secondary">
+                        {{ dog.calculate_age }}
+                    </div>
                 </div>
-                <div class="col-sm-9 text-secondary">
-                {{ dog.name }}
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Sexo</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        {{ dog.sex }}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Raza</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        {{ dog.breed }}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Color</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        {{ dog.color }}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Tamaño</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        {{ dog.size }}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Descripción</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        {{ dog.description }}
+                    </div>
                 </div>
             </div>
-            <hr>
-            <div class="row">
-                <div class="col-sm-3">
-                <h6 class="mb-0">Edad</h6>
-                </div>
-                <div class="col-sm-9 text-secondary">
-                {{ dog.calculate_age }}
-                </div>
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col-sm-3">
-                <h6 class="mb-0">Sexo</h6>
-                </div>
-                <div class="col-sm-9 text-secondary">
-                {{ dog.sex }}
-                </div>
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col-sm-3">
-                <h6 class="mb-0">Raza</h6>
-                </div>
-                <div class="col-sm-9 text-secondary">
-                {{ dog.breed }}
-                </div>
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col-sm-3">
-                <h6 class="mb-0">Color</h6>
-                </div>
-                <div class="col-sm-9 text-secondary">
-                {{ dog.color }}
-                </div>
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col-sm-3">
-                <h6 class="mb-0">Tamaño</h6>
-                </div>
-                <div class="col-sm-9 text-secondary">
-                {{ dog.size }}
-                </div>
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col-sm-3">
-                <h6 class="mb-0">Descripción</h6>
-                </div>
-                <div class="col-sm-9 text-secondary">
-                {{ dog.description }}
-                </div>
-            </div>
-            </div>
+            
+
+    
         </div>
-        </div>
+
         
 
     
 
-    <div class="container card-der " >    
+<div>
+    <div class="text-left" >    
+        <a href="{% url 'profile' user_owner.id %}" class="btn btn-secondary">Volver</a>
+    </div>  
+    <div class="text-right" >    
         <a href="{% url 'dog_modification' dog_id=dog.id user_owner_id=user_owner.id %}" class="btn btn-primary">Modificar datos de perro</a>
         <button class="btn btn-primary" id="hide_dog_button">Ocultar perro</button><br><br>
     </div>
-    
-    <div class="container card-der " >    
-        <a href="{% url 'attentions_list' dog_id=dog.id client_id=user_owner.id %}" class="btn btn-primary">Ver atenciones</a>
-        <a href="{% url 'attention_form' dog_id=dog.id client_id=user_owner.id %}" class="btn btn-primary">Registrar atención</a><br><br>    
     </div>
-
-    <div class="container card-der " >    
+</div> 
+<div class="col-md-3">
+    <div class="container card-izq " > 
+        <a href="{% url 'attentions_list' dog_id=dog.id client_id=user_owner.id %}" class="btn btn-info">Ver atenciones</a>
+        <hr>
+        <a href="{% url 'attention_form' dog_id=dog.id client_id=user_owner.id %}" class="btn btn-primary">Registrar atención</a><br><br><br><br>
+    </div>
+    
+    <div class="container card-izq " >    
             
-        <a href="{% url 'vaccinations' dog_id=dog.id client_id=user_owner.id %}" class="btn btn-primary">Ver libreta de vacunación</a>
+        <a href="{% url 'vaccinations' dog_id=dog.id client_id=user_owner.id %}" class="btn btn-info">Ver libreta de vacunación</a><br>
+        <hr>
         <a href="{% url 'vaccination_form' dog_id=dog.id client_id=user_owner.id %}" class="btn btn-primary">Registrar vacuna</a><br>
     </div>
+      
+</div>
+</div>
 
-    <div class="container card-izq " >    
-        <a href="{% url 'profile' user_owner.id %}" class="btn btn-primary">Volver</a>
-    </div>
 
 
     <script>

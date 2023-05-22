@@ -229,8 +229,8 @@ class VaccinationRegisterForm(forms.ModelForm):
         date_of_application = self.cleaned_data['date_of_application']
         if age_validator(date_of_application, self.dog, type):
             return date_of_application
-        else:
-            raise forms.ValidationError('El perro es demasiado jover para ponerse ese tipo de vacuna')
+        # else:
+        #     raise forms.ValidationError('El perro es demasiado jover para ponerse ese tipo de vacuna')
         
     def clean_total_dosis(self):
         #print('entró 2')

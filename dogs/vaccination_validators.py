@@ -1,5 +1,7 @@
 from datetime import date, datetime
 
+from accounts import forms
+
 def dosis_validator(actual, total):
     if actual>total:
         return False
@@ -19,11 +21,11 @@ def diff_month(d1, d2):
 def age_validator(vaccine_dop, dog, vaccine_type):
     #print(vaccine_type)
     if vaccine_type=="Antirrabica":
-        if diff_month(vaccine_dop, dog.date_of_birth) > 4:
-            return False
+        if diff_month(vaccine_dop, dog.date_of_birth) < 4:
+            raise forms.ValidationError('No se pudo registrar la vacuna: el perro debe tener más de 4 meses para recibir una antirrabica')
     if vaccine_type=="Antimoquillo":
-        if diff_month(vaccine_dop, dog.date_of_birth) > 2:
-            return False
+        if diff_month(vaccine_dop, dog.date_of_birth) < 2:
+            raise forms.ValidationError('No se pudo registrar la vacuna: el perro debe tener más de 2 meses para recibir una antimoquillo')
     return True
 
 

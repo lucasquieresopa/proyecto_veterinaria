@@ -1,6 +1,8 @@
 from django import forms
 from .models import Dog, Attention, Vaccination
 from .vaccination_validators import age_validator, dosis_validator
+from django.core.validators import MaxValueValidator
+from datetime import date
 
 class DogCreationForm(forms.ModelForm):
 
@@ -211,7 +213,8 @@ class VaccinationRegisterForm(forms.ModelForm):
         required=True, 
         help_text="*",
         widget=forms.widgets.DateInput(
-            attrs={'type': 'date', 'placeholder': 'yyyy-mm-dd (DOB)', 'class': 'form-control'})
+            attrs={'type': 'date', 'placeholder': 'yyyy-mm-dd (DOB)', 'class': 'form-control'}),
+        validators=[MaxValueValidator(date.today)]
     )
 
     class Meta:  
@@ -229,8 +232,7 @@ class VaccinationRegisterForm(forms.ModelForm):
         date_of_application = self.cleaned_data['date_of_application']
         if age_validator(date_of_application, self.dog, type):
             return date_of_application
-        # else:
-        #     raise forms.ValidationError('El perro es demasiado jover para ponerse ese tipo de vacuna')
+
         
     def clean_total_dosis(self):
         #print('entró 2')
@@ -238,5 +240,4 @@ class VaccinationRegisterForm(forms.ModelForm):
         total_dosis = self.cleaned_data['total_dosis']
         if dosis_validator(dosis_number, total_dosis):
             return total_dosis
-        else:
-            raise forms.ValidationError('El numero de dosis no puede ser mayor al total de dosis')
+

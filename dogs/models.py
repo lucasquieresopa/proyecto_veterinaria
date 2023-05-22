@@ -1,5 +1,6 @@
 from django.db import models
 from accounts.models import CustomUser
+from datetime import datetime, date
 
 # Create your models here.
 
@@ -87,6 +88,11 @@ class Dog(models.Model):
     def __str__(self) -> str:
         return self.name
     
+    def calculate_age(self):
+        today = date.today()
+        return today.year - self.date_of_birth.year - ((today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day))
+
+    
     
 
     
@@ -122,8 +128,8 @@ class Vaccination(models.Model):
 
     class Type(models.TextChoices):
 
-        antirrabica = "Radiografia"
-        antimoquillo = "Primeros auxilios"
+        antirrabica = "Antirrabica"
+        antimoquillo = "Antimoquillo"
 
     dog = models.ForeignKey(
         Dog,

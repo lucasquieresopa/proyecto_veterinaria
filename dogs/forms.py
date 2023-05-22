@@ -1,5 +1,6 @@
 from django import forms
 from .models import Dog, Attention, Vaccination
+from .vaccination_validators import age_validator, dosis_validator
 
 class DogCreationForm(forms.ModelForm):
 
@@ -213,3 +214,19 @@ class VaccinationRegisterForm(forms.ModelForm):
     class Meta:  
         model = Vaccination
         fields = ('type', 'brand', 'lot', 'dosis_number', 'total_dosis', 'date_of_application')
+
+
+    def __init__(self, *args, **kwargs):
+        self.dog = kwargs.pop('dog')  # cache the user object you pass in
+        super(VaccinationRegisterForm, self).__init__(*args, **kwargs)
+
+    def clean_age_and_type(self):
+        dog_dob = self.dog.date_of_birth
+        type = self.cleaned_data['type']
+        date_of_application = self.cleaned_data['date_of_application']
+        if age_validator(date_of_application, dog_dob, type):
+            return date_of_application
+        else:
+            raise forms.ValidationError('El perro es demasiado jover para ponerse ese tipo de vacuna')
+        
+

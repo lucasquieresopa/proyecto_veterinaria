@@ -195,7 +195,7 @@ def vaccination_registration_view(request, dog_id, client_id):
 
     if request.POST:
         #form = AttentionRegisterForm(request.POST, dog=actual_dog)
-        form = VaccinationRegisterForm(request.POST)
+        form = VaccinationRegisterForm(request.POST, dog=actual_dog)
 
         if form.is_valid():
             attention = form.save(commit=False)
@@ -209,7 +209,7 @@ def vaccination_registration_view(request, dog_id, client_id):
             }
     else:
         #form = AttentionRegisterForm(dog=actual_dog)
-        form = VaccinationRegisterForm()
+        form = VaccinationRegisterForm(dog=actual_dog)
 
         context = {
                 'vaccination_form' : form

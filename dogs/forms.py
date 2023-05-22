@@ -121,6 +121,7 @@ class DogModificationForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')  # cache the user object you pass in
         super(DogModificationForm, self).__init__(*args, **kwargs)
+        self.initial['date_of_birth'] = self.instance.date_of_birth.isoformat()
 
 
     def clean_name(self):

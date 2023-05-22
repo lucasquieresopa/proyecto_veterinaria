@@ -89,7 +89,7 @@ def dog_modification_view(request, dog_id, user_owner_id):
         form = DogModificationForm(
             initial = {
                 'name': dog.name,
-                'date_of_birth': dog.date_of_birth,
+                #'date_of_birth': dog.date_of_birth.isoformat(),
                 'sex': dog.sex,
                 'breed': dog.breed,
                 'color': dog.color,

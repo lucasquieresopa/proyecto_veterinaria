@@ -33,16 +33,15 @@
             {% endfor %}
         {% endfor %} 
         
-        <button type="submit">Guardar</button>
+        <div class="text-center">
+            <button class="btn btn-primary" >Guardar</button>
+        </div>
 
         
     </form>
     </div>
 </main>
-        <div>
-            <a href="{% url 'dog_profile' user_owner_id=user.id dog_id=dog.id %}" class="btn btn-primary">Volver</a>
-
-        </div>
+        
         
 
 

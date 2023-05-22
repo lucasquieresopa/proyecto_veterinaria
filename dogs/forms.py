@@ -194,17 +194,20 @@ class VaccinationRegisterForm(forms.ModelForm):
         help_text="*",
     )
     dosis_number = forms.IntegerField(
+        label="Número de dosis",
         min_value=1,
         required=True, 
         help_text="*",
 
     )
     total_dosis = forms.IntegerField(
+        label="Total de dosis",
         min_value=1,
         required=True, 
         help_text="*",
     )
     date_of_application = forms.DateField(
+        label="Día de aplicación",
         required=True, 
         help_text="*",
         widget=forms.widgets.DateInput(
@@ -220,7 +223,8 @@ class VaccinationRegisterForm(forms.ModelForm):
         self.dog = kwargs.pop('dog')  # cache the user object you pass in
         super(VaccinationRegisterForm, self).__init__(*args, **kwargs)
 
-    def clean_age_and_type(self):
+    def clean_date_of_application(self):
+        #print('entró 1')
         type = self.cleaned_data['type']
         date_of_application = self.cleaned_data['date_of_application']
         if age_validator(date_of_application, self.dog, type):
@@ -228,4 +232,11 @@ class VaccinationRegisterForm(forms.ModelForm):
         else:
             raise forms.ValidationError('El perro es demasiado jover para ponerse ese tipo de vacuna')
         
-
+    def clean_total_dosis(self):
+        #print('entró 2')
+        dosis_number = self.cleaned_data['dosis_number']
+        total_dosis = self.cleaned_data['total_dosis']
+        if dosis_validator(dosis_number, total_dosis):
+            return total_dosis
+        else:
+            raise forms.ValidationError('El numero de dosis no puede ser mayor al total de dosis')

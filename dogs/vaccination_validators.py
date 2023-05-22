@@ -11,11 +11,13 @@ def dog_age(dog_dob):
 
 
 def diff_month(d1, d2):
-    return (d1.year - d2.year) * 12 + d1.month - d2.month
+    months = (d1.year - d2.year) * 12 + d1.month - d2.month
+    print(months)
+    return months
 
 
 def age_validator(vaccine_dop, dog, vaccine_type):
-
+    #print(vaccine_type)
     if vaccine_type=="Antirrabica":
         if diff_month(vaccine_dop, dog.date_of_birth) > 4:
             return False

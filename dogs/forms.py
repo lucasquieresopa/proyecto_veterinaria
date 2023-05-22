@@ -85,7 +85,8 @@ class DogModificationForm(forms.ModelForm):
         required=True,
         help_text="*",
         widget=forms.widgets.DateInput(
-            attrs={'type': 'date', 'placeholder': 'yyyy-mm-dd (DOB)', 'class': 'form-control'})
+            attrs={'type': 'date', 'placeholder': 'yyyy-mm-dd (DOB)', 'class': 'form-control'}),
+        validators=[MaxValueValidator(date.today)],
     )
     sex = forms.CharField(
         label="Sexo", 
@@ -136,9 +137,9 @@ class DogModificationForm(forms.ModelForm):
     
         
         
-    def clean_date_of_birth(self):
-        date_of_birth = self.cleaned_data['date_of_birth']
-        return date_of_birth
+    # def clean_date_of_birth(self):
+    #     date_of_birth = self.cleaned_data['date_of_birth']
+    #     return date_of_birth
 
     def clean_sex(self):
         sex = self.cleaned_data['sex']

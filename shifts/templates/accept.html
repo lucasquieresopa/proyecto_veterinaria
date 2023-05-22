@@ -1,0 +1,19 @@
+<title>Staff Panel</title>
+{% extends 'home.html' %}
+{% load static %}
+{% block content %}
+<div class="container-md" >
+    <div class="row justify-content-center align-items-center g-2">
+        <form method="post" action="{% url 'acep' %}" class="me-2 ms-2" required>
+            {% csrf_token %}
+            <input type="text" class="form-control">
+            <button type="submit" class="btn btn-primary btn-lg">Pedir turno</button>
+    </div>
+
+
+</div>
+<form method="post" action="{% url 'staffPan' %}" class="me-2 ms-2" required>
+    {% csrf_token %}
+    <input type="text" class="form-control">
+    <button type="submit" class="btn btn-primary btn-lg">Pedir turno</button>
+{% endblock %}

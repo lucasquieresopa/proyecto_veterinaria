@@ -27,8 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-if DEBUG:
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#if DEBUG:
+ #   EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 
@@ -147,10 +147,11 @@ AUTH_USER_MODEL = 'accounts.CustomUser' #customUser es el usuario personalizado 
 
 
 
-
 EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
-EMAIL_HOST_USER = '97deb8493f48e5'
-EMAIL_HOST_PASSWORD = '401034f1cfe59c'
+EMAIL_HOST_USER = 'bdaee6e9ccc2b0'
+EMAIL_HOST_PASSWORD = '4f92dcd51cdcfc'
 EMAIL_PORT = '2525'
-
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'megat01e28@gmail.com'
 

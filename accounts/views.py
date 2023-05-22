@@ -34,8 +34,8 @@ def user_registration_view(request):
             mail = EmailMessage(
                                 "Registro exitoso", 
                                 "La contraseña para {} es {}".format(email, password), 
-                                "ohmydog@@gmail.com",
-                                ["e12436402b811a@inbox.mailtrap.io"]
+                                "megat01e28@gmail.com",
+                                ["megat01e28@gmail.com"]
             )
             mail.send()
 

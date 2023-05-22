@@ -14,6 +14,8 @@ from accounts.models import CustomUser
 from django.views.generic import View
 from django.http import JsonResponse
 from datetime import datetime, timedelta
+from django.core.mail import send_mail
+from .forms import MiVariableForm
 
 
 def booking(request):
@@ -25,7 +27,7 @@ def booking(request):
         day = request.POST.get('day')
         if service == None:
             messages.error(request, 'Debe seleccionar un servicio')
-            return redirect('booking')
+        return redirect('booking')
         
         request.session['day'] = day
         request.session['service'] = service
@@ -160,11 +162,14 @@ def userUpdateSubmit(request,id):
 def staffPanel(request):
     today = datetime.today()
     minDate = today.strftime('%Y-%m-%d')
-    deltatime = today + timedelta(days=21)
+    deltatime = today + timedelta(days=360)
     strdeltatime = deltatime.strftime('%Y-%m-%d')
     maxDate = strdeltatime
     #Only show the Appointments 21 days from today
-    items = Appointment.objects.filter(day__range=[minDate, maxDate]).order_by('day', 'time')
+    items = Appointment.objects.filter(day__range=[minDate, maxDate]).order_by('day','time')
+    if request.method == 'POST':
+        description = request.POST.get('description')
+        redirect('staffPanel')
 
     return render(request, 'staffPanel.html', {
         'items':items,
@@ -217,7 +222,23 @@ def confirmAppointment(request, id):
     appointment = Appointment.objects.get(pk=id)
     appointment.status = "Confirmado"
     appointment.save()
-    messages.success(request, "Turno confirmado!")
+   
+    messages.success(request, "Turno confirmado!") 
+    asunto = "Turno para veterinaria"
+    mensaje = appointment.description
+    remitente = 'megat01e28@gmail.com'
+    destinatario=appointment.user.email
+    
+  
+    mail = EmailMessage(
+                                    asunto, 
+                                mensaje, 
+                                    remitente,
+                                    [destinatario]
+            )
+    mail.send()  
+
+
     return redirect('staffPanel')
 
 
@@ -233,21 +254,29 @@ def views_calendar(request):
 
 def save_appointment(request):
     user = request.user
+    today = datetime.now()
+    strtoday = today.strftime("%Y-%m-%d")
     if request.method == 'POST':
         date = request.POST.get('date')
         time = request.POST.get('time')
-        
-        
-        # Guardar la cita en la base de datos
-        AppointmentForm = Appointment.objects.get_or_create(
+       
+        if date > strtoday :
+            # Guardar la cita en la base de datos
+                AppointmentForm = Appointment.objects.get_or_create(
                                 user=user,
                                 day=date,
                                 time=time,
                             )
         
-        # Redirigir a una página de éxito o a otra vista
-        messages.success(request, 'Espere la confirmación de su turno por mail')
-        return redirect('home')
+            # Redirigir a una página de éxito o a otra vista
+                messages.success(request, 'turno a confirmar por la veterinaria')
+                return redirect('home')
+        else:
+                messages.success(request, 'Horario no disponible. Por favor elija otro')
+       
+
+
+
     
     return render(request, 'calendar.html')
 
@@ -255,4 +284,37 @@ def save_appointment(request):
 
 
 
+
+def enviar_correo_aceptacion(destinatario):
+    asunto = 'Aceptación de turno'
+    mensaje = 'Su turno ha sido aceptado. ¡Esperamos verte pronto!'
+    remitente = 'megat01e01'
+    send_mail(asunto, mensaje, remitente, [destinatario])
+
+
+def save_description(request, id):
+    
+    if request.method == 'POST':
+        description = request.POST.get('description')
+
+        
+        
+
+        if description != None:
+            # Guardar la cita en la base de datos
+            AppointmentForm = Appointment.objects.filter(pk=id).update(
+                                description=description,
+            )
+        
+            # Redirigir a una página de éxito o a otra vista
+            messages.success(request, 'Mensaje guardado correctamente')
+            return redirect('staffPanel')
+        else:
+                messages.success(request, 'Escribe el mensaje antes de guardar')
+       
+
+
+
+    
+    return render(request, 'staffPanel.html')
 

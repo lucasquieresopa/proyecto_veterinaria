@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render
 from accounts import forms
 from accounts.models import CustomUser
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from .forms import DogCreationForm, DogModificationForm, AttentionRegisterForm, VaccinationRegisterForm
 from .models import Dog
@@ -123,6 +124,7 @@ def hide_dog(request, dog_id):
         dog = Dog.objects.get(id=dog_id)
         dog.hidden = True
         dog.save()
+        #messages.success(request, "El perro fue ocultado")
     return JsonResponse({'hidden': True})
 
 

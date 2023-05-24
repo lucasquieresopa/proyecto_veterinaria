@@ -22,17 +22,14 @@
                                     
                                     <label for="time">Horario:</label>
                                     <select name="time" id="time" required>
-                                      <option value="morning">Mañana</option>
-                                      <option value="afternoon">Tarde</option>
+                                      <option value="Mañana">Mañana</option>
+                                      <option value="Tarde">Tarde</option>
                                     </select>
                                     
-                                    <button type="submit">Guardar</button>
+                                    <button type="submit" class="btn btn-primary btn-lg">Pedir turno</button>
                                   </form>
                                   
-                                <div class="col-md-6">
-                                    <button type="button" class="btn btn-primary btn-lg" onclick="registerShift();">Reservar turno  </button>
-
-                                </div>
+                            
                             </div>
                         </div>
                     </div>
@@ -45,51 +42,3 @@
 
 {%endblock%}
 
-{% block js %}
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-<script src="{% static 'fullcalendar/core/index.global.js' %}"></script>
-<script>
-
-    document.addEventListener('DOMContentLoaded', function() {
-      var calendarEl = document.getElementById('calendar');
-      var calendar = new FullCalendar.Calendar(calendarEl, {
-        
-        initialView: 'dayGridMonth',
-        
-        navLinks: true,
-        selecmirror: true,
-        
-       
-        headerToolbar: {
-          left: 'prev',
-          center: 'title',
-          right: 'next',
-          
-          
-          
-        },
-        events: [
-            {% for shift in user.Shift %}
-                {
-                title: '{{shift.pet.name}}',
-                start: '{{shift.date}}',
-                url: '/shifts/{{shift.id}}',
-                color: 'green',
-                textColor: 'white'
-                },
-            {% endfor %}
-            ], 
-        locale: 'es',
-        shifts : 'all_shifts' 
-
-      });
-      calendar.render();
-    
-      getNextReleases(calendar);
-    });
-
-    
-
-  </script>
-
-{%endblock%}    

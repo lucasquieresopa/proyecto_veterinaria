@@ -9,41 +9,56 @@
 {% if user.is_authenticated %}
 
 <div class="shadow p-4 mb-5 bg-body bg-body rounded text-black  m-5 ">
-    <h1 class="text-center mt-5 mb-5">Turnos</h1>
+  {%if items.exists%}  
+  <h1 class="text-center mt-5 mb-5">Turnos</h1>
   
     <br>
     
-    <div class="table-responsive">
-      <table class="table table-bordered table-striped table-hover mx-auto">
-          <thead>
-            <tr>
-              <th class="text-center" scope="col">Dia</th>
-              <th class="text-center" scope="col">Horario</th>
-              <th class="text-center" scope="col">Nombre</th>
-              <th class="text-center" scope="col">Mail</th>
-              <th class="text-center" scope="col">Estado</th>
-              <th class="text-center" scope="col">Aceptar</th>
-              <th class="text-center" scope="col">Rechazar</th>
-            </tr>
-          </thead>
-          <tbody id="myTable">
-              {% for item in items %}
-            <tr>
-              <td class="text-center">{{item.day}}</td>
-              <td class="text-center">{{item.time}}</td>
-              <td class="text-center">{{item.user.name}} {{item.user.surname}}</td>
-              <td class="text-center">{{item.user.email}}</td>
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover mx-auto">
+            <thead>
+              <tr>
+                <th class="text-center" scope="col">Dia</th>
+                <th class="text-center" scope="col">Turno</th>
+                <th class="text-center" scope="col">Nombre</th>
+                <th class="text-center" scope="col">Mail</th>
+                <th class="text-center" scope="col">Estado</th>
+                <th class="text-center" scope="col">Descripcion</th>
+                <th class="text-center" scope="col">Aceptar</th>
+                <th class="text-center" scope="col">Rechazar</th>
+              </tr>
+            </thead>
+            <tbody id="myTable">
+                {% for item in items %}
+              <tr>
+                <td class="text-center">{{item.day}}</td>
+                <td class="text-center">{{item.time}}</td>
+                <td class="text-center">{{item.user.name}} {{item.user.surname}}</td>
+                <td class="text-center">{{item.user.email}}</td>
+                
+                <td class="text-center">{{item.status}}</td>
+                <td class="text-center">
+                  <form method="post" action="{% url 'save_description' item.id %}" class="me-2 ms-2" required>
+                    {% csrf_token %}
+                    <input type="text" class="form-control" id="description" name="description">
+                    <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
+                  </form>
+                </td>
+          
+                <td class="text-center"><a href="{% url 'accept' item.id  %}" class="btn btn-success">Aceptar</a></td>
+                <td class="text-center"><a href="{% url 'reject' item.id %}" class="btn btn-danger">Rechazar</a></td>
+                
               
-              <td class="text-center">{{item.status}}</td>
-        
-              <td class="text-center"><a href="{% url 'accept' item.id  %}" class="btn btn-success">Aceptar</a></td>
-              <td class="text-center"><a href="{% url 'reject' item.id %}" class="btn btn-danger">Rechazar</a></td>
-            </tr>
-            {% endfor %}
-             
-          </tbody>
-        </table>
-      </div>
+              </tr>
+              {% endfor %}
+            
+
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <h4 class="text-center">No hay turnos pendientes</h1>
+      {% endif %}
 
 </div>
 
@@ -68,6 +83,21 @@
         });
       });
     });
+    
+    function enviarCorreo(correo) {
+    $.ajax({
+        url: '/enviar_correo_aceptacion/',
+        type: 'POST',
+        data: { correo: correo },
+        success: function(response) {
+            console.log('Correo enviado correctamente');
+        },
+        error: function(response) {
+            console.error('Error al enviar el correo');
+        }
+    });
+}
+
 </script>
 
 {% endblock %}

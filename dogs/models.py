@@ -99,6 +99,7 @@ class Attention(models.Model):
         radiografia = "Radiografia"
         primeros_auxilios = "Primeros auxilios"
         operacion = "Operacion"
+        otros_servicios = "Otros Servicios"
 
     dog = models.ForeignKey(
         Dog,

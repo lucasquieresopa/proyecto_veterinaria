@@ -1,6 +1,6 @@
 <!-- templates/home.html -->
 {% extends 'base.html' %} 
-
+{%load static %}
 
 {% block title %}Página principal{% endblock title %}
 <!--
@@ -124,6 +124,10 @@
 {% endblock %}
 -->
 {% block content %}
+<div class="container">
+    <img src="{% static 'media/Logo1.png' %}" alt="Descripción de la imagen" class="img-fluid w-25">
+  </div>
+  
 {% endblock %}
 
 

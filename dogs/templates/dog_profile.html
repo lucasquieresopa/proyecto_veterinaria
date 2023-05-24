@@ -113,9 +113,10 @@
 </div> 
 <div class="col-md-3">
     <div class="container card-izq " > 
+        {% if user.is_veterinario %}
         <a href="{% url 'attentions_list' dog_id=dog.id client_id=user_owner.id %}" class="btn btn-info">Ver atenciones</a>
         
-        {% if user.is_veterinario %}
+        
         <hr>
         <a href="{% url 'attention_form' dog_id=dog.id client_id=user_owner.id %}" class="btn btn-primary">Registrar atención</a><br><br><br><br>
         {% endif %}

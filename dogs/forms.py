@@ -1,7 +1,7 @@
 from django import forms
 from .models import Dog, Attention, Vaccination
 from .vaccination_validators import age_validator, dosis_validator
-from django.core.validators import MaxValueValidator
+from django.core.validators import MaxValueValidator, MaxLengthValidator
 from datetime import date
 
 class DogCreationForm(forms.ModelForm):
@@ -87,6 +87,7 @@ class DogModificationForm(forms.ModelForm):
         widget=forms.widgets.DateInput(
             attrs={'type': 'date', 'placeholder': 'yyyy-mm-dd (DOB)', 'class': 'form-control'}),
         validators=[MaxValueValidator(date.today)],
+        
     )
     sex = forms.CharField(
         label="Sexo", 
@@ -168,6 +169,7 @@ class AttentionRegisterForm(forms.ModelForm):
     description = forms.CharField(
         label="Descripción", 
         required=False, 
+        
     )
     date_of_attention = forms.DateField(
         label="Día de atención",
@@ -175,7 +177,7 @@ class AttentionRegisterForm(forms.ModelForm):
         help_text="*",
         widget=forms.widgets.DateInput(
             attrs={'type': 'date', 'placeholder': 'yyyy-mm-dd (DOB)', 'class': 'form-control'}),
-        validators=[MaxValueValidator(date.today)]
+        
     )
 
     class Meta:  

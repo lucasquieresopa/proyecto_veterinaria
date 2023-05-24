@@ -1,6 +1,7 @@
 from django.db import models
 from accounts.models import CustomUser
 from datetime import datetime, date
+from django.core.validators import MaxLengthValidator, MaxValueValidator
 
 # Create your models here.
 
@@ -119,12 +120,14 @@ class Attention(models.Model):
     )
     description = models.TextField(
         max_length=120,
+        validators=[MaxLengthValidator(120, message="La descripción es muy larga")],
         blank=True,
         null=True
     )
     date_of_attention = models.DateField(
         null=True,
         blank=True,
+        validators=[MaxValueValidator(date.today, message="La fecha de atención debe ser anterior a la fecha de hoy")],
     )
 
 

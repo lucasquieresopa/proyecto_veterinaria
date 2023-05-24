@@ -40,25 +40,46 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    email =                     models.EmailField(verbose_name="email", unique=True)    #.foreignKey ??
-    name =                      models.CharField(max_length=25)   #slug es texto corto
-    surname =                   models.CharField(max_length=30, blank=True, null=True)
-    address =                   models.CharField(max_length=30, blank=True, null=True)
-    telephone =                 models.SlugField(max_length=12, blank=True, null=True)
-    is_active =                 models.BooleanField(default=True)
-    is_staff =                  models.BooleanField(default=False)
-    is_admin =                  models.BooleanField(default=False)
-    last_login =                models.DateTimeField(verbose_name="last login", default=datetime.datetime.now)
-    is_veterinario =            models.BooleanField(default=False)
+    email = models.EmailField(
+        verbose_name="email", 
+        unique=True,
+        max_length=40
+    )
+    name = models.CharField(
+        max_length=30
+    ) 
+    surname = models.CharField(
+        max_length=30, 
+        blank=True, 
+        null=True
+    )
+    address = models.CharField(
+        max_length=30, 
+        blank=True, 
+        null=True
+    )
+    telephone = models.SlugField(
+        max_length=15, 
+        blank=True, 
+        null=True,
+    )
+    is_active = models.BooleanField(
+        default=True,
+    )
+    is_staff = models.BooleanField(
+        default=False,
+    )
+    is_admin = models.BooleanField(
+        default=False,
+    )
+    last_login = models.DateTimeField(
+        verbose_name="last login", 
+        default=datetime.datetime.now,
+    )
+    is_veterinario = models.BooleanField(
+        default=False,
+    )
     
-    
-    # dogs = models.ForeignKey(
-    #     Dog,
-    #     on_delete=models.CASCADE,
-    #     null=True
-    # )
-
-    #keywords:
 
     USERNAME_FIELD = "email"    #variable por la cual se ingresa, dice username pero seria como 'campo que representa el inicio de sesion'
     REQUIRED_FIELDS = ['name',]    #no permite registros si no tiene estos campos completos

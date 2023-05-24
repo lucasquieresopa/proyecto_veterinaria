@@ -12,19 +12,38 @@ from django.core.exceptions import ValidationError
 
 
 class CustomUserCreationForm(forms.ModelForm):
-#class CustomUserCreationForm(UserCreationForm):
-    email = forms.EmailField(help_text = "*")
-    name = forms.CharField(label="Nombre", required=True, help_text = "*")
-    surname = forms.CharField(label="Apellido", required=True, help_text = "*")
-    telephone = forms.CharField(label="Teléfono", required=False)
-    address = forms.CharField(label="Dirección", required=False)
+
+    email = forms.EmailField(
+        help_text = "*",
+        max_length=40,
+    )
+    name = forms.CharField(
+        label="Nombre", 
+        required=True, 
+        help_text = "*",
+        max_length=30,
+    )
+    surname = forms.CharField(
+        label="Apellido", 
+        required=True, 
+        help_text = "*",
+        max_length=30,
+    )
+    telephone = forms.CharField(
+        label="Teléfono", 
+        required=False,
+        max_length=15,
+    )
+    address = forms.CharField(
+        label="Dirección", 
+        required=False,
+        max_length=30,
+    )
 
 
     class Meta:   #overridea los campos por defecto
         model = CustomUser
         fields = ('email', 'name', 'surname', 'telephone', 'address')
-
-
 
 
 class CustomUserAuthenticationForm(forms.ModelForm):
@@ -48,11 +67,32 @@ class CustomUserAuthenticationForm(forms.ModelForm):
 
 class CustomUserModificationForm(forms.ModelForm):
 
-    email = forms.EmailField(help_text = "*")
-    name = forms.CharField(label="Nombre", required=True, help_text = "*")
-    surname = forms.CharField(label="Apellido", required=True, help_text = "*")
-    telephone = forms.CharField(label="Teléfono", required=False)
-    address = forms.CharField(label="Dirección", required=False)
+    email = forms.EmailField(
+        help_text = "*",
+        max_length=40,
+    )
+    name = forms.CharField(
+        label="Nombre", 
+        required=True, 
+        help_text = "*",
+        max_length=30,
+    )
+    surname = forms.CharField(
+        label="Apellido", 
+        required=True, 
+        help_text = "*",
+        max_length=30,
+    )
+    telephone = forms.CharField(
+        label="Teléfono", 
+        required=False,
+        max_length=12,
+    )
+    address = forms.CharField(
+        label="Dirección", 
+        required=False,
+        max_length=30,
+    )
     
     class Meta:
         model = CustomUser

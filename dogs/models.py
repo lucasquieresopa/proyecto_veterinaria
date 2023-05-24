@@ -41,15 +41,12 @@ class Dog(models.Model):
         pequeño = "pequeño"
 
 
-    def default_value():
-        return '-'
-    
-
     name = models.CharField(
-        max_length=15
+        max_length=30,
     )
     date_of_birth = models.DateField(
         null=True,
+        validators=[MaxValueValidator(date.today, "La fecha de nacimiento del perro debe ser anterior a hoy")]
     )
     sex = models.CharField(
         max_length=10, 
@@ -64,19 +61,17 @@ class Dog(models.Model):
         blank=True, 
         choices=Color.choices, 
         null=True, 
-        #default=default_value
     )
     size = models.CharField(
         max_length=10,
         null=True, 
         blank=True, 
-        #default=default_value
     )
     description = models.TextField(
-        max_length=100, 
+        max_length=120,
+        #validators=[MaxLengthValidator(120, message="La descripción debe tener a lo sumo 120 caracteres")],
         blank=True, 
         null=True, 
-        #default=default_value
     )
     hidden = models.BooleanField(default=False)
     owner = models.ForeignKey(
@@ -120,7 +115,7 @@ class Attention(models.Model):
     )
     description = models.TextField(
         max_length=120,
-        validators=[MaxLengthValidator(120, message="La descripción es muy larga")],
+        validators=[MaxLengthValidator(120, message="La descripción debe tener a lo sumo 120 caracteres")],
         blank=True,
         null=True
     )
@@ -154,11 +149,13 @@ class Vaccination(models.Model):
     )
     brand = models.CharField(
         max_length=20,
+        validators=[MaxLengthValidator(20, message="El nombre de la marca no puede superar los 20 caracteres")],
         blank=True,
         null=True
     )
     lot = models.CharField(
         max_length=15,
+        validators=[MaxLengthValidator(14, message="El nombre del lote no puede superar los 15 caracteres")],
         blank=True,
         null=True
     )
@@ -171,4 +168,5 @@ class Vaccination(models.Model):
     date_of_application = models.DateField(
         null=True,
         blank=True,
+        validators=[MaxValueValidator(date.today, message="La fecha de atención debe ser anterior a la fecha de hoy")],
     )

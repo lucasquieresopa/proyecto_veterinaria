@@ -9,7 +9,8 @@ class DogCreationForm(forms.ModelForm):
     name = forms.CharField(
         label="Nombre", 
         required=True, 
-        help_text="*"
+        help_text="*",
+        max_length=30,
     )
     date_of_birth = forms.DateField(
         label="Fecha de nacimiento",
@@ -17,7 +18,7 @@ class DogCreationForm(forms.ModelForm):
         help_text="*",
         widget=forms.widgets.DateInput(
             attrs={'type': 'date', 'placeholder': 'yyyy-mm-dd (DOB)', 'class': 'form-control'}),
-        validators=[MaxValueValidator(date.today)]
+        
     )
     sex = forms.CharField(
         label="Sexo", 
@@ -45,7 +46,8 @@ class DogCreationForm(forms.ModelForm):
     )
     description = forms.CharField(
         label="Descripción", 
-        required=False
+        required=False,
+        max_length=120,
     )
 
     class Meta:  
@@ -78,7 +80,8 @@ class DogModificationForm(forms.ModelForm):
     name = forms.CharField(
         label="Nombre", 
         required=True, 
-        help_text="*"
+        help_text="*",
+        max_length=30,
     )
     date_of_birth = forms.DateField(
         label="Fecha de nacimiento",
@@ -86,7 +89,6 @@ class DogModificationForm(forms.ModelForm):
         help_text="*",
         widget=forms.widgets.DateInput(
             attrs={'type': 'date', 'placeholder': 'yyyy-mm-dd (DOB)', 'class': 'form-control'}),
-        validators=[MaxValueValidator(date.today)],
         
     )
     sex = forms.CharField(
@@ -113,7 +115,8 @@ class DogModificationForm(forms.ModelForm):
     )
     description = forms.CharField(
         label="Descripción", 
-        required=False
+        required=False,
+        max_length=120,
     )
 
     class Meta:  
@@ -169,6 +172,7 @@ class AttentionRegisterForm(forms.ModelForm):
     description = forms.CharField(
         label="Descripción", 
         required=False, 
+        max_length=120,
         
     )
     date_of_attention = forms.DateField(
@@ -198,18 +202,19 @@ class VaccinationRegisterForm(forms.ModelForm):
         label="Marca", 
         required=True, 
         help_text="*",
+        max_length=20,
     )
     lot = forms.CharField(
         label="Lote", 
         required=True, 
         help_text="*",
+        max_length=15,
     )
     dosis_number = forms.IntegerField(
         label="Número de dosis",
         min_value=1,
         required=True, 
         help_text="*",
-
     )
     total_dosis = forms.IntegerField(
         label="Total de dosis",
@@ -223,7 +228,6 @@ class VaccinationRegisterForm(forms.ModelForm):
         help_text="*",
         widget=forms.widgets.DateInput(
             attrs={'type': 'date', 'placeholder': 'yyyy-mm-dd (DOB)', 'class': 'form-control'}),
-        validators=[MaxValueValidator(date.today)]
     )
 
     class Meta:  

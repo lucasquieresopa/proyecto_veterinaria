@@ -2,6 +2,16 @@
 
 {% block content %}
 
+<style>
+    .text-center {
+    text-align: center;
+    }
+  
+    p {
+      font-size:20px;
+    }
+</style>
+
 <main>
 <br>
     <h2 class="text-center">Libreta de vacunación del perro</h2>
@@ -37,7 +47,10 @@
                     </table>
                 {% else %}
                     <tr>
-                        El perro aun no fue vacunado
+                        <p class="text-center">
+                            El perro aun no fue vacunado
+                        </p>
+                        
                     </tr>
                 {% endif %}
                 

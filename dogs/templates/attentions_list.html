@@ -2,6 +2,16 @@
 
 {% block content %}
 
+<style>
+    .text-center {
+    text-align: center;
+    }
+  
+    p {
+      font-size:20px;
+    }
+</style>
+
 <main>
 <br>
     <h2 class="text-center">Lista de atenciones del perro</h2>
@@ -27,8 +37,12 @@
                         </tbody>
                     </table>
                 {% else %}
-                    <tr>
-                        No hay atenciones para este perro
+                    <tr >
+                        <p class="text-center">
+                            No hay atenciones para este perro
+
+                        </p>
+                        
                     </tr>
                 {% endif %}
                 

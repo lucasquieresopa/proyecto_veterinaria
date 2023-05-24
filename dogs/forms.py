@@ -135,11 +135,6 @@ class DogModificationForm(forms.ModelForm):
             return name
         raise forms.ValidationError('El nombre "%s" está en uso' % name)
     
-        
-        
-    # def clean_date_of_birth(self):
-    #     date_of_birth = self.cleaned_data['date_of_birth']
-    #     return date_of_birth
 
     def clean_sex(self):
         sex = self.cleaned_data['sex']
@@ -170,14 +165,23 @@ class AttentionRegisterForm(forms.ModelForm):
         help_text="*",
         widget=forms.Select(choices=Attention.Type.choices)
     )
-    description = forms.SlugField(
+    description = forms.CharField(
         label="Descripción", 
         required=False, 
+    )
+    date_of_attention = forms.DateField(
+        label="Día de atención",
+        required=True,
+        help_text="*",
+        widget=forms.widgets.DateInput(
+            attrs={'type': 'date', 'placeholder': 'yyyy-mm-dd (DOB)', 'class': 'form-control'}),
+        validators=[MaxValueValidator(date.today)]
     )
 
     class Meta:  
         model = Attention
-        fields = ('type', 'description')
+        fields = ('type', 'description', 'date_of_attention')
+
 
 
 class VaccinationRegisterForm(forms.ModelForm):

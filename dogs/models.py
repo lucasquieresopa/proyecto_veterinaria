@@ -118,10 +118,15 @@ class Attention(models.Model):
 
     )
     description = models.TextField(
-        max_length=50,
+        max_length=120,
         blank=True,
         null=True
     )
+    date_of_attention = models.DateField(
+        null=True,
+        blank=True,
+    )
+
 
 
 class Vaccination(models.Model):

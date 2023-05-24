@@ -1,15 +1,33 @@
 {% extends 'base.html' %}   <!-- baseLogedIn.html?? dado que lo hace el veterinario desde una sesion iniciada-->
 
 {% block content %}
+<style>
+    .text-center {
+    text-align: center;
+    }
+  
+    p {
+      font-size:20px;
+    }
+</style>
 
-    <h2>Registrar perro</h2>
+<br>
+<div class="col-md-4 mx-auto">
+    <h2 style="text-align:center;">Registrar perro</h2>
     <form method="post">    <!-- cuando toco el boton "Registrar" se haceun post request -->
         {% csrf_token %}    <!-- seguridad en forms -->
         
         {% for field in dog_registration %}
-            <p>
-                {{field.label_tag}}
-                {{field}}
+            <p style="text-align:center;">
+                
+
+            {{field.label_tag}}
+            {% if field.label_tag == "Fecha de nacimiento:" %}
+              <input type="date">
+
+            {% else %}
+              {{field}}
+            {% endif %}
 
                 {% if field.help_text %}
                 <small style="color: grey;">{{field.help_text}}</small>
@@ -17,21 +35,25 @@
             </p>
         {% endfor %}
 
+        <p style="text-align:center; color:grey"> * campos obligatorios</p>
+
         {% for field in dog_registration %}
             {% for error in field.errors %}
-                <p style="color: red;">{{error}}</p>
+                <p style="color: red; text-align:center">{{error}}</p>
             {% endfor %}
         {% endfor %} 
+
+        
         
         {% if dog_registration.non_field_errors %}
-        <div style="color: red;">
+        <div style="color: red; text-align:center">
             <p>{{dog_registration.non_field_errors}}</p>
         </div>
         {% endif %}
 
-        <div> * Obligatorio </div>
-        
-        <button type="submit">Registrar</button>
+        <div class="text-center">
+            <button class="btn btn-primary" >Registrar</button>
+        </div>
     </form>
-
+</div>
 {% endblock content %}

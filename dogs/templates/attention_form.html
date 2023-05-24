@@ -2,12 +2,23 @@
 
 {% block content %}
 
-    <h2>Registrar atención</h2>
+<style>
+    .text-center {
+    text-align: center;
+    }
+  
+    p {
+      font-size:20px;
+    }
+</style>
+    <br>
+    <div class="col-md-4 mx-auto">
+    <h2 style="text-align:center;">Registrar atención</h2>
     <form method="post">    <!-- cuando toco el boton "Registrar" se haceun post request -->
         {% csrf_token %}    <!-- seguridad en forms -->
         
         {% for field in attention_form %}
-            <p>
+            <p style="text-align:center;">
                 {{field.label_tag}}
                 {{field}}
 
@@ -17,21 +28,26 @@
             </p>
         {% endfor %}
 
+        <p style="text-align:center; color:grey"> * campos obligatorios</p>
+
         {% for field in attention_form %}
             {% for error in field.errors %}
-                <p style="color: red;">{{error}}</p>
+                <p style="color: red; text-align:center;">{{error}}</p>
             {% endfor %}
         {% endfor %} 
         
         {% if attention_form.non_field_errors %}
-        <div style="color: red;">
+        <div style="color: red; text-align:center;">
             <p>{{attention_form.non_field_errors}}</p>
         </div>
         {% endif %}
 
-        <div> * Obligatorio </div>
         
-        <button type="submit">Registrar</button>
+        
+        <div class="text-center">
+            <button class="btn btn-primary" >Registrar</button>
+        </div>
     </form>
+</div>
 
 {% endblock content %}

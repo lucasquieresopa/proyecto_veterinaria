@@ -1,5 +1,6 @@
 from django.db import models
 from accounts.models import CustomUser
+from datetime import datetime, date
 
 # Create your models here.
 
@@ -46,7 +47,7 @@ class Dog(models.Model):
     name = models.CharField(
         max_length=15
     )
-    age = models.PositiveIntegerField(
+    date_of_birth = models.DateField(
         null=True,
     )
     sex = models.CharField(
@@ -87,6 +88,11 @@ class Dog(models.Model):
     def __str__(self) -> str:
         return self.name
     
+    def calculate_age(self):
+        today = date.today()
+        return today.year - self.date_of_birth.year - ((today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day))
+
+    
     
 
     
@@ -97,6 +103,7 @@ class Attention(models.Model):
         radiografia = "Radiografia"
         primeros_auxilios = "Primeros auxilios"
         operacion = "Operacion"
+        otros_servicios = "Otros Servicios"
 
     dog = models.ForeignKey(
         Dog,
@@ -115,4 +122,46 @@ class Attention(models.Model):
         max_length=50,
         blank=True,
         null=True
+    )
+
+
+class Vaccination(models.Model):
+
+    class Type(models.TextChoices):
+
+        antirrabica = "Antirrabica"
+        antimoquillo = "Antimoquillo"
+
+    dog = models.ForeignKey(
+        Dog,
+        blank = True,
+        on_delete=models.CASCADE,
+        null=True,
+    )
+    type = models.CharField(
+        choices=Type.choices,
+        max_length=20,
+        null=True,
+        blank=True,
+
+    )
+    brand = models.CharField(
+        max_length=20,
+        blank=True,
+        null=True
+    )
+    lot = models.CharField(
+        max_length=15,
+        blank=True,
+        null=True
+    )
+    dosis_number = models.PositiveIntegerField(
+        null=True,
+    )
+    total_dosis = models.PositiveIntegerField(
+        null=True,
+    )
+    date_of_application = models.DateField(
+        null=True,
+        blank=True,
     )

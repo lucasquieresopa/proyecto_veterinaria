@@ -3,7 +3,7 @@ from accounts import forms
 from accounts.models import CustomUser
 from django.contrib.auth.decorators import login_required
 
-from .forms import DogCreationForm, DogModificationForm, AttentionRegisterForm
+from .forms import DogCreationForm, DogModificationForm, AttentionRegisterForm, VaccinationRegisterForm
 from .models import Dog
 
 from django.http import JsonResponse
@@ -50,11 +50,11 @@ def dog_registration_done(request, user_owner_id):
                                                             }
     )
 
-
+@login_required
 def dog_profile_view(request, dog_id, user_owner_id):
 
-    if not request.user.is_authenticated:
-        return redirect('login')
+    # if not request.user.is_authenticated:
+    #     return redirect('login')
     
     dog = Dog.objects.get(pk=dog_id)
     user_owner = CustomUser.objects.get(pk=user_owner_id)
@@ -66,7 +66,7 @@ def dog_profile_view(request, dog_id, user_owner_id):
     return render(request, 'dog_profile.html', context)
 
 
-
+@login_required
 def dog_modification_view(request, dog_id, user_owner_id):
 
     user = request.user
@@ -89,7 +89,7 @@ def dog_modification_view(request, dog_id, user_owner_id):
         form = DogModificationForm(
             initial = {
                 'name': dog.name,
-                'age': dog.age,
+                #'date_of_birth': dog.date_of_birth.isoformat(),
                 'sex': dog.sex,
                 'breed': dog.breed,
                 'color': dog.color,
@@ -108,7 +108,7 @@ def dog_modification_view(request, dog_id, user_owner_id):
                                                     }
     )
 
-
+@login_required
 def dog_modification_done(request, dog_id, user_owner_id):
     return render(request, 'dog_modification_succeed.html', {
                                                             'dog_id': dog_id,
@@ -121,10 +121,8 @@ def hide_dog(request, dog_id):
     if request.POST.get('action') == 'post':
         #dog_id = int(request.POST.get('dog_id'))
         dog = Dog.objects.get(id=dog_id)
-        print(dog.hidden)
         dog.hidden = True
         dog.save()
-        print(dog.hidden)
     return JsonResponse({'hidden': True})
 
 
@@ -135,7 +133,7 @@ def hidden_dogs_view(request, user_id):
     hidden_dogs = user.dog_set.filter(hidden=True)
 
     context = {
-        'user_id': user_id,
+        'client_id': user_id,
         'hidden_dogs': hidden_dogs,
     }
     return render(request, 'hidden_dogs_list.html', context)
@@ -185,3 +183,48 @@ def attentions_list(request, dog_id, client_id):
         'attentions': attentions,
     }
     return render(request, 'attentions_list.html', context)
+
+
+@login_required
+def vaccination_registration_view(request, dog_id, client_id):
+    """definición del comportamiento de la pantalla de registro de clientes"""
+
+    actual_dog = Dog.objects.get(pk=dog_id)
+
+    if request.POST:
+        #form = AttentionRegisterForm(request.POST, dog=actual_dog)
+        form = VaccinationRegisterForm(request.POST, dog=actual_dog)
+
+        if form.is_valid():
+            attention = form.save(commit=False)
+            attention.dog = actual_dog
+            attention.save()
+            return redirect('dog_profile', user_owner_id=client_id, dog_id=actual_dog.id)
+        
+        else:
+            context = {
+                'vaccination_form' : form
+            }
+    else:
+        #form = AttentionRegisterForm(dog=actual_dog)
+        form = VaccinationRegisterForm(dog=actual_dog)
+
+        context = {
+                'vaccination_form' : form
+                }
+        
+    return render(request, 'vaccination_form.html', context)
+
+
+@ login_required
+def vaccinations_list(request, dog_id, client_id):
+
+    actual_dog = Dog.objects.get(pk=dog_id)
+    vaccinations = actual_dog.vaccination_set.all()
+
+    context = {
+        'client_id': client_id,
+        'dog_id': actual_dog.id,
+        'vaccinations': vaccinations,
+    }
+    return render(request, 'vaccinations_list.html', context)

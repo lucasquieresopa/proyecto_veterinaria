@@ -63,8 +63,11 @@
                                         </form>
                                     </ul>
 
-
-                                
+                                {% else %}
+   
+                                    <li class="nav-item">
+                                        <a class="nav-link active" aria-current="page" href="{% url 'calendar' %}">Pedir turnos</a>
+                                    </li>
 
                                 {% endif %}
 
@@ -72,7 +75,7 @@
                                 </ul>
                                     <ul class="navbar-nav mb-2 mb-lg-0 ">
                                         <li class="nav-item dropdown">
-                                            <a class="nav-link dropdown-toggle icono-user role="button" data-bs-toggle="dropdown" aria-expanded="False">
+                                            <a class="nav-link dropdown-toggle icono-user" role="button" data-bs-toggle="dropdown" aria-expanded="False">
                                                 {% if user.is_veterinario %}
                                                     <i class="bi bi-person-circle">
                                                         Veterinario
@@ -84,7 +87,10 @@
                                                 {% endif %}
                                             </a>
                                             <ul class="dropdown-menu"> 
-                                                <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a></li>
+                                                
+                                                <li>
+                                                    <a class="dropdown-item" href="{% url 'profile' user.id %}">Ver mi perfil</a>
+                                                </li>
                                                 <li>
                                                     <a class="dropdown-item" href="{% url 'password_change' %}">Cambiar Contraseña</a>
                                                 </li>
@@ -92,7 +98,7 @@
                                                     <a class="dropdown-item" href="{% url 'account_modif' %}">Modificar datos</a>
                                                 </li>
                                                 <li>
-                                                    <a class="dropdown-item" href="{% url 'profile' user.id %}">Ver mi perfil</a>
+                                                    <a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a>
                                                 </li>
 
                                             </ul>
@@ -133,6 +139,7 @@
     </header>
 
 {% block content %}
+
 {% endblock content %}
 {% if messages %}
         {% for message in messages %}

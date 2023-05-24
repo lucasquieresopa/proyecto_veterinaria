@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main>
+<br>
+    <h2 class="text-center">Libreta de vacunación del perro</h2>
+                {% if vaccinations.exists %}  
+                  <table class="table table-hover">
+                      <thead>
+                          <tr>
+                              <th>Tipo</th>
+                              <th>Marca</th>
+                              <th>Lote</th>
+                              <th>Número de dosis</th>
+                              <th>Dosis totales</th>
+                              <th>Día de aplicación</th>
+
+                          </tr>
+                      </thead>
+                      <tbody>
+                      
+                          {% for vaccination in vaccinations %}
+                                <tr>
+
+                                    <td>{{ vaccination.type }}</td>
+                                    <td>{{ vaccination.brand }}</td>
+                                    <td>{{ vaccination.lot }}</td>
+                                    <td>{{ vaccination.dosis_number }}</td>
+                                    <td>{{ vaccination.total_dosis }}</td>
+                                    <td>{{ vaccination.date_of_application }}</td>
+
+                                </tr>
+                            
+                          {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <tr>
+                        El perro aun no fue vacunado
+                    </tr>
+                {% endif %}
+                
+            
+        <div>         
+            <a href="{% url 'dog_profile' user_owner_id=client_id dog_id=dog_id %}" class="btn btn-secondary">Volver</a>
+        </div> 
+</main>
+
+{% endblock  %}

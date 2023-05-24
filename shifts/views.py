@@ -16,8 +16,9 @@ from django.http import JsonResponse
 from datetime import datetime, timedelta
 from django.core.mail import send_mail
 from .forms import MiVariableForm
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def booking(request):
     weekdays = validWeekday(22)
     validateWeekdays = isWeekdayValid(weekdays)
@@ -35,6 +36,7 @@ def booking(request):
         return redirect('bookingSubmit')
     return render(request, 'booking.html', {'weekdays':weekdays, 'validateWeekdays':validateWeekdays})
 
+@login_required
 def bookingSubmit(request):
     user = request.user
     times = [
@@ -78,11 +80,13 @@ def bookingSubmit(request):
             messages.success(request, 'Debe seleccionar un servicio')
     return render(request, 'bookingSubmit.html', {'times':hour})
 
+@login_required
 def userPanel(request):
     user = request.user
     appointments = Appointment.objects.filter(user=user).order_by('day','time')
     return render(request, 'userPanel.html', {'user':user ,'appointments':appointments})
 
+@login_required
 def userUpdate(request,id):
     appointment = Appointment.objects.get(pk=id)
     userdatepicked = appointment.day
@@ -109,6 +113,7 @@ def userUpdate(request,id):
         return redirect('userUpdateSubmit', id=id)
     return render(request, 'userUpdate.html', {'weekdays':weekdays, 'validateWeekdays':validateWeekdays,'delta24':delta24, 'id':id})
 
+@login_required
 def userUpdateSubmit(request,id):
     user = request.user
     times = [
@@ -159,6 +164,8 @@ def userUpdateSubmit(request,id):
         'times':hour,
         'id': id,
     })
+
+@login_required
 def staffPanel(request):
     today = datetime.today()
     minDate = today.strftime('%Y-%m-%d')
@@ -174,6 +181,7 @@ def staffPanel(request):
     return render(request, 'staffPanel.html', {
         'items':items,
     })
+
 
 def dayToWeekday(x):
     z = datetime.strptime(x, "%Y-%m-%d")
@@ -249,9 +257,11 @@ def cancelAppointment(request, id):
     messages.success(request, "Turno cancelado!")
     return redirect('staffPanel')
 
+@login_required
 def views_calendar(request):
     return render(request, 'calendar.html')
 
+@login_required
 def save_appointment(request):
     user = request.user
     today = datetime.now()

@@ -2,6 +2,8 @@
 
 {% block content %}
 <main>
+    <br>
+    <div class="col-md-4 mx-auto">
     <h2>Modificacion de datos del perro</h2>
     <form method="post">    <!-- cuando toco el boton "Registrar" se haceun post request -->
         {% csrf_token %}    <!-- seguridad en forms -->
@@ -17,28 +19,29 @@
             </p>
         {% endfor %}
 
+        <p style="text-align:center; color:grey"> * campos obligatorios</p>
         
         {% if form.non_field_errors %}
-            <div style="color: red;">
+            <div style="color: red; text-align:center">
                 <p>{{form.non_field_errors}}</p>
             </div>
         {% endif %}
 
         {% for field in form %}
             {% for error in field.errors %}
-                <p style="color: red;">{{error}}</p>
+                <p style="color: red; text-align:center">{{error}}</p>
             {% endfor %}
         {% endfor %} 
         
-        <button type="submit">Guardar</button>
+        <div class="text-center">
+            <button class="btn btn-primary" >Guardar</button>
+        </div>
 
         
     </form>
+    </div>
 </main>
-        <div>
-            <a href="{% url 'dog_profile' user_owner_id=user.id dog_id=dog.id %}" class="btn btn-primary">Volver</a>
-
-        </div>
+        
         
 
 

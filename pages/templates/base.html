@@ -48,7 +48,10 @@
                                         <a class="nav-link active" aria-current="page" href="{% url 'client_registration' %}">Registrar cliente</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link active" aria-current="page" href="{% url 'staffPanel' %}">Turnos</a>
+                                        <a class="nav-link active" aria-current="page" href="{% url 'staffPanel'  %}">Turnos</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active" aria-current="page" href="{% url 'calendar' user.id %}">Pedir turnos</a>
                                     </li>
 
                             
@@ -66,7 +69,7 @@
                                 {% else %}
    
                                     <li class="nav-item">
-                                        <a class="nav-link active" aria-current="page" href="{% url 'calendar' %}">Pedir turnos</a>
+                                        <a class="nav-link active" aria-current="page" href="{% url 'calendar' user.id %}">Pedir turnos</a>
                                     </li>
 
                                 {% endif %}
@@ -144,7 +147,7 @@
 {% if messages %}
         {% for message in messages %}
             <div class="alert alert-success  alert-dismissible fade show text-center " role="alert">
-                <h3 class="display-3">{{ message }}</h3>
+                <h4 class="display-3">{{ message }}</h4>
                 <button type="button" class="btn-close fs-1 position-absolute top-50 start-0 translate-middle-y" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         {% endfor %}

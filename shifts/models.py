@@ -28,6 +28,7 @@ class Appointment(models.Model):
     day = models.DateField(default=datetime.now)
     time = models.CharField(max_length=10, choices=TIME_CHOICES, default="Mañana")
     description = models.CharField(max_length=200, blank=True)
+    dog = models.CharField(max_length=50, blank=True)
     status = models.CharField(max_length=50, default="Pendiente")  
     def __str__(self):
         return f" | day: {self.day} | time: {self.time} | user: {self.user.mail} |"

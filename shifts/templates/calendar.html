@@ -15,7 +15,7 @@
                                 <h2 class="text-center">Calendario de turnos</h2>
                                 <hr>
                                
-                                <form id="appointment-form" method="POST" action="{% url 'save_appointment' %}">
+                                <form id="appointment-form" method="POST" action="{% url 'save_appointment' user.id %}">
                                     {% csrf_token %}
                                     <label for="date">Fecha:</label>
                                     <input type="date" name="date" id="date" required>
@@ -25,9 +25,16 @@
                                       <option value="Mañana">Mañana</option>
                                       <option value="Tarde">Tarde</option>
                                     </select>
+
+                                    <label for="dog">Perro:</label>
+                                    <select name="dog" id="dog" required>
+                                    {% for dog in dogs_shown %}
+                                      <option value="{{dog.name}}">{{dog.name}}</option>
+                                    {% endfor %}
+                                    </select>
                                     
                                     <button type="submit" class="btn btn-primary btn-lg">Pedir turno</button>
-                                  </form>
+                                </form>
                                   
                             
                             </div>

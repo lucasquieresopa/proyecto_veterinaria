@@ -11,6 +11,7 @@ from .models import Appointment
 from django.utils.crypto import get_random_string
 from django.core.mail import EmailMessage
 from accounts.models import CustomUser 
+from dogs.models import *
 from django.views.generic import View
 from django.http import JsonResponse
 from datetime import datetime, timedelta
@@ -258,17 +259,29 @@ def cancelAppointment(request, id):
     return redirect('staffPanel')
 
 @login_required
-def views_calendar(request):
-    return render(request, 'calendar.html')
+def views_calendar(request, id):
+    
+    
+    user_owner = CustomUser.objects.get(pk=id)
+    dogs = user_owner.dog_set.all()
+
+    context = {
+        'user': user_owner,
+        'dogs_shown': dogs,
+    }
+    
+    
+    return render(request, 'calendar.html',context)
 
 @login_required
-def save_appointment(request):
+def save_appointment(request,id):
     user = request.user
     today = datetime.now()
     strtoday = today.strftime("%Y-%m-%d")
     if request.method == 'POST':
         date = request.POST.get('date')
         time = request.POST.get('time')
+        dog = request.POST.get('dog')
        
         if date > strtoday :
             # Guardar la cita en la base de datos
@@ -276,6 +289,7 @@ def save_appointment(request):
                                 user=user,
                                 day=date,
                                 time=time,
+                                dog=dog,
                             )
         
             # Redirigir a una página de éxito o a otra vista

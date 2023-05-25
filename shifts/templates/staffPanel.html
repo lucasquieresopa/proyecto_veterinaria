@@ -21,11 +21,11 @@
                 <th class="text-center" scope="col">Dia</th>
                 <th class="text-center" scope="col">Turno</th>
                 <th class="text-center" scope="col">Nombre</th>
+                <th class="text-center" scope="col">Perro</th>
                 <th class="text-center" scope="col">Mail</th>
                 <th class="text-center" scope="col">Estado</th>
                 <th class="text-center" scope="col">Descripcion</th>
-                <th class="text-center" scope="col">Aceptar</th>
-                <th class="text-center" scope="col">Rechazar</th>
+                
               </tr>
             </thead>
             <tbody id="myTable">
@@ -34,19 +34,40 @@
                 <td class="text-center">{{item.day}}</td>
                 <td class="text-center">{{item.time}}</td>
                 <td class="text-center">{{item.user.name}} {{item.user.surname}}</td>
+                <td class="text-center">{{item.dog}}</td>
                 <td class="text-center">{{item.user.email}}</td>
                 
                 <td class="text-center">{{item.status}}</td>
-                <td class="text-center">
-                  <form method="post" action="{% url 'save_description' item.id %}" class="me-2 ms-2" required>
-                    {% csrf_token %}
-                    <input type="text" class="form-control" id="description" name="description">
-                    <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
-                  </form>
-                </td>
+                {% if item.description  %}
+                <td class="text-center">{{item.description}}</td>
+                  {% if item.status == "Pendiente" %}
+                    <td class="text-center"><a href="{% url 'accept' item.id  %}" class="btn btn-success">Aceptar</a></td>
+                    <td class="text-center"><a href="{% url 'reject' item.id %}" class="btn btn-danger">Rechazar</a></td>
+                  {% endif %}
+                  {% if item.status == "Confirmado" %}
+                      <td class="text-center"><a href="{% url 'reject' item.id %}" class="btn btn-danger">Rechazar</a></td>
+                  {% endif %}
+                  
+                  {% if item.status == "Cancelado"  %}
+                      <td class="text-center"><a href="{% url 'accept' item.id  %}" class="btn btn-success">Aceptar</a></td>
+                  {% endif %}
+                    
+                {% else %}
+                  <td class="text-center">
+                    <form method="post" action="{% url 'save_description' item.id %}" class="me-2 ms-2" required>
+                      {% csrf_token %}
+                      <input type="text" class="form-control" id="description" name="description">
+                      <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
+                    </form>
+                  </td>
+                  
+                {% endif %}
+
+                  
+
+                
           
-                <td class="text-center"><a href="{% url 'accept' item.id  %}" class="btn btn-success">Aceptar</a></td>
-                <td class="text-center"><a href="{% url 'reject' item.id %}" class="btn btn-danger">Rechazar</a></td>
+                
                 
               
               </tr>

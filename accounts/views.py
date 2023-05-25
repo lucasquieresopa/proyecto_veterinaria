@@ -25,6 +25,7 @@ def user_registration_view(request):
 
         if form.is_valid():
             password = get_random_string(length=6)
+
             user = form.save(commit=False)
             user.set_password(password)
 
@@ -37,6 +38,7 @@ def user_registration_view(request):
                                 ["megat01e28@gmail.com"]
             )
             mail.send()
+            print(password)
 
             user.save()
             #dog_context['dog_registration'] 

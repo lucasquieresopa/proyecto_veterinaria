@@ -230,18 +230,19 @@ def checkEditTime(times, day, id):
 def confirmAppointment(request, id):
     appointment = Appointment.objects.get(pk=id)
     appointment.status = "Confirmado"
+    appointment.mandado = "1"
     appointment.save()
    
     messages.success(request, "Turno confirmado!") 
     asunto = "Turno para veterinaria"
-    mensaje = appointment.description
+    mensaje = " Nos complace informarte que tu turno agendado con el veterinario ha sido aceptado. Esperamos atenderte en la fecha y " + appointment.description + ".Si tienes alguna pregunta o requerimiento especial, no dudes en hacérnoslo saber. ¡Te esperamos con gusto!"
     remitente = 'megat01e28@gmail.com'
     destinatario=appointment.user.email
     
-  
+ 
     mail = EmailMessage(
                                     asunto, 
-                                mensaje, 
+                                 mensaje, 
                                     remitente,
                                     [destinatario]
             )
@@ -254,8 +255,24 @@ def confirmAppointment(request, id):
 def cancelAppointment(request, id):
     appointment = Appointment.objects.get(pk=id)
     appointment.status = "Cancelado"
+    appointment.mandado = "1"
     appointment.save()
     messages.success(request, "Turno cancelado!")
+
+    asunto = "Turno para veterinaria"
+    
+    mensaje = "Lamentamos informarte que tu turno agendado con el veterinario ha sido cancelado por " + appointment.description +". Por favor, ponte en contacto con nosotros para reprogramar una nueva cita. Agradecemos tu comprensión y estamos a tu disposición para cualquier consulta adicional."
+    remitente = 'megat01e28@gmail.com'
+    destinatario=appointment.user.email
+    
+  
+    mail = EmailMessage(
+                                    asunto, 
+                                     mensaje, 
+                                    remitente,
+                                    [destinatario]
+            )
+    mail.send()  
     return redirect('staffPanel')
 
 @login_required
@@ -342,3 +359,38 @@ def save_description(request, id):
     
     return render(request, 'staffPanel.html')
 
+def desbloquear(request, id):
+    appointment = Appointment.objects.get(pk=id)
+    appointment.mandado = "2"
+    appointment.save()
+    
+    return redirect('staffPanel')
+
+def save_descriptionMandado(request, id):
+    
+    if request.method == 'POST':
+        description = request.POST.get('description')
+        appointment = Appointment.objects.get(pk=id)
+        appointment.mandado = "3"
+        appointment.save()
+
+        
+        
+
+        if description != None:
+            # Guardar la cita en la base de datos
+            AppointmentForm = Appointment.objects.filter(pk=id).update(
+                                description=description,
+            )
+        
+            # Redirigir a una página de éxito o a otra vista
+            messages.success(request, 'Mensaje guardado correctamente')
+            return redirect('staffPanel')
+        else:
+                messages.success(request, 'Escribe el mensaje antes de guardar')
+       
+
+
+
+    
+    return render(request, 'staffPanel.html')

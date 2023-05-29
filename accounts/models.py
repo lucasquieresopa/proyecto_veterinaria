@@ -43,7 +43,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(
         verbose_name="email", 
         unique=True,
-        max_length=40
+        max_length=40,
+        error_messages={"unique":'El mail ya se encuentra registrado. Por favor ingrese otro.'}
     )
     name = models.CharField(
         max_length=30

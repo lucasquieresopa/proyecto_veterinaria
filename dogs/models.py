@@ -2,6 +2,7 @@ from django.db import models
 from accounts.models import CustomUser
 from datetime import datetime, date
 from django.core.validators import MaxLengthValidator, MaxValueValidator
+from dateutil import relativedelta
 
 # Create your models here.
 
@@ -84,12 +85,42 @@ class Dog(models.Model):
     def __str__(self) -> str:
         return self.name
     
-    def calculate_age(self):
+    def calculate_age_year(self):
         today = date.today()
         return today.year - self.date_of_birth.year - ((today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day))
+        
+    
+    def calculate_age_month(self):
+        today = date.today()
+        diff = relativedelta.relativedelta(today,self.date_of_birth)
+        diff_in_months = diff.months + diff.years * 12
+        years = self.calculate_age_year()
+        return (diff_in_months - (12 * years))
+        
+    
+    def calculate_age_days(self):
+        today = date.today()
+        diff = relativedelta.relativedelta(today,self.date_of_birth)
+        return diff.days
+        
+    def calculate_age(self):
+        f_años=self.calculate_age_year()
+        f_meses=self.calculate_age_month()
+        f_dias=self.calculate_age_days()
+        if (f_años == 1):
+            años= f"{f_años} año"
+        else:
+            años= f"{f_años} años"
+        if (f_meses == 1):
+            meses= f"{f_meses} mes"
+        else:
+            meses= f"{f_meses} meses"
+        if (f_dias == 1):
+            dias= f"{f_dias} día"
+        else:
+            dias= f"{f_dias} días"
+        return años + " " + meses + " y " + dias
 
-    
-    
 
     
 class Attention(models.Model):

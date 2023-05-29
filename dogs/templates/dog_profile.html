@@ -41,7 +41,7 @@
                     <div class="col-sm-9 text-secondary">
                         {{ dog.calculate_age }}
                     </div>
-                </div>
+                    </div>
                 <hr>
                 <div class="row">
                     <div class="col-sm-3">
@@ -102,7 +102,7 @@
     <div class="text-right" >    
         <a href="{% url 'dog_modification' dog_id=dog.id user_owner_id=user_owner.id %}" class="btn btn-primary">Modificar datos de perro</a>
         
-        {% if user.is_veterinario and not dog.hidden %}
+        {% if user.is_veterinario and not dog.hidden %} 
             <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#hide_dog" id="hide_dog_button">
                 Ocultar perro
             </button>

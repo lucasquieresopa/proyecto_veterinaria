@@ -4,7 +4,7 @@ from accounts import forms
 
 def dosis_validator(actual, total):
     if actual>total:
-        return False
+        raise forms.ValidationError('El total de dosis debe ser mayor al número de dosis')
     return True
 
 

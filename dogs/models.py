@@ -191,11 +191,9 @@ class Vaccination(models.Model):
         blank=True,
         null=True
     )
-    dosis_number = models.PositiveIntegerField(
+    applied_dose = models.PositiveIntegerField(
         null=True,
-    )
-    total_dosis = models.PositiveIntegerField(
-        null=True,
+        blank=True,
     )
     date_of_application = models.DateField(
         null=True,

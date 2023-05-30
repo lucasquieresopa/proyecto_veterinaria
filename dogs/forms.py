@@ -1,6 +1,6 @@
 from django import forms
 from .models import Dog, Attention, Vaccination
-from .vaccination_validators import age_validator, dosis_validator
+from .vaccination_validators import age_validator
 from django.core.validators import MaxValueValidator, MaxLengthValidator
 from datetime import date
 

@@ -2,11 +2,6 @@ from datetime import date, datetime
 
 from accounts import forms
 
-def dosis_validator(actual, total):
-    if actual>total:
-        raise forms.ValidationError('El número de dosis debe ser menor al número total de dosis')
-    return True
-
 
 def dog_age(dog_dob):
     return (datetime.now() - dog_dob).days/365

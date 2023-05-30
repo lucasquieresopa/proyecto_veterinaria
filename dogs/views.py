@@ -118,10 +118,10 @@ def dog_modification_done(request, dog_id, user_owner_id):
     )
 
 @ login_required
-def hide_dog(request, dog_id):
+def hide_or_show_dog(request, dog_id):
     if request.POST.get('action') == 'post':
         dog = Dog.objects.get(id=dog_id)
-        dog.hidden = True
+        dog.hidden = not dog.hidden     #basicamente revierte su estado
         dog.save()
     return JsonResponse({'hidden': True})
 

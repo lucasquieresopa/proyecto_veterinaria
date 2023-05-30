@@ -8,7 +8,7 @@ urlpatterns = [
     path('dog_modification/<user_owner_id>/<dog_id>', views.dog_modification_view, name='dog_modification'),
     path('dog_modification/succeed/<user_owner_id>/<dog_id>', views.dog_modification_done, name='dog_modification_succeed'),
 
-    path('hide_dog/<dog_id>/', views.hide_dog, name='hide_dog'),
+    path('hide_dog/<dog_id>/', views.hide_or_show_dog, name='hide_or_show_dog'),
     path('hidden_dogs/<user_id>', views.hidden_dogs_view, name="hidden_dogs"),
 
     path('attention_form/<client_id>/<dog_id>/', views.attention_registration_view, name='attention_form'),

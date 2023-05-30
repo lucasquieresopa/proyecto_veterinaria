@@ -67,10 +67,10 @@ class Dog(models.Model):
         max_length=10,
         null=True, 
         blank=True, 
+        choices=Size.choices, 
     )
     description = models.TextField(
         max_length=120,
-        #validators=[MaxLengthValidator(120, message="La descripción debe tener a lo sumo 120 caracteres")],
         blank=True, 
         null=True, 
     )

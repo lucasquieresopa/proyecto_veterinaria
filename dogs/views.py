@@ -147,7 +147,6 @@ def attention_registration_view(request, dog_id, client_id):
     actual_dog = Dog.objects.get(pk=dog_id)
 
     if request.POST:
-        #form = AttentionRegisterForm(request.POST, dog=actual_dog)
         form = AttentionRegisterForm(request.POST)
 
         if form.is_valid():
@@ -161,7 +160,6 @@ def attention_registration_view(request, dog_id, client_id):
                 'attention_form' : form
             }
     else:
-        #form = AttentionRegisterForm(dog=actual_dog)
         form = AttentionRegisterForm()
 
         context = {

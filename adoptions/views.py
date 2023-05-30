@@ -11,7 +11,7 @@ def adoption_post_form_view(request):
     #     return redirect('home')
 
     if request.POST:
-        form = AdoptionPostForm(request.POST)
+        form = AdoptionPostForm(request.POST, user=user)
 
         if form.is_valid():
             adoption_post = form.save(commit=False)
@@ -23,7 +23,7 @@ def adoption_post_form_view(request):
                 'adoption_post_form' : form
             }
     else:
-        form = AdoptionPostForm()
+        form = AdoptionPostForm(user=user)
         context = {
                 'adoption_post_form' : form
                 }

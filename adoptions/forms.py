@@ -58,9 +58,9 @@ class AdoptionPostForm(forms.ModelForm):
         fields = ('name', 'age', 'sex', 'breed', 'color', 'size', 'origin', 'description')
 
 
-    # def __init__(self, *args, **kwargs):
-    #     self.post = kwargs.pop('post')  # cache the user object you pass in
-    #     super(AdoptionPostForm, self).__init__(*args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')  # cache the user object you pass in
+        super(AdoptionPostForm, self).__init__(*args, **kwargs)
 
 
     # def clean(self):
@@ -71,3 +71,25 @@ class AdoptionPostForm(forms.ModelForm):
     #             raise forms.ValidationError('El cliente ya posee un perro con ese nombre.')
 
     #     return self.cleaned_data
+
+    def clean(self):
+        """Comprueba que no exista otro post con los mismos datos"""
+
+        if self.is_valid():
+            # actual_form_data = self.cleaned_data    #dict
+            # user_adoption_posts = self.user.adoptionpost_set    #django many to many
+            name = self.cleaned_data['name']
+            age = self.cleaned_data['age']
+            sex = self.cleaned_data['sex']
+            breed = self.cleaned_data['breed']
+            color = self.cleaned_data['color']
+            size = self.cleaned_data['size']
+            origin = self.cleaned_data['origin']
+            description = self.cleaned_data['description']
+
+            if self.user.adoptionpost_set.filter(name=name, age=age, sex=sex, 
+                                        breed=breed, color=color, size=size, 
+                                        origin=origin, description=description):
+                raise forms.ValidationError("Ya existe una publicación con exactamente la misma información")
+            
+            return self.cleaned_data

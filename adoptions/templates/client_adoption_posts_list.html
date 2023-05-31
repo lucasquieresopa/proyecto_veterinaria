@@ -52,8 +52,23 @@
                                 <td>{{ post.description }}</td>
                                 <td>
                                     <a href="{% url 'adoption_post_modification' post.id %}" class="btn btn-outline-primary btn-sm">Modificar</a>
-                                    <a href="{% url 'adoption_post_modification' post.id %}" class="btn btn-outline-danger btn-sm">Borrar</a>
+                                    <a href="{% url 'delete_adoption_post' post.id %}" class="btn btn-outline-danger btn-sm">Borrar</a>
+                                    
+                                    
                                 </td>
+                                <!--
+                                {% if post.is_adopted %}
+                                -->
+                                <td>
+                                    <button type="button" class="btn btn-success btn-sm" disabled>Adoptado!</button>
+                                </td>
+                                <!-- 
+                                {% else %}
+                                <td>
+                                    <a href="{% url 'adoption_post_modification' post.id %}" class="btn btn-success btn-sm">Adoptado!</a>
+                                </td>
+                                {% endif %}
+                                -->
                                 
                             </tr>
                         {% endfor %}

@@ -103,3 +103,10 @@ def adoption_post_modification(request, post_id):
 @login_required
 def adoption_post_modification_succeed(request):
     return render(request, 'adoption_post_modification_succeed.html')
+
+
+
+def delete_adoption_post(request, post_id):
+    post = AdoptionPost.objects.get(pk=post_id)
+    post.delete()
+    return redirect('client_adoption_posts')

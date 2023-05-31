@@ -63,15 +63,6 @@ class AdoptionPostForm(forms.ModelForm):
         super(AdoptionPostForm, self).__init__(*args, **kwargs)
 
 
-    # def clean(self):
-    #     if self.is_valid():
-    #         name = self.cleaned_data['name']
-
-    #         if self.user.dog_set.filter(name=name).exists():
-    #             raise forms.ValidationError('El cliente ya posee un perro con ese nombre.')
-
-    #     return self.cleaned_data
-
     def clean(self):
         """Comprueba que no exista otro post con los mismos datos"""
 

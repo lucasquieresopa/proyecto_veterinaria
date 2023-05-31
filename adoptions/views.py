@@ -1,4 +1,6 @@
 from django.shortcuts import redirect, render
+
+from adoptions.models import AdoptionPost
 from .forms import AdoptionPostForm
 from django.contrib.auth.decorators import login_required
 
@@ -32,9 +34,19 @@ def adoption_post_form_view(request):
 
 
 
-
-
 @login_required
 def adoption_post_form_succeed(request):
     return render(request, 'adoption_post_form_succeed.html')
     
+
+
+
+@login_required
+def adoption_posts_list(request):
+
+    adoptions_posts = AdoptionPost.objects.all()
+
+    return render(request, 'adoption_posts_list.html', {
+                                                        'posts': adoptions_posts
+                                                    }
+    )

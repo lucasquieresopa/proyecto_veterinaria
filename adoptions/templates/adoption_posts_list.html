@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="text-center">Perros en adopcion</h2>
+                <table class="table table-hover">
+                    {% if posts.exists %}
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Edad</th>
+                            <th>Sexo</th>
+                            <th>Raza</th>
+                            <th>Color</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for post in posts %}
+                            <tr>
+
+                                <td>{{ post.name }}</td>
+                                <td>{{ post.age }}</td>
+                                <td>{{ post.sex }}</td>
+                                <td>{{ post.breed }}</td>
+                                <td>{{ post.color }}</td>
+                                
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    {% else %}
+                    <p style="text-align:center;">
+                        Lamentablemente, por el momento no hay perros en adopción
+                    </p>
+                    {% endif %}
+                </table>
+               
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock content %}

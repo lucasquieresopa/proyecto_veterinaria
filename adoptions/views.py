@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render
+from accounts.models import CustomUser
 
 from adoptions.models import AdoptionPost
 from .forms import AdoptionPostForm
@@ -47,6 +48,18 @@ def adoption_posts_list(request):
     adoptions_posts = AdoptionPost.objects.all()
 
     return render(request, 'adoption_posts_list.html', {
-                                                        'posts': adoptions_posts
+                                                        'posts': adoptions_posts,
+                                                       
                                                     }
     )
+
+
+@login_required
+def client_adoption_posts_list(request):
+
+    client = CustomUser.objects.get(pk=request.user.id)
+    client_adoption_posts = client.adoptionpost_set.all()
+
+    return render(request, 'client_adoption_posts_list.html', {
+                                                                'posts': client_adoption_posts,
+                                                            })

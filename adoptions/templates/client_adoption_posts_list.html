@@ -2,14 +2,11 @@
 
 {% block content %}
 <main>
-    <div class="text-left" >    
-        <a href="{% url 'adoption_post_form' %}" class="btn btn-primary">Publicar perro en adopción</a>
-        <a href="{% url 'client_adoption_posts' %}" class="btn btn-info">Ver mis publicaciones</a>
-    </div> 
+
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h2 class="text-center">Perros en adopcion</h2>
+                <h2 class="text-center">Mis perros en adopcion</h2>
                 <table class="table table-hover">
                     {% if posts.exists %}
                     <thead>
@@ -19,6 +16,7 @@
                             <th>Sexo</th>
                             <th>Raza</th>
                             <th>Color</th>
+
                             
                         </tr>
                     </thead>
@@ -31,6 +29,7 @@
                                 <td>{{ post.sex }}</td>
                                 <td>{{ post.breed }}</td>
                                 <td>{{ post.color }}</td>
+                                <td>{{ post.author }}</td>
                                 
                             </tr>
                         {% endfor %}

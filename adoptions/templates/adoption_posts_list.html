@@ -1,6 +1,19 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<style>
+    table {
+        border-collapse: collapse;
+        table-layout: fixed;
+        width: 310px;
+    }
+    table td {
+        width: 110px;
+        word-wrap: break-word;
+    }
+</style>
+
+
 <main>
     <div class="text-left" >    
         <a href="{% url 'adoption_post_form' %}" class="btn btn-primary">Publicar perro en adopción</a>
@@ -19,6 +32,9 @@
                             <th>Sexo</th>
                             <th>Raza</th>
                             <th>Color</th>
+                            <th>Tamaño</th>
+                            <th>Origen</th>
+                            <th>Descripcion</th>
                             
                         </tr>
                     </thead>
@@ -31,6 +47,9 @@
                                 <td>{{ post.sex }}</td>
                                 <td>{{ post.breed }}</td>
                                 <td>{{ post.color }}</td>
+                                <td>{{ post.size }}</td>
+                                <td>{{ post.origin }}</td>
+                                <td>{{ post.description }}</td>
                                 
                             </tr>
                         {% endfor %}

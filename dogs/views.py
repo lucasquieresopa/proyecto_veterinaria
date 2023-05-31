@@ -80,8 +80,6 @@ def dog_modification_view(request, dog_id, user_owner_id):
 
 
     if request.POST:
-        #form = DogModificationForm(request.POST, user=user_owner)
-
         form = DogModificationForm(request.POST, instance=dog, user=user_owner)
         if form.is_valid():
             form.save()

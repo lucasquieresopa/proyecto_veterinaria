@@ -121,7 +121,8 @@ def hide_or_show_dog(request, dog_id):
         dog = Dog.objects.get(id=dog_id)
         dog.hidden = not dog.hidden     #basicamente revierte su estado
         dog.save()
-    return JsonResponse({'hidden': True})
+        #return redirect('dog_profile', dog_id)
+    return JsonResponse({'hidden': not dog.hidden})
 
 
 @ login_required

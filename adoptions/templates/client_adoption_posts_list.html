@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
 <style>
 	table {
         border-collapse: collapse;
@@ -54,8 +55,7 @@
                                     <a href="{% url 'adoption_post_modification' post.id %}" class="btn btn-outline-primary btn-sm">Modificar</a>
                                     <a href="{% url 'delete_adoption_post' post.id %}" class="btn btn-outline-danger btn-sm">Borrar</a>
                                     
-                                    
-                                </td>
+
                                 <!--
                                 {% if post.is_adopted %}
                                 -->
@@ -83,6 +83,8 @@
             </div>
         </div>
     </div>
+
+
 </main>
 
 {% endblock content %}

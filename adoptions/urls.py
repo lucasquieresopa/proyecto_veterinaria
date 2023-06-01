@@ -31,5 +31,20 @@ urlpatterns = [
         'posts/delete_adoption_post/<post_id>', 
         views.delete_adoption_post, 
         name='delete_adoption_post'),
+    path(
+        'posts/adopted/<post_id>',
+        views.mark_as_adopted,
+        name='mark_as_adopted'),
+    path(
+        'posts/confirm_adoption/<post_id>/',
+        views.confirm_adoption,
+        name='confirm_adoption'
+    ),
+    path(
+        'posts/confirm_adoption/<post_id>/done/',
+        views.confirm_adoption_succeed,
+        name='confirm_adoption_succeed'
+    ),
+    
 
 ]

@@ -188,3 +188,31 @@ class AdoptionPostModificationForm(forms.ModelForm):
     def clean_description(self):
         description = self.cleaned_data['description']
         return description
+
+
+
+class ConfirmAdoptionForm(forms.Form):
+
+    email = forms.EmailField(
+        max_length=40,
+    )
+    telephone = forms.CharField(
+        label="Teléfono", 
+        required=True,
+        max_length=15,
+    )
+    description = forms.CharField(
+        label="Mensaje", 
+        required=True,
+        max_length=120,
+        help_text="""\n
+                Brinde una pequeña descripción de su situación. Algunos disparadores:\n
+                ¿Por qué este perro es correcto para usted?, \n
+                ¿Cuántos perros tiene actualmente?, \n 
+                ¿Tiene patio?
+                """,
+        widget=forms.Textarea(attrs={'rows':3,'cols':50})
+    )
+
+    class Meta:  
+        fields = ('email', 'telephone', 'description')

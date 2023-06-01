@@ -6,7 +6,7 @@ class AdoptionPostAdmin(admin.ModelAdmin):
     add_form = AdoptionPost
     model = AdoptionPost
 
-    list_display = ['name', 'author', 'age', 'sex']
+    list_display = ['name', 'author', 'age', 'sex', 'is_adopted']
     fieldsets = ()
     add_fieldsets = add_fieldsets = (
         (None, {

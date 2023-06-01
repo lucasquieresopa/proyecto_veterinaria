@@ -64,28 +64,27 @@
                                 <td>{{ post.origin }}</td>
                                 <td>{{ post.description }}</td>
                                 <td>
-                                    <a href="{% url 'adoption_post_modification' post.id %}" class="btn btn-outline-primary btn-sm">Modificar</a>
+                                  
+                                    <a href="{% url 'adoption_post_modification' post.id %}" class="bi bi-pencil-square btn btn-outline-primary btn-sm"></a>
                                     
                                     <form method="POST" action="{% url 'delete_adoption_post' post.id %}">
                                         {% csrf_token %}
                                         <input name="_method" type="hidden" value="DELETE">
                                         <button type="submit" class="bi bi-trash red-color btn btn-outline-danger btn-sm show_confirm" data-toggle="tooltip" title='Delete'></button>
                                     </form>
-
-                                <!--
-                                    <a href="{% url 'delete_adoption_post' post.id %}" class="confirm-delete">Borrar</a>
+                                    
+                                </td>
+                                <td>
                                 {% if post.is_adopted %}
-                                -->
-                                <td>
+                                
                                     <button type="button" class="btn btn-success btn-sm" disabled>Adoptado!</button>
-                                </td>
-                                <!-- 
+
                                 {% else %}
-                                <td>
-                                    <a href="{% url 'adoption_post_modification' post.id %}" class="btn btn-success btn-sm">Adoptado!</a>
-                                </td>
+
+                                    <a href="{% url 'mark_as_adopted' post.id %}" class="btn btn-success btn-sm">Adopción realizada</a>
+                                        
                                 {% endif %}
-                                -->
+                                </td>
                                 
                             </tr>
                         {% endfor %}

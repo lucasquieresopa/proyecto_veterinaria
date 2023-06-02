@@ -1,3 +1,4 @@
+from datetime import date
 from email.message import EmailMessage
 from django.shortcuts import redirect, render
 from accounts.models import CustomUser
@@ -48,11 +49,11 @@ def adoption_post_form_succeed(request):
 @login_required
 def adoption_posts_list(request):
     """activa el template que muestra las publicaciones de adopcion excluyendo las del usuario"""
-    adoptions_posts = AdoptionPost.objects.exclude(author=request.user) 
+    adoption_posts = AdoptionPost.objects.all().order_by('-publication_date') 
 
     return render(request, 'adoption_posts_list.html', {
-                                                        'posts': adoptions_posts,
-                                                       
+                                                        'posts': adoption_posts,
+                                                        'actual_user_id': request.user.id 
                                                     }
     )
 

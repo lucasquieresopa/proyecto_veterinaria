@@ -1,3 +1,4 @@
+from django.utils.timezone import now
 from django.db import models
 from accounts.models import CustomUser
 from dogs.models import Dog
@@ -53,6 +54,10 @@ class AdoptionPost(models.Model):
         max_length=120,
         blank=True, 
         null=True, 
+    )
+    publication_date = models.DateTimeField(
+        blank=True,
+        default=now,
     )
     is_adopted = models.BooleanField(
         default=False,

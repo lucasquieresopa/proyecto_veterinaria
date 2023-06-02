@@ -35,6 +35,7 @@
                             <th>Tamaño</th>
                             <th>Origen</th>
                             <th>Descripcion</th>
+                            <th>Fecha de publicación</th>
                             <th></th>
                             
                         </tr>
@@ -51,17 +52,43 @@
                                 <td>{{ post.size }}</td>
                                 <td>{{ post.origin }}</td>
                                 <td>{{ post.description }}</td>
+                                <td>{{ post.publication_date }}</td>
+                                
+
+                                    <td>
+                                        {% if post.author.id == actual_user_id %}
+                                        <a href="{% url 'adoption_post_modification' post.id %}" class="bi bi-pencil-square btn btn-outline-primary btn-sm"></a>
+                                        
+                                        <form method="POST" action="{% url 'delete_adoption_post' post.id %}">
+                                            {% csrf_token %}
+                                            <input name="_method" type="hidden" value="DELETE">
+                                            <button type="submit" class="bi bi-trash red-color btn btn-outline-danger btn-sm show_confirm" data-toggle="tooltip" title='Delete'></button>
+                                        </form>
+                                        {% endif %}
+                                    </td>
+
+                                    
                                 <td>
                                     {% if post.is_adopted %}
                                     
                                         <button type="button" class="btn btn-success btn-sm" disabled>Adoptado!</button>
     
                                     {% else %}
+
+                                        {% if post.author.id == actual_user_id %}
+
+                                            <a href="{% url 'mark_as_adopted' post.id %}" class="btn btn-success btn-sm">Adopción realizada</a>
+
+                                        {% else %}
     
-                                        <a href="{% url 'confirm_adoption' post.id %}" class="btn btn-secondary btn-sm">Adoptar</a>
+                                            <a href="{% url 'confirm_adoption' post.id %}" class="btn btn-secondary btn-sm">Adoptar</a>
                         
+                                        {% endif %}
+
                                     {% endif %}
                                 </td>
+
+                                    
                                 
                             </tr>
                         {% endfor %}

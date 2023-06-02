@@ -138,7 +138,6 @@ def mark_as_adopted(request, post_id):
 
 
 def confirm_adoption(request, post_id):
-    print(post_id)
     post = AdoptionPost.objects.get(pk=post_id)
 
     if request.POST:
@@ -155,7 +154,7 @@ def confirm_adoption(request, post_id):
             send_mail_to_user('Solicitud de adopción en Oh My Dog!', 
                       f"""Un cliente de Oh My Dog ha solicitado adoptar a su perro {post.name} \n\nEstos son sus datos: \nEmail: {form.cleaned_data["email"]} \nTelefono: {form.cleaned_data["telephone"]} \nMensaje: {form.cleaned_data["description"]} \n\nContactese con el para confirmar o rechazar la solicitud.""", 
                       form.cleaned_data["email"], 
-                      ["megat01e28@gmail.com"])
+                      [post.author.email])
 
             return redirect('confirm_adoption_succeed', post.id)
     else:

@@ -34,6 +34,12 @@
         <div class="row">
             <div class="col-md-12">
                 <h2 class="text-center">Mis perros en adopcion</h2>
+
+                <form method="get">
+                    {{filter.form}}
+                    <button class="btn btn-primary" type="submit">Filtrar</button>
+                </form>
+
                 <table class="table table-hover">
                     {% if posts.exists %}
                     <thead>
@@ -91,7 +97,7 @@
                     </tbody>
                     {% else %}
                     <p style="text-align:center;">
-                        Lamentablemente, por el momento no hay perros en adopción
+                        No hay publicaciones para ver
                     </p>
                     {% endif %}
                 </table>

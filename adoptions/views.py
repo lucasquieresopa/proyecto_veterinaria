@@ -70,13 +70,17 @@ def adoption_posts_list(request):
 def client_adoption_posts_list(request):
 
     client = CustomUser.objects.get(pk=request.user.id)
-    client_adoption_posts = client.adoptionpost_set.all()
+    client_adoption_posts = client.adoptionpost_set.all().order_by('-publication_date')
 
-    return render(request, 'client_adoption_posts_list.html', {
-                                                                'posts': client_adoption_posts,
-          
-          
-                                                            })
+    post_filter = OrderFilter(request.GET, queryset=client_adoption_posts)
+    client_adoption_posts = post_filter.qs
+
+    context = {
+        'posts': client_adoption_posts,
+        'filter': post_filter,
+    }
+
+    return render(request, 'client_adoption_posts_list.html', context)
 @login_required
 def adoption_post_modification(request, post_id):
 

@@ -9,6 +9,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from pages.email_sending import send_mail_to_user
 
+from .filters import OrderFilter
+
 @login_required
 def adoption_post_form_view(request):
     """definicion del formulario de publicación de adopción"""
@@ -51,11 +53,17 @@ def adoption_posts_list(request):
     """activa el template que muestra las publicaciones de adopcion excluyendo las del usuario"""
     adoption_posts = AdoptionPost.objects.all().order_by('-publication_date') 
 
-    return render(request, 'adoption_posts_list.html', {
-                                                        'posts': adoption_posts,
-                                                        'actual_user_id': request.user.id 
-                                                    }
-    )
+    post_filter = OrderFilter(request.GET, queryset=adoption_posts)
+    adoption_posts = post_filter.qs
+
+    context = {
+        'posts': adoption_posts,
+        'actual_user_id': request.user.id,
+        'filter': post_filter,
+    }
+
+    return render(request, 'adoption_posts_list.html', context)
+    
 
 
 @login_required

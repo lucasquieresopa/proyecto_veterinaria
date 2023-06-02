@@ -81,7 +81,7 @@ class AdoptionPostForm(forms.ModelForm):
             if self.user.adoptionpost_set.filter(name=name, age=age, sex=sex, 
                                         breed=breed, color=color, size=size, 
                                         origin=origin, description=description):
-                raise forms.ValidationError("Ya existe una publicación con exactamente la misma información")
+                raise forms.ValidationError("Ya existe una publicación con exactamente la misma información para este cliente")
             
             return self.cleaned_data
 
@@ -207,9 +207,9 @@ class ConfirmAdoptionForm(forms.Form):
         max_length=120,
         help_text="""\n
                 Brinde una pequeña descripción de su situación. Algunos disparadores:\n
-                ¿Por qué este perro es correcto para usted?, \n
+                ¿Por qué eligió a este perro?, \n
                 ¿Cuántos perros tiene actualmente?, \n 
-                ¿Tiene patio?
+                ¿Posee jardín en su residencia?
                 """,
         widget=forms.Textarea(attrs={'rows':3,'cols':50})
     )

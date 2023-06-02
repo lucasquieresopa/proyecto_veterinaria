@@ -51,7 +51,8 @@ def adoption_post_form_succeed(request):
 @login_required
 def adoption_posts_list(request):
     """activa el template que muestra las publicaciones de adopcion excluyendo las del usuario"""
-    adoption_posts = AdoptionPost.objects.all().order_by('-publication_date') 
+    adoption_posts = AdoptionPost.objects.all().order_by('-publication_date', 'is_adopted')
+
 
     post_filter = OrderFilter(request.GET, queryset=adoption_posts)
     adoption_posts = post_filter.qs

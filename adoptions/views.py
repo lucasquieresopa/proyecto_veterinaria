@@ -131,12 +131,12 @@ def delete_adoption_post(request, post_id):
     post.delete()
     return redirect('client_adoption_posts')
 
+
 def delete_adoption_post_from_general(request, post_id):
     """borrado de post en la pestaña con todas las publicaciones"""
     post = AdoptionPost.objects.get(pk=post_id)
     post.delete()
     return redirect('adoption_posts')
-
 
 
 def mark_as_adopted(request, post_id):

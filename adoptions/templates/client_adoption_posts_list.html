@@ -77,8 +77,8 @@
                                     
                                     <form method="POST" action="{% url 'delete_adoption_post' post.id %}">
                                         {% csrf_token %}
-                                        <input name="_method" type="hidden" value="DELETE">
-                                        <button type="submit" class="bi bi-trash red-color btn btn-outline-danger btn-sm show_confirm" data-toggle="tooltip" title='Delete'></button>
+                                        <input name="_method" type="hidden" value="Borrar">
+                                        <button type="submit" class="bi bi-trash red-color btn btn-outline-danger btn-sm show_confirm" data-toggle="tooltip" title='Borrar'></button>
                                     </form>
                                     {% endif %}
 
@@ -90,7 +90,11 @@
 
                                 {% else %}
 
-                                    <a href="{% url 'mark_as_adopted' post.id %}" class="btn btn-success btn-sm">Adoptaron a mi perro</a>
+                                <form method="POST" action="{% url 'mark_as_adopted' post.id %}">
+                                    {% csrf_token %}
+                                    <input name="_method" type="hidden" value="Marcar">
+                                    <button type="submit" class="btn btn-success btn-sm" data-toggle="tooltip" title='Marcar como adoptado'>Marcar como adoptado</button>
+                                </form>
                                         
                                 {% endif %}
                                 </td>

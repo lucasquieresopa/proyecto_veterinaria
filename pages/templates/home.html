@@ -10,18 +10,62 @@
 	.text-centre {
     text-align: center;
     }
+    /* Set additional styling options for the columns*/
+    .left {
+    width: 40%;
+    }
+
+    .middle {
+    width: 30%;
+    }
+    
+    .right {
+    width: 30%;
+    }
+
+    .row:after {
+    content: "";
+    display: table;
+    clear: both;
+    }
+
+
 </style>
 
-<div class="container">
-    <img src="{% static 'media/Logo1.png' %}" width="200" height="200" alt="Descripción de la imagen" >
-</div>
-<br>
-<br>
-<div class="text-centre">
-    <a class="btn btn-primary btn-lg" href="{% url 'adoption_posts' %}">
-        Adoptar un perro
-    </a>
-</div>
+<body>
+    <div class="row" style="margin:20px">
+        <div class="column left">
+            <h1>Bienvenido!</h1>
+            <img src="{% static 'media/Logo1.png' %}" width="400" height="326" alt="Descripción de la imagen" >
+        </div>
+        <div class="column middle">
+            <img src="{% static 'media/adopcion.jpg' %}" width="350" height="218" alt="Descripción de la imagen" >
+            <br>
+            <br>
+            <img src="{% static 'media/perro_perdido.jpg' %}" width="350" height="218" alt="Descripción de la imagen" >
+            <br>
+            <br>
+            <img src="{% static 'media/perro_encontrado.jpg' %}" width="350" height="218" alt="Descripción de la imagen" >
+        </div>
+        <div class="column right" style="margin-top: 70px;">
+            <a class="btn btn-primary btn-lg" href="{% url 'adoption_posts' %}">
+                Adoptar un perro
+            </a>
+            <div style="margin-top: 200px;">
+                <a class="btn btn-primary btn-lg" href="{% url 'adoption_posts' %}">
+                    Perros perdidos
+                </a>
+            </div>
+            
+            <div style="margin-top: 200px;">
+                <a class="btn btn-primary btn-lg" href="{% url 'adoption_posts' %}">
+                    Perros encontrados
+                </a>
+            </div>
+        </div>
+    </div>
+
+</body>
 
 
 

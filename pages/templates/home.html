@@ -1,132 +1,75 @@
-<!-- templates/home.html -->
 {% extends 'base.html' %} 
+
 {%load static %}
 
 {% block title %}Página principal{% endblock title %}
-<!--
-{% block header %}
 
-    <header>
-        <p> {{user.is_authenticated}}</p>
-        {% if user.is_authenticated %}
-            <nav class="navbar navbar-expand-lg header-ar">
-                <div class="container">
-                    <p class="navbar-brand header__marca p-2">Oh my dog !!</p>
-                    <div class="collapse navbar-collapse show " id="navbarBasic">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="{% url 'password_change' %}">Adoptar</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="{% url 'booking' %}">Turnos</a>
-                            </li>
-
-                            {% if user.is_veterinario %}
-
-                                <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="{% url 'staff-panel' %}">Turnos</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="{% url 'list_users' %}">Lista de Clientes</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="{% url 'client_registration' %}">Registrar cliente</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="{% url 'staff-panel' %}">Turnos</a>
-                                </li>
-                                <ul>
-                                    <form class="d-flex" method=POST action="{% url 'search_user' %}">
-                                        {% csrf_token %}
-                                        
-                                          <input type="search" class="form-control me-2" placeholder="Buscar Cliente" aria-label="Search" name="buscado">
-                                          
-                                        <button class="btn btn-outline-secondary" type="submit">Buscar</button>
-                                         
-                                      </form>
-                                </ul>
-
-                            {% endif %}
-                
-                                </ul>
-                                    <ul class="navbar-nav mb-2 mb-lg-0 ">
-                                        <li class="nav-item dropdown">
-                                            <a class="nav-link dropdown-toggle icono-user role="button" data-bs-toggle="dropdown" aria-expanded="False">
-                                                {% if user.is_veterinario %}
-                                                    <i class="bi bi-person-circle">
-                                                        Hola Veterinario!
-                                                    </i>
-                                                {% else %}
-                                                    <i class="bi bi-person-circle">
-                                                        Hola {{ user }}!
-                                                    </i>
-                                                {% endif %}
-                                            </a>
-                                            <ul class="dropdown-menu"> 
-                                                <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a></li>
-                                                <li>
-                                                    <a class="dropdown-item" href="{% url 'password_change' %}">Cambiar Contraseña</a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="{% url 'account_modif' %}">Modificar datos</a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="{% url 'profile' user.id %}">Ver mi perfil</a>
-                                                </li>
-
-                                            </ul>
-                                                
-                                        
-                                        </li>
-                                    </ul>
-                                </ul>
-                        
-                    </div>
-                </div>
-            </nav> 
-        {% else %}
-            <nav class="navbar navbar-expand-lg header-ar">
-                <div class="container">
-                    <p class="navbar-brand header_marca p-2">Oh my dog !!</p>
-
-                    
-                    <div class="collapse navbar-collapse show " id="navbarBasic">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="{% url 'password_change' %}">Adoptar</a>
-                            </li>
-                
-                        </ul>
-                            <ul class="navbar-nav ml-auto">
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle icono-user" role="button" data-bs-toggle="dropdown" aria-expanded="False">
-                                        <i class="bi bi-person-circle">
-                    
-                                        </i>
-                                    </a>
-                                    <ul class="dropdown-menu"> 
-                                        <li><a class="dropdown-item" href="{% url 'login' %}">Iniciar sesión</a></li>
-                                    
-                                    </ul>
-                                        
-                                
-                                </li>
-                            </ul>
-                        </ul>
-                        
-                    </div>
-                </div>
-            </nav> 
-        {% endif%}
-
-    </header>
-
-{% endblock %}
--->
 {% block content %}
-<div class="container">
-    <img src="{% static 'media/Logo1.png' %}" width="70" height="70" alt="Descripción de la imagen" >
-  </div>
+
+<style>
+	.text-centre {
+    text-align: center;
+    }
+    /* Set additional styling options for the columns*/
+    .left {
+    width: 40%;
+    }
+
+    .middle {
+    width: 22%;
+    }
+    
+    .right {
+    width: 30%;
+    }
+
+    .row:after {
+    content: "";
+    display: table;
+    clear: both;
+    }
+
+
+</style>
+
+<body>
+    <div class="row" style="margin:20px">
+        <div class="column left">
+            <h1>Bienvenido!</h1>
+            <img src="{% static 'media/Logo1.png' %}" width="400" height="326" alt="Descripción de la imagen" >
+        </div>
+        <div class="column middle">
+            <img src="{% static 'media/adopcion.jpg' %}" width="280" height="173" alt="Descripción de la imagen" >
+            <br>
+            <br>
+            <img src="{% static 'media/perro_perdido.jpg' %}" width="280" height="173" alt="Descripción de la imagen" >
+            <br>
+            <br>
+            <img src="{% static 'media/perro_encontrado.jpg' %}" width="280" height="173" alt="Descripción de la imagen" >
+        </div>
+        <div class="column right" style="margin-top: 70px;">
+            <a class="btn btn-primary btn-lg" href="{% url 'adoption_posts' %}">
+                Adoptar un perro
+            </a>
+            <div style="margin-top: 150px;">
+                <a class="btn btn-primary btn-lg" href="{% url 'adoption_posts' %}">
+                    Perros perdidos
+                </a>
+            </div>
+            
+            <div style="margin-top: 150px;">
+                <a class="btn btn-primary btn-lg" href="{% url 'adoption_posts' %}">
+                    Perros encontrados
+                </a>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+
+
+
   
 {% endblock %}
 

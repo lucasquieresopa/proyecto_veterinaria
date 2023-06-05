@@ -80,8 +80,6 @@ def dog_modification_view(request, dog_id, user_owner_id):
 
 
     if request.POST:
-        #form = DogModificationForm(request.POST, user=user_owner)
-
         form = DogModificationForm(request.POST, instance=dog, user=user_owner)
         if form.is_valid():
             form.save()
@@ -118,12 +116,13 @@ def dog_modification_done(request, dog_id, user_owner_id):
     )
 
 @ login_required
-def hide_dog(request, dog_id):
+def hide_or_show_dog(request, dog_id):
     if request.POST.get('action') == 'post':
         dog = Dog.objects.get(id=dog_id)
-        dog.hidden = True
+        dog.hidden = not dog.hidden     #basicamente revierte su estado
         dog.save()
-    return JsonResponse({'hidden': True})
+        #return redirect('dog_profile', dog_id)
+    return JsonResponse({'hidden': not dog.hidden})
 
 
 @ login_required
@@ -147,7 +146,6 @@ def attention_registration_view(request, dog_id, client_id):
     actual_dog = Dog.objects.get(pk=dog_id)
 
     if request.POST:
-        #form = AttentionRegisterForm(request.POST, dog=actual_dog)
         form = AttentionRegisterForm(request.POST)
 
         if form.is_valid():
@@ -161,7 +159,6 @@ def attention_registration_view(request, dog_id, client_id):
                 'attention_form' : form
             }
     else:
-        #form = AttentionRegisterForm(dog=actual_dog)
         form = AttentionRegisterForm()
 
         context = {

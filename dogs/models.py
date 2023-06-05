@@ -67,10 +67,10 @@ class Dog(models.Model):
         max_length=10,
         null=True, 
         blank=True, 
+        choices=Size.choices, 
     )
     description = models.TextField(
         max_length=120,
-        #validators=[MaxLengthValidator(120, message="La descripción debe tener a lo sumo 120 caracteres")],
         blank=True, 
         null=True, 
     )
@@ -191,11 +191,9 @@ class Vaccination(models.Model):
         blank=True,
         null=True
     )
-    dosis_number = models.PositiveIntegerField(
+    applied_dose = models.PositiveIntegerField(
         null=True,
-    )
-    total_dosis = models.PositiveIntegerField(
-        null=True,
+        blank=True,
     )
     date_of_application = models.DateField(
         null=True,

@@ -1,6 +1,6 @@
 from django import forms
 from .models import Dog, Attention, Vaccination
-from .vaccination_validators import age_validator, dosis_validator
+from .vaccination_validators import age_validator
 from django.core.validators import MaxValueValidator, MaxLengthValidator
 from datetime import date
 
@@ -210,17 +210,12 @@ class VaccinationRegisterForm(forms.ModelForm):
         help_text="*",
         max_length=15,
     )
-    dosis_number = forms.IntegerField(
-        label="Número de dosis",
+    applied_dose = forms.IntegerField(
+        label="Dosis aplicada en ml",
         min_value=1,
         required=True, 
         help_text="*",
-    )
-    total_dosis = forms.IntegerField(
-        label="Total de dosis",
-        min_value=1,
-        required=True, 
-        help_text="*",
+        max_value=999999,
     )
     date_of_application = forms.DateField(
         label="Día de aplicación",
@@ -232,7 +227,7 @@ class VaccinationRegisterForm(forms.ModelForm):
 
     class Meta:  
         model = Vaccination
-        fields = ('type', 'brand', 'lot', 'dosis_number', 'total_dosis', 'date_of_application')
+        fields = ('type', 'brand', 'lot', 'applied_dose', 'date_of_application')
 
 
     def __init__(self, *args, **kwargs):
@@ -240,17 +235,9 @@ class VaccinationRegisterForm(forms.ModelForm):
         super(VaccinationRegisterForm, self).__init__(*args, **kwargs)
 
     def clean_date_of_application(self):
-        #print('entró 1')
         type = self.cleaned_data['type']
         date_of_application = self.cleaned_data['date_of_application']
         if age_validator(date_of_application, self.dog, type):
             return date_of_application
 
         
-    def clean_total_dosis(self):
-        #print('entró 2')
-        dosis_number = self.cleaned_data['dosis_number']
-        total_dosis = self.cleaned_data['total_dosis']
-        if dosis_validator(dosis_number, total_dosis):
-            return total_dosis
-

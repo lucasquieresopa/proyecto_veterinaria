@@ -31,6 +31,7 @@ def user_registration_view(request):
 
 
             email = form.cleaned_data['email']
+            
             mail = EmailMessage(
                                 "Registro exitoso", 
                                 "La contraseña para {} es {}".format(email, password), 
@@ -38,7 +39,6 @@ def user_registration_view(request):
                                 ["megat01e28@gmail.com"]
             )
             mail.send()
-            print(password)
 
             user.save()
             #dog_context['dog_registration'] 
@@ -151,6 +151,8 @@ def list_users(request):
         return redirect('home')
     users = CustomUser.objects.filter(is_veterinario=False, is_admin=False)
     return render(request, 'list_users.html', {'users': users})
+
+
 
 @login_required
 def profile_view(request, pk):

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+	.text-center {
+	text-align: center;
+	}
+  
+	p {
+	  font-size:20px;
+  
+	}
+  
+	
+</style>
+<br>
+	<p style="text-align:center;">
+		La publicación fue realizada.
+	</p>
+
+
+	
+	<div class="text-center">
+		<a href="{% url 'adoption_posts' %}">Volver</a>
+	</div>
+
+{% endblock %}

@@ -45,9 +45,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pages.apps.PagesConfig',
+    'django_filters',
     'accounts',
     'dogs',
     'shifts',
+    'adoptions',
 
 ]
 

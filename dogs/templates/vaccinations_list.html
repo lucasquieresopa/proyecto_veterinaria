@@ -10,6 +10,15 @@
     p {
       font-size:20px;
     }
+    table {
+        border-collapse: collapse;
+        table-layout: fixed;
+        width: 310px;
+    }
+    table td {
+        width: 110px;
+        word-wrap: break-word;
+    }
 </style>
 
 <main>
@@ -22,8 +31,7 @@
                               <th>Tipo</th>
                               <th>Marca</th>
                               <th>Lote</th>
-                              <th>Número de dosis</th>
-                              <th>Dosis totales</th>
+                              <th>Dosis aplicada (en ml)</th>
                               <th>Día de aplicación</th>
 
                           </tr>
@@ -36,8 +44,7 @@
                                     <td>{{ vaccination.type }}</td>
                                     <td>{{ vaccination.brand }}</td>
                                     <td>{{ vaccination.lot }}</td>
-                                    <td>{{ vaccination.dosis_number }}</td>
-                                    <td>{{ vaccination.total_dosis }}</td>
+                                    <td>{{ vaccination.applied_dose }}</td>
                                     <td>{{ vaccination.date_of_application }}</td>
 
                                 </tr>

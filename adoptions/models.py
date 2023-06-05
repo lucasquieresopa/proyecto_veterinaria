@@ -10,6 +10,12 @@ class AdoptionPost(models.Model):
         refugio = "Refugio"
         criadero = "Criadero"
         hogar = "Hogar"
+        otro = "Otro"
+    
+    class Age(models.TextChoices):
+        cachorro = "Cachorro"
+        mediano = "Mediano"
+        adulto = "Adulto"
 
 
     author = models.ForeignKey(
@@ -22,9 +28,8 @@ class AdoptionPost(models.Model):
         max_length=30,
     )
     age = models.CharField(
-        null=True,
-        blank=True,
-        max_length=30, 
+        choices=Age.choices,
+        max_length=15, 
     )
     sex = models.CharField(
         max_length=10, 

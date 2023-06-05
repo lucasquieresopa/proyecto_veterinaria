@@ -70,7 +70,9 @@
                                 <td>{{ post.origin }}</td>
                                 <td>{{ post.description }}</td>
                                 <td>
-                                  
+                                    
+
+                                    {% if not post.is_adopted %}
                                     <a href="{% url 'adoption_post_modification' post.id %}" class="bi bi-pencil-square btn btn-outline-primary btn-sm"></a>
                                     
                                     <form method="POST" action="{% url 'delete_adoption_post' post.id %}">
@@ -78,7 +80,8 @@
                                         <input name="_method" type="hidden" value="DELETE">
                                         <button type="submit" class="bi bi-trash red-color btn btn-outline-danger btn-sm show_confirm" data-toggle="tooltip" title='Delete'></button>
                                     </form>
-                                    
+                                    {% endif %}
+
                                 </td>
                                 <td>
                                 {% if post.is_adopted %}

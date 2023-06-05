@@ -45,8 +45,7 @@
                             <th>Tamaño</th>
                             <th>Origen</th>
                             <th>Descripcion</th>
-                            <th>Acción</th>
-                            <th>Estado</th>
+
                             
                         </tr>
                     </thead>
@@ -63,9 +62,9 @@
                                 <td>{{ post.origin }}</td>
                                 <td>{{ post.description }}</td>
                                 
-
+                                    
                                     <td>
-                                        {% if post.author.id == actual_user_id and user.is_authenticated %}
+                                        {% if post.author.id == actual_user_id and user.is_authenticated and not post.is_adopted %}
                                         <a href="{% url 'adoption_post_modification' post.id %}" class="bi bi-pencil-square btn btn-outline-primary btn-sm"></a>
                                         
                                         <form method="POST" action="{% url 'delete_adoption_post_from_general' post.id %}">

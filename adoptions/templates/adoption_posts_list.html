@@ -66,7 +66,7 @@
                                         {% if post.author.id == actual_user_id %}
                                         <a href="{% url 'adoption_post_modification' post.id %}" class="bi bi-pencil-square btn btn-outline-primary btn-sm"></a>
                                         
-                                        <form method="POST" action="{% url 'delete_adoption_post' post.id %}">
+                                        <form method="POST" action="{% url 'delete_adoption_post_from_general' post.id %}">
                                             {% csrf_token %}
                                             <input name="_method" type="hidden" value="DELETE">
                                             <button type="submit" class="bi bi-trash red-color btn btn-outline-danger btn-sm show_confirm" data-toggle="tooltip" title='Delete'></button>

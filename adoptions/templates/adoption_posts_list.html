@@ -15,10 +15,12 @@
 
 
 <main>
+    {% if user.is_authenticated %}
     <div class="text-left" >    
         <a href="{% url 'adoption_post_form' %}" class="btn btn-primary">Publicar perro en adopción</a>
         <a href="{% url 'client_adoption_posts' %}" class="btn btn-info">Ver mis publicaciones</a>
     </div> 
+    {% endif %}
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -63,7 +65,7 @@
                                 
 
                                     <td>
-                                        {% if post.author.id == actual_user_id %}
+                                        {% if post.author.id == actual_user_id and user.is_authenticated %}
                                         <a href="{% url 'adoption_post_modification' post.id %}" class="bi bi-pencil-square btn btn-outline-primary btn-sm"></a>
                                         
                                         <form method="POST" action="{% url 'delete_adoption_post_from_general' post.id %}">
@@ -82,7 +84,7 @@
     
                                     {% else %}
 
-                                        {% if post.author.id == actual_user_id %}
+                                        {% if post.author.id == actual_user_id and user.is_authenticated %}
 
                                             <a href="{% url 'mark_as_adopted' post.id %}" class="btn btn-success btn-sm">Adoptaron a mi perro</a>
 

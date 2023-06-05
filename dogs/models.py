@@ -1,7 +1,7 @@
 from django.db import models
 from accounts.models import CustomUser
 from datetime import datetime, date
-from django.core.validators import MaxLengthValidator, MaxValueValidator
+from django.core.validators import MaxLengthValidator, MaxValueValidator, MinValueValidator
 from dateutil import relativedelta
 
 # Create your models here.

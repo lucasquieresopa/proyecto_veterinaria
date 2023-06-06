@@ -290,7 +290,7 @@ def views_calendar(request, id):
 
     context = {
         'user': user_owner,
-        'dogs_shown': dogs,
+        'dogs_shown': dogs.filter(hidden=False),
     }
     
     

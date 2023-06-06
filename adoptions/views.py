@@ -70,7 +70,7 @@ def adoption_posts_list(request):
 def client_adoption_posts_list(request):
 
     client = CustomUser.objects.get(pk=request.user.id)
-    client_adoption_posts = client.adoptionpost_set.all().order_by('-publication_date')
+    client_adoption_posts = client.adoptionpost_set.all().order_by('-publication_date', 'is_adopted')
 
     post_filter = OrderFilter(request.GET, queryset=client_adoption_posts)
     client_adoption_posts = post_filter.qs
@@ -144,6 +144,13 @@ def mark_as_adopted(request, post_id):
     post.is_adopted = True
     post.save()
     return redirect('client_adoption_posts')
+
+
+def mark_as_adopted_from_general(request, post_id):
+    post = AdoptionPost.objects.get(pk=post_id)
+    post.is_adopted = True
+    post.save()
+    return redirect('adoption_posts')
 
 
 

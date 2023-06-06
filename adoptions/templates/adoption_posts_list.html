@@ -1,20 +1,28 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<style>
-    table {
-        border-collapse: collapse;
-        table-layout: fixed;
-        width: 310px;
-    }
-    table td {
-        width: 110px;
-        word-wrap: break-word;
-    }
-</style>
-
+<!DOCTYPE html>
 <html>
-<body>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    </head>
+    <style>
+        table {
+            border-collapse: collapse;
+            table-layout: fixed;
+            width: 310px;
+        }
+        table td {
+            width: 110px;
+            word-wrap: break-word;
+        }
+    </style>
+
+
+
 <main>
     {% if user.is_authenticated %}
     <div class="text-left" >    
@@ -66,12 +74,13 @@
                                     
                                     <td>
                                         {% if post.author.id == actual_user_id and user.is_authenticated and not post.is_adopted %}
+                                        <!-- si el post pertenece al usuario, el usuario esta loggeado y el post no está adoptado:-->
                                         <a href="{% url 'adoption_post_modification' post.id %}" class="bi bi-pencil-square btn btn-outline-primary btn-sm"></a>
                                         
                                         <form method="POST" action="{% url 'delete_adoption_post_from_general' post.id %}">
                                             {% csrf_token %}
                                             <input name="_method" type="hidden" value="Borrar">
-                                            <button type="submit" class="bi bi-trash red-color btn btn-outline-danger btn-sm show_confirm" data-toggle="tooltip" title='Borrar'></button>
+                                            <button type="submit" class="bi bi-trash red-color btn btn-outline-danger btn-sm show_confirm_delete" data-toggle="tooltip" title='Borrar'></button>
                                         </form>
                                         {% endif %}
                                     </td>
@@ -86,10 +95,10 @@
 
                                         {% if post.author.id == actual_user_id and user.is_authenticated %}
 
-                                            <form method="POST" action="{% url 'mark_as_adopted' post.id %}">
+                                            <form method="POST" action="{% url 'mark_as_adopted_from_general' post.id %}">
                                                 {% csrf_token %}
                                                 <input name="_method" type="hidden" value="Marcar como adoptado">
-                                                <button type="submit" class="btn btn-success btn-sm" data-toggle="tooltip" title='Marcar como adoptado'>Marcar como adoptado</button>
+                                                <button type="submit" class="btn btn-success btn-sm show_confirm_adopted" data-toggle="tooltip" title='Marcar como adoptado'>Marcar como adoptado</button>
                                             </form>
 
                                         {% else %}
@@ -118,7 +127,7 @@
     </div>
 
     <script type="text/javascript">
-        $('.show_confirm').click(function(event) {
+        $('.show_confirm_delete').click(function(event) {
             var form =  $(this).closest("form");
             var name = $(this).data("name");
             event.preventDefault();
@@ -135,9 +144,26 @@
                 }
             });
         });
+
+        $('.show_confirm_adopted').click(function(event) {
+            var form =  $(this).closest("form");
+            var name = $(this).data("name");
+            event.preventDefault();
+            swal({
+                title: `¿Estas seguro de marcar esta publicación como adoptado?`,
+                text: "No podrás deshacer tu elección",
+                icon: "warning",
+                buttons: ['Cancelar','Si'], //primer boton del array es 'cancel' y segundo 'confirm'
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    form.submit();
+                }
+            });
+        });
     </script>
     
 </main>
-</body>
+
 </html>
 {% endblock content %}

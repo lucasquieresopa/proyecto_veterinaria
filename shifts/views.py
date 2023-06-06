@@ -81,11 +81,15 @@ def bookingSubmit(request):
             messages.success(request, 'Debe seleccionar un servicio')
     return render(request, 'bookingSubmit.html', {'times':hour})
 
+
+
 @login_required
 def userPanel(request):
     user = request.user
     appointments = Appointment.objects.filter(user=user).order_by('day','time')
     return render(request, 'userPanel.html', {'user':user ,'appointments':appointments})
+
+
 
 @login_required
 def userUpdate(request,id):
@@ -252,6 +256,8 @@ def confirmAppointment(request, id):
     return redirect('staffPanel')
 
 
+
+
 def cancelAppointment(request, id):
     appointment = Appointment.objects.get(pk=id)
     appointment.status = "Cancelado"
@@ -299,6 +305,7 @@ def save_appointment(request,id):
         date = request.POST.get('date')
         time = request.POST.get('time')
         dog = request.POST.get('dog')
+        print(dog)
        
         if date > strtoday :
             # Guardar la cita en la base de datos

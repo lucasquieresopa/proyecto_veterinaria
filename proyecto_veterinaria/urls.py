@@ -25,6 +25,10 @@ from django.contrib.auth import views as auth_views
 #from pages.views import home2
 from django import urls 
 from accounts.views import login_view
+from django.conf import settings
+from django.conf.urls.static import static
+
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -35,5 +39,10 @@ urlpatterns = [
     path("dogs/", include('dogs.urls')),
     path("turnos/", include('shifts.urls')),
     path("adoptions/", include('adoptions.urls')),
+    path("perdidos/", include('perdidos.urls')),
     
 ]
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

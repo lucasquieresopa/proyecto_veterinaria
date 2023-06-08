@@ -331,40 +331,40 @@ def save_appointment(request,id):
 
 
 
-def enviar_correo_aceptacion(destinatario):
-    asunto = 'Aceptación de turno'
-    mensaje = 'Su turno ha sido aceptado. ¡Esperamos verte pronto!'
-    remitente = 'megat01e01'
-    send_mail(asunto, mensaje, remitente, [destinatario])
+# def enviar_correo_aceptacion(destinatario):
+#     asunto = 'Aceptación de turno'
+#     mensaje = 'Su turno ha sido aceptado. ¡Esperamos verte pronto!'
+#     remitente = 'megat01e01'
+#     send_mail(asunto, mensaje, remitente, [destinatario])
 
 
-def save_description(request, id):
+# def save_description(request, id):
     
-    if request.method == 'POST':
-        description = request.POST.get('description')
+#     if request.method == 'POST':
+#         description = request.POST.get('description')
 
-        if description != None:
-            # Guardar la cita en la base de datos
-            AppointmentForm = Appointment.objects.filter(pk=id).update(
-                                description=description,
-            )
+#         if description != None:
+#             # Guardar la cita en la base de datos
+#             AppointmentForm = Appointment.objects.filter(pk=id).update(
+#                                 description=description,
+#             )
         
-            # Redirigir a una página de éxito o a otra vista
-            messages.success(request, 'Mensaje guardado correctamente')
-            return redirect('shifts_panel')
-        else:
-                messages.success(request, 'Escribe el mensaje antes de guardar')
+#             # Redirigir a una página de éxito o a otra vista
+#             messages.success(request, 'Mensaje guardado correctamente')
+#             return redirect('shifts_panel')
+#         else:
+#                 messages.success(request, 'Escribe el mensaje antes de guardar')
  
-    return render(request, 'shifts_panel.html')
+#     return render(request, 'shifts_panel.html')
 
 
 
-def desbloquear(request, id):
-    appointment = Appointment.objects.get(pk=id)
-    appointment.mandado = "2"
-    appointment.save()
+# def desbloquear(request, id):
+#     appointment = Appointment.objects.get(pk=id)
+#     appointment.mandado = "2"
+#     appointment.save()
     
-    return redirect('shifts_panel')
+#     return redirect('shifts_panel')
 
 
 

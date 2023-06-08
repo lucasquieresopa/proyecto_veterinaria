@@ -1,0 +1,125 @@
+<title>Shifts Panel</title>
+{% extends 'home.html' %}
+{% load static %}
+{% block content %}
+
+
+
+
+{% if user.is_authenticated %}
+
+<div class="shadow p-4 mb-5 bg-body bg-body rounded text-black  m-5 ">
+{% if items.exists %}  
+  <h1 class="text-center mt-5 mb-5">Turnos</h1>
+  
+    <br>
+    
+      <div class="table-responsive">
+        
+        <table class="table table-bordered table-striped table-hover mx-auto">
+            <thead>
+              <tr>
+                <th class="text-center" scope="col">Dia</th>
+                <th class="text-center" scope="col">Turno</th>
+                <th class="text-center" scope="col">Nombre</th>
+                <th class="text-center" scope="col">Perro</th>
+                <th class="text-center" scope="col">Mail</th>
+                <th class="text-center" scope="col">Aceptar/Rechazar</th>
+                <th class="text-center" scope="col"></th>
+                
+              </tr>
+            </thead>
+            <tbody id="myTable">
+                {% for item in items %}
+                <tr>
+                    <td class="text-center">{{item.day}}</td>
+                    <td class="text-center">{{item.time}}</td>
+                    <td class="text-center">{{item.user.name}} {{item.user.surname}}</td>
+                    <td class="text-center">{{item.dog}}</td>
+                    <td class="text-center">{{item.user.email}}</td>
+                
+                    
+                
+                    {% if item.status == "Pendiente" %}
+                        <td class="text-center">
+                            <a href="{% url 'send_confirmation_message' item.id  %}" class="bi bi-check btn btn-success"></a>
+                            <a href="{% url 'send_rejection_message' item.id %}" class="bi bi-x btn btn-danger"></a>
+                        </td>
+                    {% endif %}
+
+                    {% if item.status == "Confirmado" %}
+
+                        <td class="text-center">Confirmado</td>
+
+                    {% endif %}
+                    
+                    {% if item.status == "Cancelado"  %}
+
+                        <td class="text-center">Cancelado</td>
+
+                    {% endif %}
+
+                    
+
+                    <td class="text-center">
+                        {% if item.status == "Confirmado" or item.status == "Cancelado" %}
+                            <a href="{% url 'modificate_action' item.id %}" class="bi bi-pencil-square btn btn-warning"></a>
+                        {% endif %}
+                    </td>
+                    
+                    
+                    
+
+              
+                </tr>
+                {% endfor %}
+            
+
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <h4 class="text-center">No hay turnos pendientes</h1>
+      {% endif %}
+
+</div>
+
+{% else %}
+
+<div class="shadow p-4 mb-5 bg-body bg-body rounded text-black  m-5">
+  <h1 class="p-2  me-3">Primero debes iniciar sesión!</h1>
+  <a href="{% url 'login' %}" class="btn btn-primary text-white">Iniciar sesión</a>
+</div>
+
+{% endif %}
+
+<!--Staff Panel Search-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+      $("#myInput").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+    });
+    
+    function enviarCorreo(correo) {
+    $.ajax({
+        url: '/enviar_correo_aceptacion/',
+        type: 'POST',
+        data: { correo: correo },
+        success: function(response) {
+            console.log('Correo enviado correctamente');
+        },
+        error: function(response) {
+            console.error('Error al enviar el correo');
+        }
+    });
+}
+
+</script>
+
+{% endblock %}

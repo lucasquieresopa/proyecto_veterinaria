@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    </head>
+
+
+<style>
+	table {
+        border-collapse: collapse;
+        table-layout: fixed;
+        width: 310px;
+    }
+    table td {
+        width: 110px;
+        word-wrap: break-word;
+    }
+    .red-color {
+        color:red;
+    }
+  
+	
+</style>
+
+<main>
+    <a href="{% url 'found_posts' %}" class="btn btn-secondary">Atrás</a>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="text-center">Mis perros encontrados</h2>
+
+                <form method="get">
+                    {{filter.form}}
+                    <button class="btn btn-primary" type="submit">Filtrar</button>
+                </form>
+
+                <table class="table table-hover">
+                    {% if posts.exists %}
+                    <thead>
+                        <tr>
+                            
+                            <th>Edad</th>
+                            <th>Sexo</th>
+                            <th>Raza</th>
+                            <th>Color</th>
+                            <th>Tamaño</th>
+                            <th>Zona</th>
+                            <th>Descripcion</th>
+                            <th></th>
+
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for post in posts %}
+                            <tr>
+
+                                
+                                <td>{{ post.age }}</td>
+                                <td>{{ post.sex }}</td>
+                                <td>{{ post.breed }}</td>
+                                <td>{{ post.color }}</td>
+                                <td>{{ post.size }}</td>
+                                <td>{{ post.zona }}</td>
+                                <td>{{ post.description }}</td>
+                                <td>
+                                    
+
+                                    {% if not post.was_delivered %}
+                                    <a href="{% url 'found_post_modification' post.id %}" class="bi bi-pencil-square btn btn-outline-primary btn-sm"></a>
+                                    
+                                    <form method="POST" action="{% url 'delete_found_post' post.id %}">
+                                        {% csrf_token %}
+                                        <input name="_method" type="hidden" value="Borrar">
+                                        <button type="submit" class="bi bi-trash red-color btn btn-outline-danger btn-sm show_confirm_delete" data-toggle="tooltip" title='Borrar'></button>
+                                    </form>
+                                    {% endif %}
+
+                                </td>
+                                <td>
+                                {% if post.was_found %}
+                                
+                                    <button type="button" class="btn btn-success btn-sm" disabled>Entregado!</button>
+
+                                {% else %}
+
+                                    <form method="POST" action="{% url 'mark_as_delivered' post.id %}">
+                                        {% csrf_token %}
+                                        <input name="_method" type="hidden" value="Marcar">
+                                        <button type="submit" class="btn btn-success btn-sm show_confirm_delivered" data-toggle="tooltip" title='Marcar como entregado'>Marcar como entregado</button>
+                                    </form>
+                                        
+                                {% endif %}
+                                </td>
+                                
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    {% else %}
+                    <p style="text-align:center;">
+                        No hay publicaciones para ver
+                    </p>
+                    {% endif %}
+                </table>
+               
+            </div>
+            
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $('.show_confirm_delete').click(function(event) {
+            var form =  $(this).closest("form");
+            var name = $(this).data("name");
+            event.preventDefault();
+            swal({
+                title: `¿Estas seguro de borrar esta publicación?`,
+                text: "Si lo borras, desaparecerá para siempre",
+                icon: "warning",
+                buttons: ['Cancelar','Borrar'], //primer boton del array es 'cancel' y segundo 'confirm'
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    form.submit();
+                }
+            });
+        });
+
+        $('.show_confirm_delivered').click(function(event) {
+            var form =  $(this).closest("form");
+            var name = $(this).data("name");
+            event.preventDefault();
+            swal({
+                title: `¿Estas seguro de marcar esta publicación como entregado?`,
+                text: "No podrás deshacer tu elección",
+                icon: "warning",
+                buttons: ['Cancelar','Si'], //primer boton del array es 'cancel' y segundo 'confirm'
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    form.submit();
+                }
+            });
+        });
+    </script>
+
+    
+
+</main>
+</html>
+{% endblock content %}

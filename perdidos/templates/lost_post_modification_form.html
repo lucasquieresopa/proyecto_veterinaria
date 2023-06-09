@@ -4,48 +4,51 @@
 
 <style>
     .text-center {
-    text-align: center;
+        text-align: center;
     }
   
     p {
-      font-size:20px;
+        font-size: 20px;
     }
 </style>
 
+<br>
+<div class="col-md-4 mx-auto">
+    <h2 style="text-align: center;">Modificación de publicación de perro perdido</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
 
-    <br>
-    <div class="col-md-4 mx-auto">
-    <h2 style="text-align:center;">Modificación de publicación de perro perdidos</h2>
-    <form method="post">    <!-- cuando toco el boton "Registrar" se haceun post request -->
-        {% csrf_token %}    <!-- seguridad en forms -->
-        
         {% for field in lost_post_modification_form %}
-            <p style="text-align:center;">
-                {{field.label_tag}}
-                {{field}}
+            <p style="text-align: center;">
+                {{ field.label_tag }}
+                {% if field.field.widget.input_type != 'file' %}
+                    {{ field }}
+                {% else %}
+                    <input type="file" name="{{ field.html_name }}" id="{{ field.auto_id }}" class="{{ field.css_classes }}" accept="image/*">
+                {% endif %}
 
                 {% if field.help_text %}
-                <small style="color: grey;">{{field.help_text}}</small>
+                    <small style="color: grey;">{{ field.help_text }}</small>
+                {% endif %}
+
+                {% if field.errors %}
+                    {% for error in field.errors %}
+                        <p style="color: red; text-align: center;">{{ error }}</p>
+                    {% endfor %}
                 {% endif %}
             </p>
         {% endfor %}
 
-        <p style="text-align:center; color:grey"> * campos obligatorios</p>
+        <p style="text-align: center; color: grey;">* campos obligatorios</p>
 
-        {% for field in lost_post_modification_form %}
-            {% for error in field.errors %}
-                <p style="color: red; text-align:center;">{{error}}</p>
-            {% endfor %}
-        {% endfor %} 
-        
         {% if lost_post_modification_form.non_field_errors %}
-        <div style="color: red; text-align:center;">
-            <p>{{lost_post_modification_form.non_field_errors}}</p>
-        </div>
+            <div style="color: red; text-align: center;">
+                {% for error in lost_post_modification_form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
         {% endif %}
 
-        
-        
         <div class="text-center">
             <button class="btn btn-primary">Modificar</button>
         </div>

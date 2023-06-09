@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+	.text-center {
+	text-align: center;
+	}
+  
+	p {
+	  font-size:20px;
+  
+	}
+  
+	
+</style>
+<br>
+	<p style="text-align:center;">
+		El email fue enviado correctamente al cliente.
+	</p>
+
+
+	
+	<div class="text-center">
+		<a href="{% url 'shifts_panel' %}">Volver</a>
+	</div>
+
+{% endblock %}

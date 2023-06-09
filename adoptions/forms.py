@@ -12,10 +12,10 @@ class AdoptionPostForm(forms.ModelForm):
         max_length=30,
     )
     age = forms.CharField(
-        label="Edad aproximada", 
+        label="Edad", 
         required=True, 
         help_text="*",
-        max_length=30,
+        widget=forms.Select(choices=AdoptionPost.Age.choices),
     )
     sex = forms.CharField(
         label="Sexo", 

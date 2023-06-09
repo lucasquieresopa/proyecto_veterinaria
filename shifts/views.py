@@ -18,156 +18,162 @@ from datetime import datetime, timedelta
 from django.core.mail import send_mail
 from .forms import MiVariableForm
 from django.contrib.auth.decorators import login_required
+from pages.email_sending import send_mail_to_user
+from .forms import EmailForm
 
-@login_required
-def booking(request):
-    weekdays = validWeekday(22)
-    validateWeekdays = isWeekdayValid(weekdays)
+# @login_required
+# def booking(request):
+#     weekdays = validWeekday(22)
+#     validateWeekdays = isWeekdayValid(weekdays)
 
-    if request.method == 'POST':
-        service = request.POST.get('service')
-        day = request.POST.get('day')
-        if service == None:
-            messages.error(request, 'Debe seleccionar un servicio')
-        return redirect('booking')
+#     if request.method == 'POST':
+#         service = request.POST.get('service')
+#         day = request.POST.get('day')
+#         if service == None:
+#             messages.error(request, 'Debe seleccionar un servicio')
+#         return redirect('booking')
         
-        request.session['day'] = day
-        request.session['service'] = service
+#         request.session['day'] = day
+#         request.session['service'] = service
 
-        return redirect('bookingSubmit')
-    return render(request, 'booking.html', {'weekdays':weekdays, 'validateWeekdays':validateWeekdays})
+#         return redirect('bookingSubmit')
+#     return render(request, 'booking.html', {'weekdays':weekdays, 'validateWeekdays':validateWeekdays})
 
-@login_required
-def bookingSubmit(request):
-    user = request.user
-    times = [
-        "Mañana","Tarde"
-    ]
-    today = datetime.now()
-    minDate = today.strftime("%Y-%m-%d")
-    deltatime = today + timedelta(days=21)
-    strdeltatime = deltatime.strftime("%Y-%m-%d")
-    maxDate = strdeltatime
+# @login_required
+# def bookingSubmit(request):
+#     user = request.user
+#     times = [
+#         "Mañana","Tarde"
+#     ]
+#     today = datetime.now()
+#     minDate = today.strftime("%Y-%m-%d")
+#     deltatime = today + timedelta(days=21)
+#     strdeltatime = deltatime.strftime("%Y-%m-%d")
+#     maxDate = strdeltatime
 
-    day = request.session.get('day')
-    service = request.session.get('service')
-    # si no lo eligieron antes el turno
-    hour = checkTime(times, day)
-    if request.method == 'POST':
-        time = request.POST.get('time') 
-        date = dayToWeekday(day)
+#     day = request.session.get('day')
+#     service = request.session.get('service')
+#     # si no lo eligieron antes el turno
+#     hour = checkTime(times, day)
+#     if request.method == 'POST':
+#         time = request.POST.get('time') 
+#         date = dayToWeekday(day)
 
-        if service != None:
-            if day <= maxDate and  day >= minDate:
-                if date != 'Sunday':
-                    if Appointment.objects.filter(day=day).count() < 10:
-                        if Appointment.objects.filter(day=day, time=time).count() < 10:
-                            AppointmentForm = Appointment.objects.get_or_create(
-                                user=user,
-                                day=day,
-                                time=time,
-                            )
-                            messages.success(request, 'Espere la confirmación de su turno por mail')
-                            return redirect('home')
-                        else:
-                            messages.success(request, 'El horario ya está reservado')
-                    else:
-                        messages.success(request, 'El día está completo')
-                else:   
-                    messages.success(request, 'El día no está disponible')
-            else:
-                messages.success(request, 'La fecha no está disponible en el periodo de tiempo')
-        else:
-            messages.success(request, 'Debe seleccionar un servicio')
-    return render(request, 'bookingSubmit.html', {'times':hour})
+#         if service != None:
+#             if day <= maxDate and  day >= minDate:
+#                 if date != 'Sunday':
+#                     if Appointment.objects.filter(day=day).count() < 10:
+#                         if Appointment.objects.filter(day=day, time=time).count() < 10:
+#                             AppointmentForm = Appointment.objects.get_or_create(
+#                                 user=user,
+#                                 day=day,
+#                                 time=time,
+#                             )
+#                             messages.success(request, 'Espere la confirmación de su turno por mail')
+#                             return redirect('home')
+#                         else:
+#                             messages.success(request, 'El horario ya está reservado')
+#                     else:
+#                         messages.success(request, 'El día está completo')
+#                 else:   
+#                     messages.success(request, 'El día no está disponible')
+#             else:
+#                 messages.success(request, 'La fecha no está disponible en el periodo de tiempo')
+#         else:
+#             messages.success(request, 'Debe seleccionar un servicio')
+#     return render(request, 'bookingSubmit.html', {'times':hour})
 
-@login_required
-def userPanel(request):
-    user = request.user
-    appointments = Appointment.objects.filter(user=user).order_by('day','time')
-    return render(request, 'userPanel.html', {'user':user ,'appointments':appointments})
 
-@login_required
-def userUpdate(request,id):
-    appointment = Appointment.objects.get(pk=id)
-    userdatepicked = appointment.day
 
-    today = datetime.now()
-    minDate = today.strftime("%Y-%m-%d")
+# @login_required
+# def userPanel(request):
+#     user = request.user
+#     appointments = Appointment.objects.filter(user=user).order_by('day','time')
+#     return render(request, 'userPanel.html', {'user':user ,'appointments':appointments})
 
-    #24 hr statemente
-    delta24 = (userdatepicked).strftime("%Y-%m-%d") >= (today + timedelta(days=1)).strftime("%Y-%m-%d")
-    #calling validay function loop day want in the next 21 days
-    weekdays = validWeekday(22)
 
-    #ONly show the days  that are not full
-    validateWeekdays = isWeekdayValid(weekdays)
 
-    if request.method == 'POST':
-        service = request.POST.get('service')
-        day = request.POST.get('day')
+# @login_required
+# def userUpdate(request,id):
+#     appointment = Appointment.objects.get(pk=id)
+#     userdatepicked = appointment.day
+
+#     today = datetime.now()
+#     minDate = today.strftime("%Y-%m-%d")
+
+#     #24 hr statemente
+#     delta24 = (userdatepicked).strftime("%Y-%m-%d") >= (today + timedelta(days=1)).strftime("%Y-%m-%d")
+#     #calling validay function loop day want in the next 21 days
+#     weekdays = validWeekday(22)
+
+#     #ONly show the days  that are not full
+#     validateWeekdays = isWeekdayValid(weekdays)
+
+#     if request.method == 'POST':
+#         service = request.POST.get('service')
+#         day = request.POST.get('day')
         
                                                             
-        request.session['day'] = day
-        request.session['service'] = service
+#         request.session['day'] = day
+#         request.session['service'] = service
 
-        return redirect('userUpdateSubmit', id=id)
-    return render(request, 'userUpdate.html', {'weekdays':weekdays, 'validateWeekdays':validateWeekdays,'delta24':delta24, 'id':id})
+#         return redirect('userUpdateSubmit', id=id)
+#     return render(request, 'userUpdate.html', {'weekdays':weekdays, 'validateWeekdays':validateWeekdays,'delta24':delta24, 'id':id})
+
+# @login_required
+# def userUpdateSubmit(request,id):
+#     user = request.user
+#     times = [
+#         "3 PM","3:30 PM","4 PM","4:30 PM","5 PM","5:30 PM","6 PM","6:30 PM","7 PM","7:30 PM","8 PM"
+#     ]
+#     today = datetime.now()
+#     minDate = today.strftime("%Y-%m-%d")
+#     deltatime = today + timedelta(days=21)
+#     strdeltatime = deltatime.strftime("%Y-%m-%d")
+#     maxDate = strdeltatime
+
+#     day = request.session.get('day')
+#     service = request.session.get('service')
+#     # si no lo eligieron antes el turno
+#     hour = checkEditTime(times, day,id)
+#     userSelectedTime = appointment.time
+#     if request.method == 'POST':
+#         time = request.POST.get('time') 
+#         date = dayToWeekday(day)
+
+#         if service != None:
+#             if day <= maxDate and  day >= minDate:
+#                 if date == 'Monday' or date == 'Saturday' or date == 'Wednesday':
+#                     if Appointment.objects.filter(day=day).count() < 11:
+#                         if Appointment.objects.filter(day=day, time=time).count() < 1 or userSelectedTime == time:
+#                             AppointmentForm = Appointment.objects.filter(pk=id).update(
+#                                 user=user,
+#                                 service=service,
+#                                 day=day,
+#                                 time=time,
+#                             )
+#                             messages.success(request, "Appointment Edited!")
+#                             return redirect('home')
+#                         else:
+#                             messages.success(request, "The Selected Time Has Been Reserved Before!")
+#                     else:
+#                         messages.success(request, "The Selected Day Is Full!")
+#                 else:
+#                     messages.success(request, "The Selected Date Is Incorrect")
+#             else:
+#                     messages.success(request, "The Selected Date Isn't In The Correct Time Period!")
+#         else:
+#             messages.success(request, "Please Select A Service!")
+#         return redirect('userPanel')
+
+
+#     return render(request, 'userUpdateSubmit.html', {
+#         'times':hour,
+#         'id': id,
+#     })
 
 @login_required
-def userUpdateSubmit(request,id):
-    user = request.user
-    times = [
-        "3 PM","3:30 PM","4 PM","4:30 PM","5 PM","5:30 PM","6 PM","6:30 PM","7 PM","7:30 PM","8 PM"
-    ]
-    today = datetime.now()
-    minDate = today.strftime("%Y-%m-%d")
-    deltatime = today + timedelta(days=21)
-    strdeltatime = deltatime.strftime("%Y-%m-%d")
-    maxDate = strdeltatime
-
-    day = request.session.get('day')
-    service = request.session.get('service')
-    # si no lo eligieron antes el turno
-    hour = checkEditTime(times, day,id)
-    userSelectedTime = appointment.time
-    if request.method == 'POST':
-        time = request.POST.get('time') 
-        date = dayToWeekday(day)
-
-        if service != None:
-            if day <= maxDate and  day >= minDate:
-                if date == 'Monday' or date == 'Saturday' or date == 'Wednesday':
-                    if Appointment.objects.filter(day=day).count() < 11:
-                        if Appointment.objects.filter(day=day, time=time).count() < 1 or userSelectedTime == time:
-                            AppointmentForm = Appointment.objects.filter(pk=id).update(
-                                user=user,
-                                service=service,
-                                day=day,
-                                time=time,
-                            )
-                            messages.success(request, "Appointment Edited!")
-                            return redirect('home')
-                        else:
-                            messages.success(request, "The Selected Time Has Been Reserved Before!")
-                    else:
-                        messages.success(request, "The Selected Day Is Full!")
-                else:
-                    messages.success(request, "The Selected Date Is Incorrect")
-            else:
-                    messages.success(request, "The Selected Date Isn't In The Correct Time Period!")
-        else:
-            messages.success(request, "Please Select A Service!")
-        return redirect('userPanel')
-
-
-    return render(request, 'userUpdateSubmit.html', {
-        'times':hour,
-        'id': id,
-    })
-
-@login_required
-def staffPanel(request):
+def shifts_panel_view(request):
     today = datetime.today()
     minDate = today.strftime('%Y-%m-%d')
     deltatime = today + timedelta(days=360)
@@ -177,9 +183,9 @@ def staffPanel(request):
     items = Appointment.objects.filter(day__range=[minDate, maxDate]).order_by('day','time')
     if request.method == 'POST':
         description = request.POST.get('description')
-        redirect('staffPanel')
+        redirect('shifts_panel')
 
-    return render(request, 'staffPanel.html', {
+    return render(request, 'shifts_panel.html', {
         'items':items,
     })
 
@@ -233,23 +239,25 @@ def confirmAppointment(request, id):
     appointment.mandado = "1"
     appointment.save()
    
-    messages.success(request, "Turno confirmado!") 
-    asunto = "Turno para veterinaria"
-    mensaje = " Nos complace informarte que tu turno agendado con el veterinario ha sido aceptado. Esperamos atenderte en la fecha y " + appointment.description + ".Si tienes alguna pregunta o requerimiento especial, no dudes en hacérnoslo saber. ¡Te esperamos con gusto!"
-    remitente = 'megat01e28@gmail.com'
-    destinatario=appointment.user.email
+    # messages.success(request, "Turno confirmado!") 
+    # asunto = "Turno para veterinaria"
+    # mensaje = " Nos complace informarte que tu turno agendado con el veterinario ha sido aceptado. Esperamos atenderte en la fecha y " + appointment.description + ".Si tienes alguna pregunta o requerimiento especial, no dudes en hacérnoslo saber. ¡Te esperamos con gusto!"
+    # remitente = 'megat01e28@gmail.com'
+    # destinatario=appointment.user.email
     
  
-    mail = EmailMessage(
-                                    asunto, 
-                                 mensaje, 
-                                    remitente,
-                                    [destinatario]
-            )
-    mail.send()  
+    # mail = EmailMessage(
+    #                                 asunto, 
+    #                              mensaje, 
+    #                                 remitente,
+    #                                 [destinatario]
+    #         )
+    # mail.send()  
 
 
-    return redirect('staffPanel')
+    return redirect('shifts_panel')
+
+
 
 
 def cancelAppointment(request, id):
@@ -257,23 +265,23 @@ def cancelAppointment(request, id):
     appointment.status = "Cancelado"
     appointment.mandado = "1"
     appointment.save()
-    messages.success(request, "Turno cancelado!")
+    # messages.success(request, "Turno cancelado!")
 
-    asunto = "Turno para veterinaria"
+    # asunto = "Turno para veterinaria"
     
-    mensaje = "Lamentamos informarte que tu turno agendado con el veterinario ha sido cancelado por " + appointment.description +". Por favor, ponte en contacto con nosotros para reprogramar una nueva cita. Agradecemos tu comprensión y estamos a tu disposición para cualquier consulta adicional."
-    remitente = 'megat01e28@gmail.com'
-    destinatario=appointment.user.email
+    # mensaje = "Lamentamos informarte que tu turno agendado con el veterinario ha sido cancelado por " + appointment.description +". Por favor, ponte en contacto con nosotros para reprogramar una nueva cita. Agradecemos tu comprensión y estamos a tu disposición para cualquier consulta adicional."
+    # remitente = 'megat01e28@gmail.com'
+    # destinatario=appointment.user.email
     
   
-    mail = EmailMessage(
-                                    asunto, 
-                                     mensaje, 
-                                    remitente,
-                                    [destinatario]
-            )
-    mail.send()  
-    return redirect('staffPanel')
+    # mail = EmailMessage(
+    #                                 asunto, 
+    #                                  mensaje, 
+    #                                 remitente,
+    #                                 [destinatario]
+    #         )
+    # mail.send()  
+    return redirect('shifts_panel')
 
 @login_required
 def views_calendar(request, id):
@@ -284,7 +292,7 @@ def views_calendar(request, id):
 
     context = {
         'user': user_owner,
-        'dogs_shown': dogs,
+        'dogs_shown': dogs.filter(hidden=False),
     }
     
     
@@ -299,6 +307,7 @@ def save_appointment(request,id):
         date = request.POST.get('date')
         time = request.POST.get('time')
         dog = request.POST.get('dog')
+        print(dog)
        
         if date > strtoday :
             # Guardar la cita en la base de datos
@@ -315,10 +324,6 @@ def save_appointment(request,id):
         else:
                 messages.success(request, 'Horario no disponible. Por favor elija otro')
        
-
-
-
-    
     return render(request, 'calendar.html')
 
 
@@ -326,45 +331,42 @@ def save_appointment(request,id):
 
 
 
-def enviar_correo_aceptacion(destinatario):
-    asunto = 'Aceptación de turno'
-    mensaje = 'Su turno ha sido aceptado. ¡Esperamos verte pronto!'
-    remitente = 'megat01e01'
-    send_mail(asunto, mensaje, remitente, [destinatario])
+# def enviar_correo_aceptacion(destinatario):
+#     asunto = 'Aceptación de turno'
+#     mensaje = 'Su turno ha sido aceptado. ¡Esperamos verte pronto!'
+#     remitente = 'megat01e01'
+#     send_mail(asunto, mensaje, remitente, [destinatario])
 
 
-def save_description(request, id):
+# def save_description(request, id):
     
-    if request.method == 'POST':
-        description = request.POST.get('description')
+#     if request.method == 'POST':
+#         description = request.POST.get('description')
 
+#         if description != None:
+#             # Guardar la cita en la base de datos
+#             AppointmentForm = Appointment.objects.filter(pk=id).update(
+#                                 description=description,
+#             )
         
-        
-
-        if description != None:
-            # Guardar la cita en la base de datos
-            AppointmentForm = Appointment.objects.filter(pk=id).update(
-                                description=description,
-            )
-        
-            # Redirigir a una página de éxito o a otra vista
-            messages.success(request, 'Mensaje guardado correctamente')
-            return redirect('staffPanel')
-        else:
-                messages.success(request, 'Escribe el mensaje antes de guardar')
-       
+#             # Redirigir a una página de éxito o a otra vista
+#             messages.success(request, 'Mensaje guardado correctamente')
+#             return redirect('shifts_panel')
+#         else:
+#                 messages.success(request, 'Escribe el mensaje antes de guardar')
+ 
+#     return render(request, 'shifts_panel.html')
 
 
 
+# def desbloquear(request, id):
+#     appointment = Appointment.objects.get(pk=id)
+#     appointment.mandado = "2"
+#     appointment.save()
     
-    return render(request, 'staffPanel.html')
+#     return redirect('shifts_panel')
 
-def desbloquear(request, id):
-    appointment = Appointment.objects.get(pk=id)
-    appointment.mandado = "2"
-    appointment.save()
-    
-    return redirect('staffPanel')
+
 
 def save_descriptionMandado(request, id):
     
@@ -372,10 +374,7 @@ def save_descriptionMandado(request, id):
         description = request.POST.get('description')
         appointment = Appointment.objects.get(pk=id)
         appointment.mandado = "3"
-        appointment.save()
-
-        
-        
+        appointment.save()    
 
         if description != None:
             # Guardar la cita en la base de datos
@@ -385,12 +384,84 @@ def save_descriptionMandado(request, id):
         
             # Redirigir a una página de éxito o a otra vista
             messages.success(request, 'Mensaje guardado correctamente')
-            return redirect('staffPanel')
+            return redirect('shifts_panel')
         else:
                 messages.success(request, 'Escribe el mensaje antes de guardar')
        
+    return render(request, 'shifts_panel.html')
 
 
 
+def send_confirmation_message_view(request, id):
     
-    return render(request, 'staffPanel.html')
+    shift = Appointment.objects.get(pk=id)
+
+    if request.POST:
+        form = EmailForm(request.POST)
+        if form.is_valid():
+
+            send_mail_to_user('Turno aceptado', 
+                      f"El turno pedido para el perro {shift.dog} el día {shift.day}, horario {shift.time} fue aceptado \nMensaje de la veterinaria: {form.cleaned_data['message']}",
+                      "ohmydog@gmail.com", 
+                      [shift.user.email])
+  
+            return redirect('confirmation_mail_sent', id)
+    else:
+        form = EmailForm()
+
+    context = {
+        'message_form' : form,
+    }
+        
+    return render(request, 'send_confirmation.html', context)
+
+
+
+def send_rejection_message_view(request, id):
+
+    shift = Appointment.objects.get(pk=id)
+
+    if request.POST:
+        form = EmailForm(request.POST)
+        if form.is_valid():
+
+            send_mail_to_user('Turno rechazado', 
+                      f"El turno pedido para el perro {shift.dog} el día {shift.day}, horario {shift.time} fue rechazado \nMotivo: {form.cleaned_data['message']}",
+                      "ohmydog@gmail.com", 
+                      [shift.user.email])
+  
+            return redirect('rejection_mail_sent', id)
+    else:
+        form = EmailForm()
+
+    context = {
+        'message_form' : form,
+    }
+        
+    return render(request, 'send_rejection.html', context)
+
+
+def confirmation_mail_sent(request, id):
+    appointment = Appointment.objects.get(pk=id)
+    appointment.status = "Confirmado"
+    appointment.mandado = "1"
+    appointment.save()
+
+    return render(request, 'mail_sent_successfully.html')
+
+def rejection_mail_sent(request, id):
+    appointment = Appointment.objects.get(pk=id)
+    appointment.status = "Cancelado"
+    appointment.mandado = "1"
+    appointment.save()
+ 
+    return render(request, 'mail_sent_successfully.html')
+
+
+
+def modificate_action(request, id):
+    appointment = Appointment.objects.get(pk=id)
+    appointment.status = "Pendiente"
+    appointment.save()
+ 
+    return redirect('shifts_panel')

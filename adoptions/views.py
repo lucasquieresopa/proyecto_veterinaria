@@ -70,7 +70,7 @@ def adoption_posts_list(request):
 def client_adoption_posts_list(request):
 
     client = CustomUser.objects.get(pk=request.user.id)
-    client_adoption_posts = client.adoptionpost_set.all().order_by('-publication_date')
+    client_adoption_posts = client.adoptionpost_set.all().order_by('-publication_date', 'is_adopted')
 
     post_filter = OrderFilter(request.GET, queryset=client_adoption_posts)
     client_adoption_posts = post_filter.qs
@@ -81,6 +81,9 @@ def client_adoption_posts_list(request):
     }
 
     return render(request, 'client_adoption_posts_list.html', context)
+
+
+
 @login_required
 def adoption_post_modification(request, post_id):
 
@@ -128,12 +131,12 @@ def delete_adoption_post(request, post_id):
     post.delete()
     return redirect('client_adoption_posts')
 
+
 def delete_adoption_post_from_general(request, post_id):
     """borrado de post en la pestaña con todas las publicaciones"""
     post = AdoptionPost.objects.get(pk=post_id)
     post.delete()
     return redirect('adoption_posts')
-
 
 
 def mark_as_adopted(request, post_id):
@@ -143,25 +146,32 @@ def mark_as_adopted(request, post_id):
     return redirect('client_adoption_posts')
 
 
+def mark_as_adopted_from_general(request, post_id):
+    post = AdoptionPost.objects.get(pk=post_id)
+    post.is_adopted = True
+    post.save()
+    return redirect('adoption_posts')
+
+
 
 def confirm_adoption(request, post_id):
     post = AdoptionPost.objects.get(pk=post_id)
+
 
     if request.POST:
         form = ConfirmAdoptionForm(request.POST)
         if form.is_valid():
 
-            # asunto = 'Solicitud de adopción en Oh My Dog!'
-            # remitente = form.cleaned_data["email"]
-            # mensaje = f"""Un cliente de Oh My Dog ha solicitado adoptar a su perro {post.name} \n\nEstos son sus datos: \n Email: {remitente} \nTelefono: {form.cleaned_data["telephone"]} \nMensaje: {form.cleaned_data["description"]} \n\nContactese con el para confirmar o rechazar la solicitud.
-            #                     """
-            
-            # send_mail(asunto, mensaje, remitente, ["megat01e28@gmail.com"])
-
             send_mail_to_user('Solicitud de adopción en Oh My Dog!', 
                       f"""Un cliente de Oh My Dog ha solicitado adoptar a su perro {post.name} \n\nEstos son sus datos: \nEmail: {form.cleaned_data["email"]} \nTelefono: {form.cleaned_data["telephone"]} \nMensaje: {form.cleaned_data["description"]} \n\nContactese con el para confirmar o rechazar la solicitud.""", 
                       form.cleaned_data["email"], 
                       [post.author.email])
+            
+            send_mail_to_user('Solicitud de adopción en Oh My Dog!', 
+                      f"""Has solicitado adoptar al perro {post.name}, {post.breed}, {post.sex}, con descripción: '{post.description}' \n\nDebe esperar a que el dueño decida contactarse con usted \n\nEquipo de Oh My Dog! """,
+                      "ohmydog@gmail.com", 
+                      [form.cleaned_data["email"]])
+
 
             return redirect('confirm_adoption_succeed', post.id)
     else:

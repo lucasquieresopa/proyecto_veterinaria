@@ -40,6 +40,10 @@ urlpatterns = [
         views.mark_as_adopted,
         name='mark_as_adopted'),
     path(
+        'posts/adopted_from_general/<post_id>',
+        views.mark_as_adopted,
+        name='mark_as_adopted_from_general'),
+    path(
         'posts/confirm_adoption/<post_id>/',
         views.confirm_adoption,
         name='confirm_adoption'

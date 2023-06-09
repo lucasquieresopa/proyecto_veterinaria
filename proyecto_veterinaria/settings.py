@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,6 +27,9 @@ SECRET_KEY = 'django-insecure-2^6&3g(t4hae%*&#2+o0_y^rn$26^tj8xa-i=9s!s#u!ha!u4z
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 #if DEBUG:
  #   EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -50,6 +54,7 @@ INSTALLED_APPS = [
     'dogs',
     'shifts',
     'adoptions',
+    'perdidos',
 
 ]
 

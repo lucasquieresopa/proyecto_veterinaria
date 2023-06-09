@@ -1,6 +1,8 @@
+from django.utils.timezone import now
 from django.db import models
 from accounts.models import CustomUser
 from dogs.models import Dog
+
 
 # Create your models here.
 
@@ -20,7 +22,7 @@ class LostPost (models.Model):
         null=True,
     )
     image = models.ImageField(
-        upload_to= "perros", null = True,
+        upload_to= "media/", null = True,
     ) 
     name = models.CharField(
         max_length=30,
@@ -56,5 +58,10 @@ class LostPost (models.Model):
 
     was_found = models.BooleanField(
         default= False,
+    )
+
+    publication_date = models.DateTimeField(
+        blank=True,
+        default=now,
     )
 

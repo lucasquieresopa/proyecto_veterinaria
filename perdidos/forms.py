@@ -78,7 +78,8 @@ class LostPostForm (forms.ModelForm):
             color = self.cleaned_data['color']
             size = self.cleaned_data['size']
 
-            if self.user.lostpost_set.exclude(id=self.instance.id).filter(name=name, age=age, sex=sex, zone=zone,
+            if self.user.lostpost_set.exclude(id=self.instance.id).filter(
+                                        name=name, age=age, sex=sex, zone=zone,
                                         breed=breed, color=color, size=size
                                         ):
                 raise forms.ValidationError("Ya existe una publicación con exactamente la misma información")
@@ -226,8 +227,8 @@ class ConfirmFoundForm(forms.Form):
         help_text="""\n
                 Brinde una pequeña descripción de su situación. Algunos disparadores:\n
                 ¿Dónde encontró al perro?, \n
-                Alguna caractrerística particular del perro, \n 
-                Alguna actitud particular
+                Alguna característica particular del perro, \n 
+                Algun comportamiento particular (es confiado/desconfiado con los desconocidos, renguea, etc)
                 """,
         widget=forms.Textarea(attrs={'rows':3,'cols':50})
     )

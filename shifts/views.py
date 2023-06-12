@@ -184,11 +184,12 @@ def send_confirmation_message_view(request, id):
         form = EmailForm(request.POST)
         if form.is_valid():
 
+            shift.description = form.cleaned_data['message']
             send_mail_to_user('Turno aceptado', 
                       f"El turno pedido para el perro {shift.dog} el día {shift.day}, horario {shift.time} fue aceptado \nMensaje de la veterinaria: {form.cleaned_data['message']}",
                       "ohmydog@gmail.com", 
                       [shift.user.email])
-  
+            shift.save()
             return redirect('confirmation_mail_sent', id)
     else:
         form = EmailForm()
@@ -209,11 +210,12 @@ def send_rejection_message_view(request, id):
         form = EmailForm(request.POST)
         if form.is_valid():
 
+            shift.description = form.cleaned_data['message']
             send_mail_to_user('Turno rechazado', 
                       f"El turno pedido para el perro {shift.dog} el día {shift.day}, horario {shift.time} fue rechazado \nMotivo: {form.cleaned_data['message']}",
                       "ohmydog@gmail.com", 
                       [shift.user.email])
-  
+            shift.save()
             return redirect('rejection_mail_sent', id)
     else:
         form = EmailForm()
@@ -259,7 +261,8 @@ def reprogram_view(request, id):
         form = ReprogramEmailForm(request.POST)
         if form.is_valid():
             #shift = form.save(commit=False)
-
+            print(form.cleaned_data['message'])
+            shift.description = form.cleaned_data['message']
             send_mail_to_user('Turno reprogramado', 
                       f"El turno pedido para el perro {shift.dog} el día {shift.day}, horario {shift.time} fue reprogramado para el día {form.cleaned_data['date_of_shift']}, horario {form.cleaned_data['hour']} \n\nEquipo de Oh My Dog!",
                       "ohmydog@gmail.com", 

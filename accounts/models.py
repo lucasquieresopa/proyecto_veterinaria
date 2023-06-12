@@ -89,7 +89,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         """cuando se imprima un objeto CustomUser se imprimira su nombre + apellido"""
-        return self.name + ' ' + self.surname
+        return self.name + ' ' + str(self.surname or '')
 
     def has_perm(self, perm, obj=None):
         return self.is_admin

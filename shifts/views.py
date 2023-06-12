@@ -128,7 +128,11 @@ def save_appointment(request,id):
         time = request.POST.get('time')
         #dog = request.POST.get('dog')
         dog_id = request.POST.get('dog')
-        dog = user.dog_set.get(pk=dog_id)
+        if dog_id == "null":
+            dog = None
+        else:
+            dog = user.dog_set.get(pk=dog_id)
+   
         #print(dog)
        
         if date > strtoday :
@@ -183,12 +187,17 @@ def send_confirmation_message_view(request, id):
     if request.POST:
         form = EmailForm(request.POST)
         if form.is_valid():
-
             shift.description = form.cleaned_data['message']
-            send_mail_to_user('Turno aceptado', 
-                      f"El turno pedido para el perro {shift.dog} el día {shift.day}, horario {shift.time} fue aceptado \nMensaje de la veterinaria: {form.cleaned_data['message']}",
-                      "ohmydog@gmail.com", 
-                      [shift.user.email])
+            if shift.dog == None:
+                        send_mail_to_user('Turno aceptado', 
+                         f"El turno pedido para su perro el día {shift.day}, horario {shift.time} fue aceptado \nMensaje de la veterinaria: {form.cleaned_data['message']}",
+                        "ohmydog@gmail.com", 
+                        [shift.user.email])
+            else:  
+                       send_mail_to_user('Turno aceptado', 
+                         f"El turno pedido para el perro {shift.dog}  el día {shift.day}, horario {shift.time} fue aceptado \nMensaje de la veterinaria: {form.cleaned_data['message']}",
+                        "ohmydog@gmail.com", 
+                        [shift.user.email])
             shift.save()
             return redirect('confirmation_mail_sent', id)
     else:
@@ -209,12 +218,21 @@ def send_rejection_message_view(request, id):
     if request.POST:
         form = EmailForm(request.POST)
         if form.is_valid():
-
             shift.description = form.cleaned_data['message']
-            send_mail_to_user('Turno rechazado', 
-                      f"El turno pedido para el perro {shift.dog} el día {shift.day}, horario {shift.time} fue rechazado \nMotivo: {form.cleaned_data['message']}",
-                      "ohmydog@gmail.com", 
-                      [shift.user.email])
+            if shift.dog == None:
+                    send_mail_to_user('Turno rechazado', 
+                        f"El turno pedido para su perro el día {shift.day}, horario {shift.time} fue rechazado \nMotivo: {form.cleaned_data['message']}",
+                        "ohmydog@gmail.com", 
+                        [shift.user.email])
+            else:
+                send_mail_to_user('Turno rechazado', 
+                        f"El turno pedido para el perro {shift.dog} el día {shift.day}, horario {shift.time} fue rechazado \nMotivo: {form.cleaned_data['message']}",
+                        "ohmydog@gmail.com", 
+                        [shift.user.email])  
+
+
+            
+           
             shift.save()
             return redirect('rejection_mail_sent', id)
     else:
@@ -263,10 +281,16 @@ def reprogram_view(request, id):
             #shift = form.save(commit=False)
             print(form.cleaned_data['message'])
             shift.description = form.cleaned_data['message']
-            send_mail_to_user('Turno reprogramado', 
-                      f"El turno pedido para el perro {shift.dog} el día {shift.day}, horario {shift.time} fue reprogramado para el día {form.cleaned_data['date_of_shift']}, horario {form.cleaned_data['hour']} \n\nEquipo de Oh My Dog!",
-                      "ohmydog@gmail.com", 
-                      [shift.user.email])
+            if shift.dog == None:
+                    send_mail_to_user('Turno reprogramado', 
+                    f"El turno pedido para su perro el día {shift.day}, horario {shift.time} fue reprogramado para el día {form.cleaned_data['date_of_shift']}, horario {form.cleaned_data['hour']} \n\nEquipo de Oh My Dog!",
+                    "ohmydog@gmail.com", 
+                    [shift.user.email])
+            else:
+                send_mail_to_user('Turno reprogramado', 
+                    f"El turno pedido para el perro {shift.dog} el día {shift.day}, horario {shift.time} fue reprogramado para el día {form.cleaned_data['date_of_shift']}, horario {form.cleaned_data['hour']} \n\nEquipo de Oh My Dog!",
+                    "ohmydog@gmail.com", 
+                    [shift.user.email])
 
             shift.day = form.cleaned_data['date_of_shift']
             shift.status = "Reprogramado"

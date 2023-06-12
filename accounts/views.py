@@ -12,6 +12,10 @@ from django.utils.crypto import get_random_string
 from django.core.mail import EmailMessage
 from django.contrib.auth.decorators import login_required
 from pages.email_sending import send_mail_to_user
+from django.db.models import Q
+from django.db.models import Value
+from django.db.models.functions import Concat
+
 
 @login_required
 def user_registration_view(request):
@@ -173,7 +177,14 @@ def search_user(request):
         return redirect('home')
     if request.method == 'POST':
         buscado = request.POST['buscado']
-        users = CustomUser.objects.filter(name__contains=buscado)
+
+        # users = CustomUser.objects.filter(Q(name__contains=buscado[0]) | Q(surname__contains=buscado[0]
+        #                                     | Q(name__contains=buscado[1] | Q(surname__contains=buscado[1]))))
+        #users = CustomUser.objects.filter(user=buscado[0])
+
+        concatenated_names = CustomUser.objects.annotate(full_name=Concat('name', Value(' '), 'surname'))
+        users = concatenated_names.filter(full_name__icontains=buscado)
+
         return render(request, 'search_results.html', {'buscado': buscado, 'users': users})
     else:
         return redirect(request, 'search_results.html',{})

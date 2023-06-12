@@ -11,6 +11,7 @@ from .models import CustomUser
 from django.utils.crypto import get_random_string
 from django.core.mail import EmailMessage
 from django.contrib.auth.decorators import login_required
+from pages.email_sending import send_mail_to_user
 
 @login_required
 def user_registration_view(request):
@@ -28,17 +29,19 @@ def user_registration_view(request):
 
             user = form.save(commit=False)
             user.set_password(password)
-
-
             email = form.cleaned_data['email']
             
-            mail = EmailMessage(
-                                "Registro exitoso", 
-                                "La contraseña para {} es {}".format(email, password), 
-                                "megat01e28@gmail.com",
-                                ["megat01e28@gmail.com"]
-            )
-            mail.send()
+            send_mail_to_user("Registro exitoso en Oh My Dog!",
+                              f"Usted fue registrado en la aplicación de Oh My Dog!\nSu usuario es {email} y su contraseña es {password}\nSi desea cambiar su contraseña ingrese por primera vez con la contraseña brindada, busque la opción 'Cambiar contraseña' y elija una contraseña que le agrade.\n\nSaludos,\nEquipo de Oh My Dog!",
+                               "ohmydog@gmail.com",
+                                [email])
+            # mail = EmailMessage(
+            #                     "Registro exitoso", 
+            #                     "La contraseña para {} es {}".format(email, password), 
+            #                     "megat01e28@gmail.com",
+            #                     ["megat01e28@gmail.com"]
+            # )
+            # mail.send()
 
             user.save()
             #dog_context['dog_registration'] 

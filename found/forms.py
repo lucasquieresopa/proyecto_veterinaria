@@ -13,6 +13,7 @@ class FoundPostForm (forms.ModelForm):
         label="Observación o descripción adicional", 
         required=False,
         max_length=120,
+        help_text="Si conoce el nombre del perro, puede ingresarlo aquí."
     )
     age = forms.CharField(
         label="Edad", 
@@ -78,9 +79,9 @@ class FoundPostForm (forms.ModelForm):
             color = self.cleaned_data['color']
             size = self.cleaned_data['size']
 
-            if FoundPost.objects.filter(age=age, sex=sex, zone=zone,
-                                        breed=breed, color=color, size=size
-                                        ):
+            if self.user.foundpost_set.filter(age=age, sex=sex, 
+                                        breed=breed, color=color, size=size, 
+                                        zone=zone):
                 raise forms.ValidationError("Ya existe una publicación con exactamente la misma información")
             
             return self.cleaned_data
@@ -181,9 +182,9 @@ class FoundPostModificationForm(forms.ModelForm):
             size = self.cleaned_data['size']
             zone = self.cleaned_data['zone']
 
-            if FoundPost.objects.filter( age=age, sex=sex, 
+            if self.user.foundpost_set.filter(age=age, sex=sex, 
                                         breed=breed, color=color, size=size, 
-                                        zone=zone):
+                                        zone=zone).exclude(id=self.instance.id):
                 raise forms.ValidationError("Ya existe una publicación con exactamente la misma información")
             
             return self.cleaned_data

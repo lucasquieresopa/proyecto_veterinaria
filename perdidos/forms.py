@@ -78,7 +78,7 @@ class LostPostForm (forms.ModelForm):
             color = self.cleaned_data['color']
             size = self.cleaned_data['size']
 
-            if self.user.lostpost_set.filter(name=name, age=age, sex=sex, zone=zone,
+            if self.user.lostpost_set.exclude(id=self.instance.id).filter(name=name, age=age, sex=sex, zone=zone,
                                         breed=breed, color=color, size=size
                                         ):
                 raise forms.ValidationError("Ya existe una publicación con exactamente la misma información")
@@ -182,7 +182,7 @@ class LostPostModificationForm(forms.ModelForm):
             size = self.cleaned_data['size']
             zone = self.cleaned_data['zone']
 
-            if self.user.lostpost_set.filter(name=name, age=age, sex=sex, 
+            if self.user.lostpost_set.exclude(id=self.instance.id).filter(name=name, age=age, sex=sex, 
                                         breed=breed, color=color, size=size, 
                                         zone=zone):
                 raise forms.ValidationError("Ya existe una publicación con exactamente la misma información")

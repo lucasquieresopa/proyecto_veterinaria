@@ -162,7 +162,8 @@ class AdoptionPostModificationForm(forms.ModelForm):
             origin = self.cleaned_data['origin']
             description = self.cleaned_data['description']
 
-            if self.user.adoptionpost_set.filter(name=name, age=age, sex=sex, 
+            #adoption_posts = self.user.adoptionpost_set
+            if self.user.adoptionpost_set.exclude(id=self.instance.id).filter(name=name, age=age, sex=sex, 
                                         breed=breed, color=color, size=size, 
                                         origin=origin, description=description):
                 raise forms.ValidationError("Ya existe una publicación con exactamente la misma información")

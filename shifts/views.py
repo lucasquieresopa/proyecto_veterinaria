@@ -307,7 +307,9 @@ def save_appointment(request,id):
         date = request.POST.get('date')
         time = request.POST.get('time')
         dog = request.POST.get('dog')
-        print(dog)
+        dog_id = request.POST.get('dog')
+        dog = user.dog_set.get(pk=dog_id)
+        #print(dog)
        
         if date > strtoday :
             # Guardar la cita en la base de datos

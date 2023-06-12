@@ -48,6 +48,7 @@
                             <th>Color</th>
                             <th>Tamaño</th>
                             <th>Zona</th>
+                            <th>Imagen</th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -62,7 +63,16 @@
                             <td>{{ post.color }}</td>
                             <td>{{ post.size }}</td>
                             <td>{{ post.zone }}</td>
+                            
                             <td>
+                                {% if post.image %}
+                                    <img src="{{ post.image.url }}" alt="{{ post.name }}" style="max-width: 100px; max-height: 100px;">
+                                {% else %}
+                                    No image
+                                {% endif %}
+                            </td>
+                            <td>
+
                                 {% if not post.was_found %}
                                 <a href="{% url 'lost_post_modification' post.id %}" class="bi bi-pencil-square btn btn-outline-primary btn-sm"></a>
                                 <form method="POST" action="{% url 'delete_lost_post' post.id %}">

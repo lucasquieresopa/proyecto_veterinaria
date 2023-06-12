@@ -14,18 +14,14 @@
 	
 </style>
 <br>
-    <p style="text-align:center;">
-        Gracias por colaborar!
-    </p>
 	<p style="text-align:center;">
-		Los datos se enviaron al que encontro el perro. Deberá esperar que se contacte con usted.
+		La vacuna fue registrada correctamente.
 	</p>
- 
 
 
 	
 	<div class="text-center">
-		<a href="{% url 'found_posts' %}">Volver</a>
+		<a href="{% url 'dog_profile' user_owner_id=user_owner_id dog_id=dog_id %}">Volver</a>
 	</div>
 
 {% endblock %}

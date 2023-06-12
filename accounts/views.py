@@ -11,6 +11,11 @@ from .models import CustomUser
 from django.utils.crypto import get_random_string
 from django.core.mail import EmailMessage
 from django.contrib.auth.decorators import login_required
+from pages.email_sending import send_mail_to_user
+from django.db.models import Q
+from django.db.models import Value
+from django.db.models.functions import Concat
+
 
 @login_required
 def user_registration_view(request):
@@ -28,17 +33,12 @@ def user_registration_view(request):
 
             user = form.save(commit=False)
             user.set_password(password)
-
-
             email = form.cleaned_data['email']
             
-            mail = EmailMessage(
-                                "Registro exitoso", 
-                                "La contraseña para {} es {}".format(email, password), 
-                                "megat01e28@gmail.com",
-                                ["megat01e28@gmail.com"]
-            )
-            mail.send()
+            send_mail_to_user("Registro exitoso en Oh My Dog!",
+                              f"Usted fue registrado en la aplicación de Oh My Dog!\nSu usuario es {email} y su contraseña es {password}\nSi desea cambiar su contraseña ingrese por primera vez con la contraseña brindada, busque la opción 'Cambiar contraseña' y elija una contraseña que le agrade.\n\nSaludos,\nEquipo de Oh My Dog!",
+                               "ohmydog@gmail.com",
+                                [email])
 
             user.save()
             #dog_context['dog_registration'] 
@@ -177,7 +177,14 @@ def search_user(request):
         return redirect('home')
     if request.method == 'POST':
         buscado = request.POST['buscado']
-        users = CustomUser.objects.filter(name__contains=buscado)
+
+        # users = CustomUser.objects.filter(Q(name__contains=buscado[0]) | Q(surname__contains=buscado[0]
+        #                                     | Q(name__contains=buscado[1] | Q(surname__contains=buscado[1]))))
+        #users = CustomUser.objects.filter(user=buscado[0])
+
+        concatenated_names = CustomUser.objects.annotate(full_name=Concat('name', Value(' '), 'surname'))
+        users = concatenated_names.filter(full_name__icontains=buscado)
+
         return render(request, 'search_results.html', {'buscado': buscado, 'users': users})
     else:
         return redirect(request, 'search_results.html',{})

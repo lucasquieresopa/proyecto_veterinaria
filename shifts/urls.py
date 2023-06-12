@@ -2,7 +2,7 @@ from . import views
 from django.urls import path
 
 urlpatterns = [
-    path('turn/<id>/', views.views_calendar, name= 'calendar'),
+    path('calendar/<id>/', views.views_calendar, name= 'calendar'),
     
     #path('', views.booking, name='booking'),
     # path('booking-submit/', views.bookingSubmit, name='bookingSubmit'),
@@ -41,6 +41,16 @@ urlpatterns = [
         'modificate_action/<id>',
         views.modificate_action,
         name='modificate_action'
+    ),
+    path(
+        'reprogram/<id>',
+        views.reprogram_view,
+        name='reprogram_view'
+    ),
+    path(
+        'reprogram_mail_sent/<id>/',
+        views.reprogram_mail_sent,
+        name='reprogram_mail_sent',
     )
 
 ]

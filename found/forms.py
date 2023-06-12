@@ -5,13 +5,15 @@ from django.db.models.base import Model
 from django.forms.utils import ErrorList 
 from .models import FoundPost
 from dogs.models import Dog
+from django.template.defaultfilters import linebreaksbr
 
 
 class FoundPostForm (forms.ModelForm):
     description = forms.CharField(
-        label="Descripción", 
+        label="Observación o descripción adicional", 
         required=False,
         max_length=120,
+        help_text="Si conoce el nombre del perro, puede ingresarlo aquí."
     )
     age = forms.CharField(
         label="Edad", 
@@ -57,7 +59,7 @@ class FoundPostForm (forms.ModelForm):
     
     class Meta: 
         model = FoundPost
-        fields = ('description', 'age', 'zone', 'sex', 'breed', 'color', 'size', 'image') 
+        fields = ( 'age', 'zone', 'sex', 'breed', 'color', 'size', 'image','description') 
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')  # cache the user object you pass in
@@ -77,9 +79,9 @@ class FoundPostForm (forms.ModelForm):
             color = self.cleaned_data['color']
             size = self.cleaned_data['size']
 
-            if self.user.foundpost_set.filter(description=description, age=age, sex=sex, zone=zone,
-                                        breed=breed, color=color, size=size
-                                        ):
+            if self.user.foundpost_set.filter(age=age, sex=sex, 
+                                        breed=breed, color=color, size=size, 
+                                        zone=zone):
                 raise forms.ValidationError("Ya existe una publicación con exactamente la misma información")
             
             return self.cleaned_data
@@ -117,7 +119,7 @@ class FoundPostModificationForm(forms.ModelForm):
         label="Edad aproximada", 
         required=True, 
         help_text="*",
-        max_length=30,
+        widget=forms.Select(choices=FoundPost.Age.choices),
     )
     sex = forms.CharField(
         label="Sexo", 
@@ -180,9 +182,9 @@ class FoundPostModificationForm(forms.ModelForm):
             size = self.cleaned_data['size']
             zone = self.cleaned_data['zone']
 
-            if self.user.foundpost_set.filter(description=description, age=age, sex=sex, 
+            if self.user.foundpost_set.filter(age=age, sex=sex, 
                                         breed=breed, color=color, size=size, 
-                                        zone=zone):
+                                        zone=zone).exclude(id=self.instance.id):
                 raise forms.ValidationError("Ya existe una publicación con exactamente la misma información")
             
             return self.cleaned_data
@@ -221,12 +223,7 @@ class ConfirmDeliveredForm(forms.Form):
         label="Mensaje", 
         required=True,
         max_length=120,
-        help_text="""\n
-                Brinde una pequeña descripción de su situación. Algunos disparadores:\n
-                ¿Por cual zona lo perdio al perro?, \n
-                Alguna caractrerística particular del perro, \n 
-                Alguna actitud particular
-                """,
+        help_text=linebreaksbr('\nBrinde una pequeña descripción de su situación. Algunos disparadores:\n¿Por qué zona perdió al perro?, \nAlguna caractrerística particular del perro, \n Alguna actitud particular, \n Responde a algún llamado particular'),
         widget=forms.Textarea(attrs={'rows':3,'cols':50})
     )
 

@@ -193,9 +193,22 @@ def vaccination_registration_view(request, dog_id, client_id):
         form = VaccinationRegisterForm(request.POST, dog=actual_dog)
 
         if form.is_valid():
-            attention = form.save(commit=False)
-            attention.dog = actual_dog
-            attention.save()
+            vaccination = form.save(commit=False)
+            vaccination.dog = actual_dog
+            #print(ages_between_dates(vaccination.date_of_application, vaccination.dog.date_of_birth))
+            
+            
+            if vaccination.type == "Antirrabica":
+                vaccination.suggestions = "Aplicar antirrabica cada un año"
+            else:
+                if ages_between_dates(vaccination.date_of_application, vaccination.dog.date_of_birth) >= 4:
+                    vaccination.suggestions = "Aplicar antimoquillo cada un año"
+                else:
+                    vaccination.suggestions = "Aplicar próxima vacuna antimoquillo 21 días despues de la fecha de aplicación"
+            
+            
+            vaccination.save()
+
             return redirect('dog_profile', user_owner_id=client_id, dog_id=actual_dog.id)
         
         else:
@@ -221,7 +234,15 @@ def vaccinations_list(request, dog_id, client_id):
 
     context = {
         'client_id': client_id,
-        'dog_id': actual_dog.id,
+        'dog': actual_dog,
         'vaccinations': vaccinations,
     }
+
     return render(request, 'vaccinations_list.html', context)
+
+
+
+
+
+def ages_between_dates(date1, date2):
+    return date1.year - date2.year - ((date1.month, date1.day) < (date2.month, date2.day))

@@ -33,6 +33,7 @@
                               <th>Lote</th>
                               <th>Dosis aplicada (en ml)</th>
                               <th>Día de aplicación</th>
+                              <th>Sugerencia</th>
 
                           </tr>
                       </thead>
@@ -46,6 +47,7 @@
                                     <td>{{ vaccination.lot }}</td>
                                     <td>{{ vaccination.applied_dose }}</td>
                                     <td>{{ vaccination.date_of_application }}</td>
+                                    <td>{{ vaccination.suggestions }}</td>
 
                                 </tr>
                             
@@ -63,7 +65,7 @@
                 
             
         <div>         
-            <a href="{% url 'dog_profile' user_owner_id=client_id dog_id=dog_id %}" class="btn btn-secondary">Volver</a>
+            <a href="{% url 'dog_profile' user_owner_id=client_id dog_id=dog.id %}" class="btn btn-secondary">Volver</a>
         </div> 
 </main>
 

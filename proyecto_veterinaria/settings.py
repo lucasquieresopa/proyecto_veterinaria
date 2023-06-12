@@ -155,12 +155,11 @@ AUTH_USER_MODEL = 'accounts.CustomUser' #customUser es el usuario personalizado 
 """EMAIL CREDENTIALS"""
 
 
-
 EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
-EMAIL_HOST_USER = 'bdaee6e9ccc2b0'
-EMAIL_HOST_PASSWORD = '4f92dcd51cdcfc'
+EMAIL_HOST_USER = '47fe2a6b69cb31'
+EMAIL_HOST_PASSWORD = '556cf8a2e70884'
 EMAIL_PORT = '2525'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'megat01e28@gmail.com'
+DEFAULT_FROM_EMAIL = 'megat01e01@gmail.com'
 

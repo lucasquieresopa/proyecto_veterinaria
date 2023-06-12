@@ -196,6 +196,8 @@ def vaccination_registration_view(request, dog_id, client_id):
             vaccination = form.save(commit=False)
             vaccination.dog = actual_dog
             #print(ages_between_dates(vaccination.date_of_application, vaccination.dog.date_of_birth))
+            
+            
             if vaccination.type == "Antirrabica":
                 vaccination.suggestions = "Aplicar antirrabica cada un año"
             else:
@@ -203,6 +205,8 @@ def vaccination_registration_view(request, dog_id, client_id):
                     vaccination.suggestions = "Aplicar antimoquillo cada un año"
                 else:
                     vaccination.suggestions = "Aplicar próxima vacuna antimoquillo 21 días despues de la fecha de aplicación"
+            
+            
             vaccination.save()
 
             return redirect('dog_profile', user_owner_id=client_id, dog_id=actual_dog.id)

@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
 from accounts.models import CustomUser
 
+from .filtros_found import OrderFilter
 from .models import FoundPost
 from .forms import FoundPostForm, FoundPostModificationForm, ConfirmDeliveredForm
 from django.contrib.auth.decorators import login_required
 from pages.email_sending import send_mail_to_user
 
-from .filters import OrderFilter
+from .filtros_found import OrderFilter
 
 # Create your views here.
 
@@ -45,7 +46,7 @@ def found_posts_list(request):
 
 
     post_filter = OrderFilter(request.GET, queryset=found_posts)
-    lost_posts = post_filter.qs
+    found_posts = post_filter.qs
 
     context = {
         'posts': found_posts,

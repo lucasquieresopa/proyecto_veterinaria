@@ -184,11 +184,7 @@ class LostPostModificationForm(forms.ModelForm):
             size = self.cleaned_data['size']
             zone = self.cleaned_data['zone']
 
-<<<<<<< HEAD
-            if self.user.lostpost_set.exclude(id=self.instance.id).filter(name=name, age=age, sex=sex, 
-=======
             if LostPost.objects.filter(name__iexact=name, age=age, sex=sex, 
->>>>>>> 5362802aefb1504a8d5b019931192a7b461afebc
                                         breed=breed, color=color, size=size, 
                                         zone=zone).exclude(id=self.instance.id):
                 raise forms.ValidationError("Ya existe una publicación con exactamente la misma información")

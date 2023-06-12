@@ -2,6 +2,7 @@ from django.utils.timezone import now
 from django.db import models
 from accounts.models import CustomUser
 from dogs.models import Dog
+from django.utils.timezone import now
 
 
 # Create your models here.
@@ -54,6 +55,10 @@ class LostPost (models.Model):
         null=True, 
         blank=True, 
         choices=Dog.Size.choices
+    )
+    publication_date = models.DateTimeField(
+        blank=True,
+        default=now,
     )
 
     was_found = models.BooleanField(

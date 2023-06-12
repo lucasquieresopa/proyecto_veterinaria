@@ -5,6 +5,7 @@ from django.db.models.base import Model
 from django.forms.utils import ErrorList 
 from .models import LostPost
 from dogs.models import Dog
+from django.template.defaultfilters import linebreaksbr
 
 
 class LostPostForm (forms.ModelForm):
@@ -78,8 +79,12 @@ class LostPostForm (forms.ModelForm):
             color = self.cleaned_data['color']
             size = self.cleaned_data['size']
 
+<<<<<<< HEAD
             if self.user.lostpost_set.exclude(id=self.instance.id).filter(
                                         name=name, age=age, sex=sex, zone=zone,
+=======
+            if LostPost.objects.filter(name__iexact=name, age=age, sex=sex, zone=zone,
+>>>>>>> 5f54f1d245e2f3712288491fbca59349aeaa8d6e
                                         breed=breed, color=color, size=size
                                         ):
                 raise forms.ValidationError("Ya existe una publicación con exactamente la misma información")
@@ -120,7 +125,7 @@ class LostPostModificationForm(forms.ModelForm):
         label="Edad aproximada", 
         required=True, 
         help_text="*",
-        max_length=30,
+        widget=forms.Select(choices=LostPost.Age.choices),
     )
     sex = forms.CharField(
         label="Sexo", 
@@ -173,6 +178,7 @@ class LostPostModificationForm(forms.ModelForm):
         """Comprueba que no exista otro post con los mismos datos"""
 
         if self.is_valid():
+            
             # actual_form_data = self.cleaned_data    #dict
             # user_adoption_posts = self.user.adoptionpost_set    #django many to many
             name = self.cleaned_data['name']
@@ -183,9 +189,13 @@ class LostPostModificationForm(forms.ModelForm):
             size = self.cleaned_data['size']
             zone = self.cleaned_data['zone']
 
+<<<<<<< HEAD
             if self.user.lostpost_set.exclude(id=self.instance.id).filter(name=name, age=age, sex=sex, 
+=======
+            if LostPost.objects.filter(name__iexact=name, age=age, sex=sex, 
+>>>>>>> 5f54f1d245e2f3712288491fbca59349aeaa8d6e
                                         breed=breed, color=color, size=size, 
-                                        zone=zone):
+                                        zone=zone).exclude(id=self.instance.id):
                 raise forms.ValidationError("Ya existe una publicación con exactamente la misma información")
             
             return self.cleaned_data
@@ -224,12 +234,16 @@ class ConfirmFoundForm(forms.Form):
         label="Mensaje", 
         required=True,
         max_length=120,
+<<<<<<< HEAD
         help_text="""\n
                 Brinde una pequeña descripción de su situación. Algunos disparadores:\n
                 ¿Dónde encontró al perro?, \n
                 Alguna característica particular del perro, \n 
                 Algun comportamiento particular (es confiado/desconfiado con los desconocidos, renguea, etc)
                 """,
+=======
+        help_text=linebreaksbr('\nBrinde una pequeña descripción de su situación. Algunos disparadores:\n¿Dónde encontró al perro?, \nAlguna caractrerística particular del perro, \n Alguna actitud particular'),
+>>>>>>> 5f54f1d245e2f3712288491fbca59349aeaa8d6e
         widget=forms.Textarea(attrs={'rows':3,'cols':50})
     )
 

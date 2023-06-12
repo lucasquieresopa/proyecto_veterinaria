@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+	.text-center {
+	text-align: center;
+	}
+  
+	p {
+	  font-size:20px;
+  
+	}
+  
+	
+</style>
+<br>
+    <p style="text-align:center;">
+        Gracias por colaborar!
+    </p>
+	<p style="text-align:center;">
+		Los datos se enviaron al que encontro el perro. Deberá esperar que se contacte con usted.
+	</p>
+ 
+
+
+	
+	<div class="text-center">
+		<a href="{% url 'found_posts' %}">Volver</a>
+	</div>
+
+{% endblock %}

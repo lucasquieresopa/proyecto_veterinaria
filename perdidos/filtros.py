@@ -8,6 +8,7 @@ class OrderFilter(django_filters.FilterSet):
     age = django_filters.ChoiceFilter(label="Edad", choices=LostPost.Age.choices)
     sex = django_filters.ChoiceFilter(label="Sexo", choices=Dog.Sex.choices)
     size = django_filters.ChoiceFilter(label="Tamaño", choices=Dog.Size.choices)
+    breed = django_filters.ChoiceFilter(label="Raza", choices=Dog.Size.choices)
 
     class Meta:
         model = LostPost

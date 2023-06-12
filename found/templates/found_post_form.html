@@ -1,0 +1,54 @@
+{% extends 'base.html' %}   
+
+{% block content %}
+
+<style>
+    .text-center {
+    text-align: center;
+    }
+  
+    p {
+      font-size:20px;
+    }
+</style>
+
+
+<br>
+<div class="col-md-4 mx-auto">
+    <h2 style="text-align:center;">Formulario de perro encontrado</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        {% for field in found_post_form %}
+        <p style="text-align:center;">
+            {{ field.label_tag }}
+            {{ field }}
+
+            {% if field.help_text %}
+            <small style="color: grey;">{{ field.help_text }}</small>
+            {% endif %}
+        </p>
+        {% if field.errors %}
+            {% for error in field.errors %}
+            <p style="color: red; text-align:center;">{{ error }}</p>
+            {% endfor %}
+        {% endif %}
+        {% endfor %}
+        
+        <p style="text-align:center; color:grey">* campos obligatorios</p>
+        
+        {% if found_post_form.non_field_errors %}
+        <div style="color: red; text-align:center;">
+            {% for error in found_post_form.non_field_errors %}
+            <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <div class="text-center">
+            <button class="btn btn-primary">Publicar</button>
+        </div>
+    </form>
+</div>
+
+{% endblock content %}

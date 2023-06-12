@@ -123,20 +123,25 @@ def account_modif_done(request):
     return render(request, 'registration/account_modif_succeed.html')
 
 
-@login_required
-def password_reset_view(request):
 
-    context = {}
+# def password_reset_view(request):
 
-    if request.POST:
-        form = CustomResetPasswordForm(request.POST)
-        if form.is_valid():
-            #form.save()
-            return redirect('password_reset_done')
-    else:
-        form = CustomResetPasswordForm()
-    context['form'] = form
-    return render(request, 'registration/password_reset_form.html', context)
+#     context = {}
+#     if request.POST:
+
+#         form = CustomResetPasswordForm(request.POST)
+#         if form.is_valid():
+            
+#             send_mail_to_user("Solicitud de cambio de contraseña para cuenta en Oh My Dog!", 
+#                         f"Has solicitado cambiar la contraseña de tu cuenta \n link:",
+#                         "ohmydog@gmail.com", 
+#                         [form.cleaned_data['email']])
+
+#             return redirect('password_reset_complete')
+#     else:
+#         form = CustomResetPasswordForm()
+#     context['form'] = form
+#     return render(request, 'registration/password_reset_mail_form.html', context)
 
 
 class CustomPasswordChangeDoneView(PasswordChangeDoneView):

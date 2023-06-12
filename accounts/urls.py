@@ -30,6 +30,12 @@ urlpatterns = [       #apunta a la app de auth
     #RESET DE CONTRASEÑA
     path('password_reset/', auth_views.PasswordResetView.as_view(template_name='registration/password_reset_mail_form.html'), 
         name='password_reset'),
+    # path(
+    #     'password_reset/', 
+    #     views.password_reset_view, 
+    #     name='password_reset'
+    # ),
+
 
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='registration/password_reset_pass_form.html'), name='password_reset_confirm'),
     

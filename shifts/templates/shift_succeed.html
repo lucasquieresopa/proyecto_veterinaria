@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+	.text-center {
+	text-align: center;
+	}
+  
+	p {
+	  font-size:20px;
+  
+	}
+  
+	
+</style>
+<br>
+	<p style="text-align:center;">
+		El turno fue solicitado correctamente. Deberá esperar que el veterinario se contacte con usted.
+	</p>
+
+
+	
+	<div class="text-center">
+		<a href="{% url 'home' %}">Volver</a>
+	</div>
+
+{% endblock %}

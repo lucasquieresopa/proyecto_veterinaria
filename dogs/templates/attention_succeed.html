@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+	.text-center {
+	text-align: center;
+	}
+  
+	p {
+	  font-size:20px;
+  
+	}
+  
+	
+</style>
+<br>
+	<p style="text-align:center;">
+		La atención fue registrada correctamente.
+	</p>
+
+
+	
+	<div class="text-center">
+		<a href="{% url 'dog_profile' user_owner_id=user_owner_id dog_id=dog_id %}">Volver</a>
+	</div>
+
+{% endblock %}

@@ -152,7 +152,7 @@ def attention_registration_view(request, dog_id, client_id):
             attention = form.save(commit=False)
             attention.dog = actual_dog
             attention.save()
-            return redirect('dog_profile', user_owner_id=client_id, dog_id=actual_dog.id)
+            return redirect('attention_succeed', user_owner_id=client_id, dog_id=actual_dog.id)
         
         else:
             context = {
@@ -209,7 +209,7 @@ def vaccination_registration_view(request, dog_id, client_id):
             
             vaccination.save()
 
-            return redirect('dog_profile', user_owner_id=client_id, dog_id=actual_dog.id)
+            return redirect('vaccination_succeed', user_owner_id=client_id, dog_id=actual_dog.id)
         
         else:
             context = {
@@ -246,3 +246,11 @@ def vaccinations_list(request, dog_id, client_id):
 
 def ages_between_dates(date1, date2):
     return date1.year - date2.year - ((date1.month, date1.day) < (date2.month, date2.day))
+
+
+def vaccination_register_succeed(request, user_owner_id, dog_id):
+    return render(request, 'vaccination_succeed.html', {'user_owner_id':user_owner_id, 'dog_id':dog_id})
+
+
+def attention_register_succeed(request, user_owner_id, dog_id):
+    return render(request, 'attention_succeed.html', {'user_owner_id':user_owner_id, 'dog_id':dog_id})

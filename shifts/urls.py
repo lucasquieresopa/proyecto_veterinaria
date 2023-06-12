@@ -51,6 +51,11 @@ urlpatterns = [
         'reprogram_mail_sent/<id>/',
         views.reprogram_mail_sent,
         name='reprogram_mail_sent',
+    ),
+    path(
+        'shift_peticion_succeed/',
+        views.shift_peticion_succeed,
+        name='shift_succeed'
     )
 
 ]

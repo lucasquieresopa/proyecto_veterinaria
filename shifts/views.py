@@ -141,13 +141,17 @@ def save_appointment(request,id):
                             )
         
             # Redirigir a una página de éxito o a otra vista
-                messages.success(request, 'turno a confirmar por la veterinaria')
-                return redirect('home')
+                #messages.success(request, 'turno a confirmar por la veterinaria')
+                return redirect('shift_succeed')
         else:
                 messages.success(request, 'Horario no disponible. Por favor elija otro')
                 return redirect('calendar', id)
        
     return render(request, 'calendar.html')
+
+
+def shift_peticion_succeed(request):
+    return render(request, 'shift_succeed.html')
 
 
 

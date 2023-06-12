@@ -23,6 +23,9 @@
 
 <main>
 <br>
+<div>         
+    <a href="{% url 'dog_profile' user_owner_id=client_id dog_id=dog.id %}" class="btn btn-secondary">Volver</a>
+</div> 
     <h2 class="text-center">Libreta de vacunación del perro</h2>
                 {% if vaccinations.exists %}  
                   <table class="table table-hover">
@@ -64,9 +67,7 @@
                 {% endif %}
                 
             
-        <div>         
-            <a href="{% url 'dog_profile' user_owner_id=client_id dog_id=dog.id %}" class="btn btn-secondary">Volver</a>
-        </div> 
+        
 </main>
 
 {% endblock  %}

@@ -195,7 +195,7 @@ def vaccination_registration_view(request, dog_id, client_id):
         if form.is_valid():
             vaccination = form.save(commit=False)
             vaccination.dog = actual_dog
-            print(ages_between_dates(vaccination.date_of_application, vaccination.dog.date_of_birth))
+            #print(ages_between_dates(vaccination.date_of_application, vaccination.dog.date_of_birth))
             if vaccination.type == "Antirrabica":
                 vaccination.suggestions = "Aplicar antirrabica cada un año"
             else:

@@ -19,7 +19,7 @@ from django.core.mail import send_mail
 from .forms import MiVariableForm
 from django.contrib.auth.decorators import login_required
 from pages.email_sending import send_mail_to_user
-from .forms import EmailForm
+from .forms import EmailForm, ReprogramEmailForm
 
 # @login_required
 # def booking(request):
@@ -402,10 +402,10 @@ def send_confirmation_message_view(request, id):
         form = EmailForm(request.POST)
         if form.is_valid():
 
-            send_mail_to_user('Turno aceptado', 
-                      f"El turno pedido para el perro {shift.dog} el día {shift.day}, horario {shift.time} fue aceptado \nMensaje de la veterinaria: {form.cleaned_data['message']}",
-                      "ohmydog@gmail.com", 
-                      [shift.user.email])
+            # send_mail_to_user('Turno aceptado', 
+            #           f"El turno pedido para el perro {shift.dog} el día {shift.day}, horario {shift.time} fue aceptado \nMensaje de la veterinaria: {form.cleaned_data['message']}",
+            #           "ohmydog@gmail.com", 
+            #           [shift.user.email])
   
             return redirect('confirmation_mail_sent', id)
     else:
@@ -467,3 +467,34 @@ def modificate_action(request, id):
     appointment.save()
  
     return redirect('shifts_panel')
+
+
+def reprogram_view(request, id):
+
+    shift = Appointment.objects.get(pk=id)
+
+    if request.POST:
+        form = ReprogramEmailForm(request.POST)
+        if form.is_valid():
+            #shift = form.save(commit=False)
+            shift.day = form.cleaned_data['date_of_shift']
+            shift.status = "Reprogramado"
+            shift.time = form.cleaned_data['hour']
+            # send_mail_to_user('Turno reprogramado', 
+            #           f"El turno pedido para el perro {shift.dog} el día {shift.day}, horario {shift.time} fue reprogramado \nMotivo: {form.cleaned_data['message']}",
+            #           "ohmydog@gmail.com", 
+            #           [shift.user.email])
+            shift.save()
+            return redirect('reprogram_mail_sent', id)
+    else:
+        form = ReprogramEmailForm()
+
+    context = {
+        'message_form' : form,
+    }
+        
+    return render(request, 'send_reprogram.html', context)
+
+
+def reprogram_mail_sent(request, id):
+    return render(request, 'mail_sent_successfully.html')

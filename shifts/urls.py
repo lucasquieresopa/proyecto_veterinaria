@@ -41,6 +41,16 @@ urlpatterns = [
         'modificate_action/<id>',
         views.modificate_action,
         name='modificate_action'
+    ),
+    path(
+        'reprogram/<id>',
+        views.reprogram_view,
+        name='reprogram_view'
+    ),
+    path(
+        'reprogram_mail_sent/<id>/',
+        views.reprogram_mail_sent,
+        name='reprogram_mail_sent',
     )
 
 ]

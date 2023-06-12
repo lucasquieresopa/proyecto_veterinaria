@@ -3,7 +3,12 @@
 {% load static %}
 {% block content %}
 
-
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+</head>
 
 
 {% if user.is_authenticated %}
@@ -45,26 +50,31 @@
                             <a href="{% url 'send_confirmation_message' item.id  %}" class="bi bi-check btn btn-success"></a>
                             <a href="{% url 'send_rejection_message' item.id %}" class="bi bi-x btn btn-danger"></a>
                         </td>
-                    {% endif %}
-
-                    {% if item.status == "Confirmado" %}
-
-                        <td class="text-center">Confirmado</td>
+                    {% else %}
+                        <td class="text-center">{{ item.status }}</td>
 
                     {% endif %}
                     
-                    {% if item.status == "Cancelado"  %}
-
-                        <td class="text-center">Cancelado</td>
-
-                    {% endif %}
 
                     
 
                     <td class="text-center">
-                        {% if item.status == "Confirmado" or item.status == "Cancelado" %}
-                            <a href="{% url 'modificate_action' item.id %}" class="bi bi-pencil-square btn btn-warning"></a>
+                      
+                      {% if item.status == "Confirmado" or item.status == "Cancelado" or item.status == "Reprogramado" %}
+
+                      <form method="POST" action="{% url 'modificate_action' item.id %}">
+                        {% csrf_token %}
+                        <input name="_method" type="hidden" value="Modificar elección">
+                        <button type="submit" class="bi bi-pencil-square btn btn-warning show_confirm_modificate" data-toggle="tooltip" title='Modificar elección'></button>
+                      </form>
+
+                        {% if item.status == "Confirmado" or item.status == "Reprogramado" %}
+                        <a href="{% url 'reprogram_view' item.id %}" title="Reprogramar" class="bi bi-send-exclamation btn btn-warning"></a>
+     
                         {% endif %}
+
+
+                      {% endif %}
                     </td>
                     
                     
@@ -120,6 +130,23 @@
     });
 }
 
+
+$('.show_confirm_modificate').click(function(event) {
+            var form =  $(this).closest("form");
+            var name = $(this).data("name");
+            event.preventDefault();
+            swal({
+                title: `¿Estas seguro de modificar tu acción?`,
+                text: "Deberás volver a aceptar o rechazar el turno",
+                icon: "warning",
+                buttons: ['Cancelar','Si'], //primer boton del array es 'cancel' y segundo 'confirm'
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    form.submit();
+                }
+            });
+        });
 </script>
 
 {% endblock %}

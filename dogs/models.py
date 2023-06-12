@@ -200,3 +200,8 @@ class Vaccination(models.Model):
         blank=True,
         validators=[MaxValueValidator(date.today, message="La fecha de atención debe ser anterior a la fecha de hoy")],
     )
+    suggestions = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+    )

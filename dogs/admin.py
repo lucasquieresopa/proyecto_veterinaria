@@ -50,7 +50,7 @@ class VaccinationAdmin(admin.ModelAdmin):
     add_form = VaccinationRegisterForm
     model = Vaccination
 
-    list_display = ['type', 'dog', 'date_of_application']
+    list_display = ['type', 'dog', 'date_of_application', 'suggestions',]
     fieldsets = ()
     add_fieldsets = add_fieldsets = (
         (None, {

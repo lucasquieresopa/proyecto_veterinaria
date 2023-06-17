@@ -56,6 +56,11 @@ urlpatterns = [
         'shift_peticion_succeed/',
         views.shift_peticion_succeed,
         name='shift_succeed'
+    ),
+    path(
+        'my_shifts/',
+        views.client_shifts_view,
+        name='client_shifts'
     )
 
 ]

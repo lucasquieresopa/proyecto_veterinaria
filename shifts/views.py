@@ -314,3 +314,17 @@ def reprogram_view(request, id):
 
 def reprogram_mail_sent(request, id):
     return render(request, 'mail_sent_successfully.html')
+
+
+
+def client_shifts_view(request):
+    # creo que el codigo siguiente hace que se muestren solo los turnos 
+    # entre hoy y 360 días 
+    today = datetime.today()
+    minDate = today.strftime('%Y-%m-%d')
+    deltatime = today + timedelta(days=360)
+    strdeltatime = deltatime.strftime('%Y-%m-%d')
+    maxDate = strdeltatime
+    shifts = request.user.appointment_set.all().filter(day__range=[minDate, maxDate]).order_by('day','time')
+
+    return render(request, 'client_shifts_view.html', {'shifts': shifts})

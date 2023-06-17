@@ -40,7 +40,7 @@
                             {% if user.is_authenticated %}
 
 
-                                {% if user.is_veterinario %}
+                                {% if user.is_veterinario %}    <!-- veterinario -->
                                     
                                     <li class="nav-item">
                                         <a class="nav-link active" aria-current="page" href="{% url 'list_users' %}">Lista de Clientes</a>
@@ -65,10 +65,13 @@
                                         </form>
                                     </ul>
 
-                                {% else %}
+                                {% else %} <!-- cliente (no vet)-->
    
                                     <li class="nav-item">
                                         <a class="nav-link active" aria-current="page" href="{% url 'calendar' user.id %}">Pedir turnos</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active" aria-current="page" href="{% url 'client_shifts' %}">Ver mis turnos</a>
                                     </li>
 
                                 {% endif %}

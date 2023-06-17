@@ -1,0 +1,64 @@
+<title>Shifts Panel</title>
+{% extends 'home.html' %}
+{% load static %}
+{% block content %}
+
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+</head>
+
+
+{% if user.is_authenticated %}
+
+<div class="shadow p-4 mb-5 bg-body bg-body rounded text-black  m-5 ">
+{% if shifts.exists %}  
+  <h1 class="text-center mt-5 mb-5">Solicitudes de turnos</h1>
+  
+    <br>
+    
+      <div class="table-responsive">
+        
+        <table class="table table-bordered table-striped table-hover mx-auto">
+            <thead>
+              <tr>
+                <th class="text-center" scope="col">Perro</th>
+                <th class="text-center" scope="col">Dia</th>
+                <th class="text-center" scope="col">Turno</th>
+                
+                
+              </tr>
+            </thead>
+            <tbody id="myTable">
+                {% for shift in shifts %}
+                <tr>
+                    <td class="text-center">{{shift.dog.name}}</td>
+                    <td class="text-center">{{shift.day}}</td>
+                    <td class="text-center">{{shift.time}}</td>
+                    
+
+                </tr>
+                {% endfor %}
+            
+
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <h4 class="text-center">No hay turnos solicitados</h1>
+      {% endif %}
+
+</div>
+
+{% else %}
+
+<div class="shadow p-4 mb-5 bg-body bg-body rounded text-black  m-5">
+  <h1 class="p-2  me-3">Primero debes iniciar sesión!</h1>
+  <a href="{% url 'login' %}" class="btn btn-primary text-white">Iniciar sesión</a>
+</div>
+
+{% endif %}
+
+{% endblock %}

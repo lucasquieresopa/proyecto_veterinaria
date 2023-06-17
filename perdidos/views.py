@@ -162,7 +162,15 @@ def confirm_found(request, post_id):
 
             return redirect('confirm_found_succeed', post.id)
     else:
-        form = ConfirmFoundForm()
+        if(request.user.is_authenticated):
+            form = ConfirmFoundForm(
+                initial={
+                    'email' : request.user.email,
+                    'telephone' : request.user.telephone,
+                }
+            )
+        else:
+            form = ConfirmFoundForm()
 
     context = {
         'confirm_found_form' : form,

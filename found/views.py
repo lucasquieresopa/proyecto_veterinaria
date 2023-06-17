@@ -163,7 +163,15 @@ def confirm_delivered(request, post_id):
 
             return redirect('confirm_delivered_succeed', post.id)
     else:
-        form = ConfirmDeliveredForm()
+        if(request.user.is_authenticated):
+            form = ConfirmDeliveredForm(
+                initial={
+                    'email' : request.user.email,
+                    'telephone' : request.user.telephone,
+                }
+            )
+        else:
+            form = ConfirmDeliveredForm()
 
     context = {
         'confirm_delivered_form' : form,

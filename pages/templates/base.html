@@ -73,6 +73,9 @@
                                     <li class="nav-item">
                                         <a class="nav-link active" aria-current="page" href="{% url 'client_shifts' %}">Ver mis turnos</a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active" aria-current="page" href="{% url 'campaigns' %}">Donar</a>
+                                    </li>
 
                                 {% endif %}
 
@@ -115,7 +118,6 @@
                         
 
                             {% else %}  <!-- user no autenticado-->
-
                                 <li class="nav-item">
                                     <a class="nav-link active" aria-current="page" href="{% url 'campaigns' %}">Donar</a>
                                 </li>

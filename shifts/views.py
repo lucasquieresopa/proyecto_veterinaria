@@ -128,10 +128,8 @@ def save_appointment(request,id):
         time = request.POST.get('time')
         #dog = request.POST.get('dog')
         dog_id = request.POST.get('dog')
-        if dog_id == "null":
-            dog = None
-        else:
-            dog = user.dog_set.get(pk=dog_id)
+    
+        dog = user.dog_set.get(pk=dog_id)
    
         #print(dog)
        

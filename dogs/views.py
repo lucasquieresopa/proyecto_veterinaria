@@ -1,3 +1,4 @@
+from datetime import timedelta, datetime
 from django.shortcuts import redirect, render
 from accounts import forms
 from accounts.models import CustomUser
@@ -199,12 +200,12 @@ def vaccination_registration_view(request, dog_id, client_id):
             
             
             if vaccination.type == "Antirrabica":
-                vaccination.suggestions = "Aplicar antirrabica cada un año"
+                vaccination.suggestions = "Aplicar antirrabica cada un año. Turno sugerido: {}".format((vaccination.date_of_application + timedelta(days=365)).strftime("%d-%m-%Y"))
             else:
                 if ages_between_dates(vaccination.date_of_application, vaccination.dog.date_of_birth) >= 4:
-                    vaccination.suggestions = "Aplicar antimoquillo cada un año"
+                    vaccination.suggestions = "Aplicar antimoquillo cada un año. Turno sugerido: {}".format((vaccination.date_of_application + timedelta(days=365)).strftime("%d-%m-%Y")) 
                 else:
-                    vaccination.suggestions = "Aplicar próxima vacuna antimoquillo 21 días despues de la fecha de aplicación"
+                    vaccination.suggestions = "Aplicar próxima vacuna antimoquillo 21 días despues de la fecha de aplicación. Turno sugerido: {}".format((vaccination.date_of_application + timedelta(days=21)).strftime("%d-%m-%Y"))
             
             
             vaccination.save()

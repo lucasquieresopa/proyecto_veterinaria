@@ -175,7 +175,15 @@ def confirm_adoption(request, post_id):
 
             return redirect('confirm_adoption_succeed', post.id)
     else:
-        form = ConfirmAdoptionForm()
+        if(request.user.is_authenticated):
+            form = ConfirmAdoptionForm(
+                initial={
+                    'email' : request.user.email,
+                    'telephone' : request.user.telephone,
+                }
+            )
+        else:
+            form = ConfirmAdoptionForm()
 
     context = {
         'confirm_adoption_form' : form,

@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+</head>
+<style>
+    .card {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .card-img-top {
+        height: 400px;
+        object-fit: cover;
+    }
+
+    .card-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .card-text {
+        font-size: 18px;
+        margin-bottom: 5px;
+    }
+
+    .card-description {
+        font-size: 14px;
+        color: #888;
+    }
+</style>
+
+<main>
+    {% if user.is_authenticated %}
+    <div class="text-left">
+        <a href="{% url 'found_post_form' %}" class="btn btn-primary">Publicar campaña de donación</a>
+    </div>
+    {% endif %}
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-12">
+                <h2 class="text-center">Campañas de donación</h2>
+
+                {% for campaign in campaigns %}
+                <div class="col-md-12">
+                    <div class="card">
+
+                        {% if campaign.image %}
+                        <img src="{{ post.image.url }}" class="card-img-top" alt="Imagen del post">
+                        {% endif %}
+
+                        <div class="card-body">
+                            <h5 class="card-title">{{ campaign.campaign_name }}</h5>
+                            <p class="card-text" style="font-size: 20px;">Descripción: {{ campaign.description }}</p>
+                            <p class="card-text" style="font-size: 20px;">Fecha objetivo: {{ campaign.target_date }}</p>
+                            <p class="card-text" style="font-size: 20px;">Dinero objetivo: {{ campaign.target_money }}</p>
+                            <p class="card-text" style="font-size: 20px;">Reacudación actual: {{ campaign.actual_money }}</p>
+
+                            
+                            <!-- Botones y funcionalidades -->
+                            <div class="text-center">
+                                {% if post.author.id == actual_user_id and user.is_authenticated and not post.was_found %}
+                                <!-- si el post pertenece al usuario, el usuario está loggeado y el post no está adoptado: -->
+                                <a href="{% url 'found_post_modification' post.id %}" class="bi bi-pencil-square btn btn-outline-primary btn-sm"></a>
+                                <form method="POST" action="{% url 'delete_found_post_from_general' post.id %}">
+                                    {% csrf_token %}
+                                    <input name="_method" type="hidden" value="Borrar">
+                                    <button type="submit" class="bi bi-trash red-color btn btn-outline-danger btn-sm show_confirm_delete" data-toggle="tooltip" title='Borrar'></button>
+                                </form>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="card-footer">
+                            <div class="text-center">
+                                <a class="btn btn-primary">Donar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</main>
+</html>
+{% endblock content %}

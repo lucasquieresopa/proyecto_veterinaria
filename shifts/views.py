@@ -128,23 +128,32 @@ def save_appointment(request,id):
         time = request.POST.get('time')
         #dog = request.POST.get('dog')
         dog_id = request.POST.get('dog')
-    
-        dog = user.dog_set.get(pk=dog_id)
+        if  dog_id != "null":
+            dog = user.dog_set.get(pk=dog_id)
    
         #print(dog)
        
         if date > strtoday :
             # Guardar la cita en la base de datos
+            if  dog_id != "null":
                 AppointmentForm = Appointment.objects.get_or_create(
                                 user=user,
                                 day=date,
                                 time=time,
                                 dog=dog,
                             )
+            else: 
+                AppointmentForm = Appointment.objects.get_or_create(
+                                user=user,
+                                day=date,
+                                time=time,
+                                
+                            )
+
         
             # Redirigir a una página de éxito o a otra vista
                 #messages.success(request, 'turno a confirmar por la veterinaria')
-                return redirect('shift_succeed')
+            return redirect('shift_succeed')
         else:
                 messages.success(request, 'Horario no disponible. Por favor elija otro')
                 return redirect('calendar', id)
@@ -312,3 +321,18 @@ def reprogram_view(request, id):
 
 def reprogram_mail_sent(request, id):
     return render(request, 'mail_sent_successfully.html')
+
+@login_required
+def shifts_panel_user_view(request,id):
+    today = datetime.today()
+    minDate = today.strftime('%Y-%m-%d')
+    deltatime = today + timedelta(days=360)
+    strdeltatime = deltatime.strftime('%Y-%m-%d')
+    maxDate = strdeltatime
+    #Only show the Appointments 21 days from today
+    items = Appointment.objects.filter(user=id,day__range=[minDate, maxDate]).order_by('day','time')
+
+
+    return render(request, 'shifts_panel_user.html', {
+        'items':items,
+    })

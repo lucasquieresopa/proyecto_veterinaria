@@ -14,72 +14,45 @@
 {% if user.is_authenticated %}
 
 <div class="shadow p-4 mb-5 bg-body bg-body rounded text-black  m-5 ">
-  {% if items.exists %}
-  <h1 class="text-center mt-5 mb-5">Pedidos de turnos</h1>
-
-  <br>
-
-  <div class="table-responsive">
-
-    <table class="table table-bordered table-striped table-hover mx-auto">
-      <thead>
-        <tr>
-          <th class="text-center" scope="col">Dia</th>
-          <th class="text-center" scope="col">Turno</th>
-          <th class="text-center" scope="col">Cliente</th>
-          <th class="text-center" scope="col">Perro</th>
-          <th class="text-center" scope="col">Mail</th>
-          <th class="text-center" scope="col">Estado del turno</th>
-          <th class="text-center" scope="col">Mensaje del veterinario</th>
+{% if items.exists %}  
+  <h1 class="text-center mt-5 mb-5">Solicitudes de turnos</h1>
+  
+    <br>
+    
+      <div class="table-responsive">
         
+        <table class="table table-bordered table-striped table-hover mx-auto">
+            <thead>
+              <tr>
+                <th class="text-center" scope="col">Perro</th>
+                <th class="text-center" scope="col">Dia</th>
+                <th class="text-center" scope="col">Turno</th>
+                <th class="text-center" scope="col">Estado</th>
+                <th class="text-center" scope="col">Mensaje del veterinario</th>
+                
+                
+              </tr>
+            </thead>
+            <tbody id="myTable">
+                {% for item in items %}
+                <tr>
+                    <td class="text-center">{{item.dog.name}}</td>
+                    <td class="text-center">{{item.day}}</td>
+                    <td class="text-center">{{item.time}}</td>
+                    <td class="text-center">{{item.status}}</td>
+                    <td class="text-center">{{item.description}}</td>
+                    
 
-        </tr>
-      </thead>
-      <tbody id="myTable">
-        {% for item in items %}
-        <tr>
-          <td class="text-center">{{item.day}}</td>
-          <td class="text-center">{{item.time}}</td>
-          <td class="text-center">{{item.user.name}} {{item.user.surname}}</td>
-          {% if item.dog == None %}
-          <td class="text-center">Otro</td>
-          {% else %}
-          <td class="text-center">{{item.dog.name}}</td>
-          {% endif %}
-          <td class="text-center">{{item.user.email}}</td>
+                </tr>
+                {% endfor %}
+            
 
-
-
-
-          {% if item.status == "Pendiente" %}
-          <td class="text-center">
-            Pendiente
-          </td>
-          {% else %}
-          <td class="text-center">{{ item.status }}</td>
-
-          {% endif %}
-
-
-          <td class="text-center">{{item.description}}</td>
-
-          
-          </td>
-
-
-
-
-
-        </tr>
-        {% endfor %}
-
-
-      </tbody>
-    </table>
-  </div>
-  {% else %}
-  <h4 class="text-center">No hay turnos pendientes</h1>
-    {% endif %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <h4 class="text-center">No hay turnos solicitados</h1>
+      {% endif %}
 
 </div>
 
@@ -91,10 +64,5 @@
 </div>
 
 {% endif %}
-
-<!--Staff Panel Search-->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-
 
 {% endblock %}

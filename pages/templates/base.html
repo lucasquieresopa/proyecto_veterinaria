@@ -51,6 +51,9 @@
                                     <li class="nav-item">
                                         <a class="nav-link active" aria-current="page" href="{% url 'shifts_panel'  %}">Turnos</a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active" aria-current="page" href="{% url 'calendar' user.id %}">Pedir turnos</a>
+                                    </li>
                                     
 
                             
@@ -71,7 +74,7 @@
                                         <a class="nav-link active" aria-current="page" href="{% url 'calendar' user.id %}">Pedir turnos</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link active" aria-current="page" href="{% url 'client_shifts' %}">Ver mis turnos</a>
+                                        <a class="nav-link active" aria-current="page" href="{% url 'shifts_panel_user' %}">Mis turnos</a>
                                     </li>
 
                                 {% endif %}

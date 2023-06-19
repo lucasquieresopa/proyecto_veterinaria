@@ -14,89 +14,91 @@
 {% if user.is_authenticated %}
 
 <div class="shadow p-4 mb-5 bg-body bg-body rounded text-black  m-5 ">
-{% if items.exists %}  
+  {% if items.exists %}
   <h1 class="text-center mt-5 mb-5">Solicitudes de turnos</h1>
-  
-    <br>
-    
-      <div class="table-responsive">
-        
-        <table class="table table-bordered table-striped table-hover mx-auto">
-            <thead>
-              <tr>
-                <th class="text-center" scope="col">Dia</th>
-                <th class="text-center" scope="col">Turno</th>
-                <th class="text-center" scope="col">Cliente</th>
-                <th class="text-center" scope="col">Perro</th>
-                <th class="text-center" scope="col">Mail</th>
-                <th class="text-center" scope="col">Aceptar/Rechazar</th>
-                <th class="text-center" scope="col">Mensaje enviado</th>
-                <th class="text-center" scope="col"></th>
-                
-              </tr>
-            </thead>
-            <tbody id="myTable">
-                {% for item in items %}
-                <tr>
-                    <td class="text-center">{{item.day}}</td>
-                    <td class="text-center">{{item.time}}</td>
-                    <td class="text-center">{{item.user.name}} {{item.user.surname}}</td>
-                    {% if item.dog == None %}
-                      <td class="text-center">Otro</td>
-                    {% else %}
-                      <td class="text-center">{{item.dog.name}}</td>
-                    {% endif %}
-                    <td class="text-center">{{item.user.email}}</td>
-                   
-                
-                    
-                
-                    {% if item.status == "Pendiente" %}
-                        <td class="text-center">
-                            <a href="{% url 'send_confirmation_message' item.id  %}" class="bi bi-check btn btn-success"></a>
-                            <a href="{% url 'send_rejection_message' item.id %}" class="bi bi-x btn btn-danger"></a>
-                        </td>
-                    {% else %}
-                        <td class="text-center">{{ item.status }}</td>
 
-                    {% endif %}
-                    
+  <br>
 
-                    <td class="text-center">{{item.description}}</td>
+  <div class="table-responsive">
 
-                    <td class="text-center">
-                      
-                      {% if item.status == "Confirmado" or item.status == "Cancelado" or item.status == "Reprogramado" %}
+    <table class="table table-bordered table-striped table-hover mx-auto">
+      <thead>
+        <tr>
+          <th class="text-center" scope="col">Dia</th>
+          <th class="text-center" scope="col">Turno</th>
+          <th class="text-center" scope="col">Cliente</th>
+          <th class="text-center" scope="col">Perro</th>
+          <th class="text-center" scope="col">Mail</th>
+          <th class="text-center" scope="col">Aceptar/Rechazar</th>
+          <th class="text-center" scope="col">Mensaje enviado</th>
+          <th class="text-center" scope="col"></th>
 
-                      <form method="POST" action="{% url 'modificate_action' item.id %}">
-                        {% csrf_token %}
-                        <input name="_method" type="hidden" value="Modificar elección">
-                        <button type="submit" class="bi bi-pencil-square btn btn-warning show_confirm_modificate" data-toggle="tooltip" title='Modificar elección'></button>
-                      </form>
-
-                        {% if item.status == "Confirmado" or item.status == "Reprogramado" %}
-                        <a href="{% url 'reprogram_view' item.id %}" title="Reprogramar" class="bi bi-send-exclamation btn btn-warning"></a>
-     
-                        {% endif %}
+        </tr>
+      </thead>
+      <tbody id="myTable">
+        {% for item in items %}
+        <tr>
+          <td class="text-center">{{item.day}}</td>
+          <td class="text-center">{{item.time}}</td>
+          <td class="text-center">{{item.user.name}} {{item.user.surname}}</td>
+          {% if item.dog == None %}
+          <td class="text-center">Otro</td>
+          {% else %}
+          <td class="text-center">{{item.dog.name}}</td>
+          {% endif %}
+          <td class="text-center">{{item.user.email}}</td>
 
 
-                      {% endif %}
-                    </td>
-                    
-                    
-                    
 
-              
-                </tr>
-                {% endfor %}
-            
 
-            </tbody>
-          </table>
-        </div>
-      {% else %}
-        <h4 class="text-center">No hay turnos pendientes</h1>
-      {% endif %}
+          {% if item.status == "Pendiente" %}
+          <td class="text-center">
+            <a href="{% url 'send_confirmation_message' item.id  %}" class="bi bi-check btn btn-success"></a>
+            <a href="{% url 'send_rejection_message' item.id %}" class="bi bi-x btn btn-danger"></a>
+          </td>
+          {% else %}
+          <td class="text-center">{{ item.status }}</td>
+
+          {% endif %}
+
+
+          <td class="text-center">{{item.description}}</td>
+
+          <td class="text-center">
+
+            {% if item.status == "Confirmado" or item.status == "Cancelado" or item.status == "Reprogramado" %}
+
+            <form method="POST" action="{% url 'modificate_action' item.id %}">
+              {% csrf_token %}
+              <input name="_method" type="hidden" value="Modificar elección">
+              <button type="submit" class="bi bi-pencil-square btn btn-warning show_confirm_modificate"
+                data-toggle="tooltip" title='Modificar elección'></button>
+            </form>
+
+            {% if item.status == "Confirmado" or item.status == "Reprogramado" %}
+            <a href="{% url 'reprogram_view' item.id %}" title="Reprogramar"
+              class="bi bi-send-exclamation btn btn-warning"></a>
+
+            {% endif %}
+
+
+            {% endif %}
+          </td>
+
+
+
+
+
+        </tr>
+        {% endfor %}
+
+
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <h4 class="text-center">No hay turnos pendientes</h1>
+    {% endif %}
 
 </div>
 
@@ -113,46 +115,46 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script>
-    $(document).ready(function(){
-      $("#myInput").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-        $("#myTable tr").filter(function() {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-        });
+  $(document).ready(function () {
+    $("#myInput").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
       });
     });
-    
-    function enviarCorreo(correo) {
+  });
+
+  function enviarCorreo(correo) {
     $.ajax({
-        url: '/enviar_correo_aceptacion/',
-        type: 'POST',
-        data: { correo: correo },
-        success: function(response) {
-            console.log('Correo enviado correctamente');
-        },
-        error: function(response) {
-            console.error('Error al enviar el correo');
-        }
+      url: '/enviar_correo_aceptacion/',
+      type: 'POST',
+      data: { correo: correo },
+      success: function (response) {
+        console.log('Correo enviado correctamente');
+      },
+      error: function (response) {
+        console.error('Error al enviar el correo');
+      }
     });
-}
+  }
 
 
-$('.show_confirm_modificate').click(function(event) {
-            var form =  $(this).closest("form");
-            var name = $(this).data("name");
-            event.preventDefault();
-            swal({
-                title: `¿Estas seguro de modificar tu acción?`,
-                text: "Deberás volver a aceptar o rechazar el turno",
-                icon: "warning",
-                buttons: ['Cancelar','Si'], //primer boton del array es 'cancel' y segundo 'confirm'
-            })
-            .then((willDelete) => {
-                if (willDelete) {
-                    form.submit();
-                }
-            });
-        });
+  $('.show_confirm_modificate').click(function (event) {
+    var form = $(this).closest("form");
+    var name = $(this).data("name");
+    event.preventDefault();
+    swal({
+      title: `¿Estas seguro de modificar tu acción?`,
+      text: "Deberás volver a aceptar o rechazar el turno",
+      icon: "warning",
+      buttons: ['Cancelar', 'Si'], //primer boton del array es 'cancel' y segundo 'confirm'
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          form.submit();
+        }
+      });
+  });
 </script>
 
 {% endblock %}

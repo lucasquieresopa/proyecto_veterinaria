@@ -57,10 +57,7 @@ urlpatterns = [
         views.shift_peticion_succeed,
         name='shift_succeed'
     ),
-    path(
-        'my_shifts/',
-        views.client_shifts_view,
-        name='client_shifts'
-    )
+    path('shifts_panel_user/', views.shifts_panel_user_view, name='shifts_panel_user'),
+
 
 ]

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 <!DOCTYPE html>
 <html>
@@ -54,7 +54,7 @@
                     <div class="card">
 
                         {% if campaign.image %}
-                        <img src="{{ post.image.url }}" class="card-img-top" alt="Imagen del post">
+                        <img src="{{ campaign.image.url }}" class="card-img-top" alt="Imagen del post">
                         {% endif %}
 
                         <div class="card-body">

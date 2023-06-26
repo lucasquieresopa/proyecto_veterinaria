@@ -3,6 +3,10 @@ from .models import Campaign
 from .forms import CampaignForm
 from django.contrib.auth.decorators import login_required
 
+import stripe
+
+stripe.api_key = "sk_test_51NL2vMF7u9x15zyl0VVAsEpA72PT0Y5Jn1ZCtVex9yvIe1dB8NxtTKh2LzeomZWZUQ9xuHbWBoAG2H1UwEmxcCnM00lLca3xpU"
+
 # Create your views here.
 
 
@@ -46,3 +50,52 @@ def publish_campaign(request):
 
 def publish_campaign_succeed(request):
     return render(request, 'campaign_form_succeed.html')
+
+
+
+
+
+
+
+def donate(request):
+    return render(request, 'donate_2.html')
+
+
+def charge(request):
+
+    if request.method == "POST":
+        print(request.POST)
+
+    return redirect('donation_succeed')
+
+
+def donation_succeed(request):
+    return render(request, 'donation_succeed.html')
+
+
+
+
+# def calculate_order_amount(items):
+#     # Replace this constant with a calculation of the order's amount
+#     # Calculate the order total on the server to prevent
+#     # people from directly manipulating the amount on the client
+#     return 1400
+
+
+# @app.route('/create-payment-intent', methods=['POST'])
+# def create_payment():
+#     try:
+#         data = json.loads(request.data)
+#         # Create a PaymentIntent with the order amount and currency
+#         intent = stripe.PaymentIntent.create(
+#             amount=calculate_order_amount(data['items']),
+#             currency='eur',
+#             automatic_payment_methods={
+#                 'enabled': True,
+#             },
+#         )
+#         return jsonify({
+#             'clientSecret': intent['client_secret']
+#         })
+#     except Exception as e:
+#         return jsonify(error=str(e)), 403

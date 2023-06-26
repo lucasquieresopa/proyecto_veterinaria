@@ -41,6 +41,8 @@ urlpatterns = [
     path("adoptions/", include('adoptions.urls')),
     path("perdidos/", include('perdidos.urls')),
     path("found/", include('found.urls')),
+    path("donations/", include('donations.urls')),
+
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

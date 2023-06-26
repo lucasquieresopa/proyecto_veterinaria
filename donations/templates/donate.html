@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Donar</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://js.stripe.com/v3/"></script>
+  </head>
+  <body>
+    <section>
+      <div class="product">
+
+        <div class="description">
+          <h3>Donacion 1</h3>
+          <h5>$100.00</h5>
+        </div>
+      </div>
+      <form action="/create-checkout-session" method="POST">
+        <button type="submit" id="checkout-button">Donar</button>
+      </form>
+    </section>
+    <section>
+        <div class="product">
+  
+          <div class="description">
+            <h3>Donacion 2</h3>
+            <h5>$500.00</h5>
+          </div>
+        </div>
+        <form action="/create-checkout-session" method="POST">
+          <button type="submit" id="checkout-button">Donar</button>
+        </form>
+      </section>
+      <section>
+        <div class="product">
+  
+          <div class="description">
+            <h3>Donacion 3</h3>
+            <h5>$2000.00</h5>
+          </div>
+        </div>
+        <form action="/create-checkout-session" method="POST">
+          <button type="submit" id="checkout-button">Donar</button>
+        </form>
+      </section>
+  </body>
+
+  <script>
+    
+  </script>
+</html>

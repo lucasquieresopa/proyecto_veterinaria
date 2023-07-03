@@ -58,7 +58,7 @@ def publish_campaign_succeed(request):
 
 
 def donate(request):
-    return render(request, 'donate_2.html')
+    return render(request, 'donate.html')
 
 
 def charge(request):

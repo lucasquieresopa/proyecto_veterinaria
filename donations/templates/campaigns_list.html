@@ -38,7 +38,7 @@
 </style>
 
 <main>
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated and user.is_veterinario %}
     <div class="text-left">
         <a href="{% url 'campaign_form' %}" class="btn btn-primary">Publicar campaña de donación</a>
     </div>

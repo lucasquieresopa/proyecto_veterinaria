@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    .text-center {
+    text-align: center;
+    }
+  
+    p {
+      font-size:20px;
+    }
+    table {
+        border-collapse: collapse;
+        table-layout: fixed;
+        width: 310px;
+    }
+    table td {
+        width: 110px;
+        word-wrap: break-word;
+    }
+</style>
+
+<main>
+<br>
+<div>         
+    <a href="{% url 'guard_form' %}" class="btn btn-secondary">Volver</a>
+</div class="card"> 
+    <h2 class="text-center">Guardias</h2>
+    <div id='calendar' class="card" style="padding: 20px;">
+
+    </div>
+                
+            
+        
+</main>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var calendarEl = document.getElementById('calendar');
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        events: [
+            {% for guard in guards %}
+                {
+                    title: "Veterinaria de turno -> {{ guard.vet }}",
+                    address: "{{ guard.address }}",
+                    date: "{{ guard.date_of_guards | date:'Y-m-d' }}",
+                    url: "{% url 'guard_detail' guard.id %}",
+                },
+            {% endfor %}
+                
+        ],
+        timeZone: 'local', 
+        locale: 'es',
+      });
+      calendar.render();
+    });
+
+  </script>
+
+{% endblock  %}

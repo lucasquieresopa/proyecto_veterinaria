@@ -39,17 +39,7 @@ def guard_registration_view(request):
     return render(request, 'guard_form.html', context)
 
 
-@ login_required
-def guards_list(request):
 
-    
-    guards = Guards.objects.all
-
-    context = {
-        'guards': guards,
-    }
-
-    return render(request, 'guards_list.html', context)
 
 
 
@@ -91,3 +81,24 @@ def guard_register_modification(request, guard_id):
 def guard_register_modification_succeed(request):
     return render(request, 'guard_register_modification_succeed.html')
 
+
+def guards_calendar(request):
+
+    
+    guards = Guards.objects.all
+
+    context = {
+        'guards': guards,
+    }
+
+    return render(request, 'guards_calendar.html', context)
+
+def guard_detail(request, guard_id):
+    
+        guard = Guards.objects.get(id=guard_id)
+    
+        context = {
+            'guard': guard,
+        }
+    
+        return render(request, 'guard_detail.html', context)

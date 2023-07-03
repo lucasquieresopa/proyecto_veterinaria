@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.guards_list, name="guards_list"),
+    path('', views.guards_calendar, name="guards_calendar"),
     path('guards_form/', views.guard_registration_view, name='guard_form'),
 
     path(
@@ -18,5 +18,9 @@ urlpatterns = [
         'guard_modification/done/', 
         views.guard_register_modification_succeed, 
         name='guard_register_modification_succeed'),
+    
+    path('guards_detail/<guard_id>', 
+        views.guard_detail, 
+        name="guard_detail"),
 
 ]

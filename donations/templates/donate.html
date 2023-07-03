@@ -52,7 +52,13 @@
         <form action="{% url 'charge' campaign_id %}" method="post" id="payment-form">
             {% csrf_token %}
 
-            <input type="text" name="email" placeholder="Email:">
+            <select required name="amount" id="amount">
+                <option selected value="5">Donar 5 dolares</option>
+                <option value="10">Donar 10 dolares</option>
+                <option value="25">Donar 25 dolares</option>
+            </select>
+
+            <input required type="text" name="email" placeholder="Email:">
 
             <div class="form-row">
                 <label for="card-element">

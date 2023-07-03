@@ -65,6 +65,8 @@ def charge(request, campaign_id):
 
     if request.method == "POST":
 
+        amount = int(request.POST['amount'])
+
         customer = stripe.Customer.create(
             email=request.POST['email'],
             source=request.POST['stripeToken'],
@@ -73,14 +75,14 @@ def charge(request, campaign_id):
 
         charge = stripe.Charge.create(
             customer=customer,
-            amount=500,
+            amount=amount*100,
             currency="usd",
             #source=request.POST['stripeToken'],
             description="Donación",
         )
 
         campaign = Campaign.objects.get(pk=campaign_id)
-        campaign.actual_money += 500/100
+        campaign.actual_money += amount
         campaign.save()
 
     return redirect('donation_succeed')

@@ -1,1 +1,27 @@
-{% extends 'base.html' %}   
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+	.text-center {
+	text-align: center;
+	}
+  
+	p {
+	  font-size:20px;
+  
+	}
+  
+	
+</style>
+<br>
+	<p style="text-align:center;">
+		La donación fue realizada correctamente. ¡Gracias por colaborar!
+	</p>
+
+
+	
+	<div class="text-center">
+		<a href="{% url 'campaigns' %}">Volver</a>
+	</div>
+
+{% endblock %}

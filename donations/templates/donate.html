@@ -1,7 +1,10 @@
+
 <!DOCTYPE html>
+{% extends 'base.html' %}
 {% load static %}
 
 
+{% block content %}
 <html>
     <head>
         <title>Donar</title>
@@ -33,7 +36,7 @@
                 background-color: #fefde5 !important;
             }
             #card-element {
-                width: 60%;
+                width: 35%;
             }
 
 
@@ -45,8 +48,12 @@
     
 
     <body>
-        <form action="{% url 'charge' %}" method="post" id="payment-form">
+        
+        <form action="{% url 'charge' campaign_id %}" method="post" id="payment-form">
             {% csrf_token %}
+
+            <input type="text" name="email" placeholder="Email:">
+
             <div class="form-row">
                 <label for="card-element">
                     Tarjeta
@@ -130,3 +137,4 @@
 
 
 <html>
+{% endblock content %}

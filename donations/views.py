@@ -57,14 +57,31 @@ def publish_campaign_succeed(request):
 
 
 
-def donate(request):
-    return render(request, 'donate.html')
+def donate(request, campaign_id):
+    return render(request, 'donate.html', {'campaign_id': campaign_id})
 
 
-def charge(request):
+def charge(request, campaign_id):
 
     if request.method == "POST":
-        print(request.POST)
+
+        customer = stripe.Customer.create(
+            email=request.POST['email'],
+            source=request.POST['stripeToken'],
+            
+        )
+
+        charge = stripe.Charge.create(
+            customer=customer,
+            amount=500,
+            currency="usd",
+            #source=request.POST['stripeToken'],
+            description="Donación",
+        )
+
+        campaign = Campaign.objects.get(pk=campaign_id)
+        campaign.actual_money += 500
+        campaign.save()
 
     return redirect('donation_succeed')
 

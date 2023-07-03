@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+	.text-center {
+	text-align: center;
+	}
+  
+	p {
+	  font-size:20px;
+  
+	}
+  
+	
+</style>
+<br>
+	<p style="text-align:center;">
+		La guardia fue registrada correctamente.
+	</p>
+
+
+	
+	<div class="text-center">
+		<a href="{% url 'guard_form' %}">Volver</a>
+	</div>
+
+{% endblock %}

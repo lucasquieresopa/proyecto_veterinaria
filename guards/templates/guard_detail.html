@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<main>
+    
+    <div class="container">
+        <div class="row">
+            <div>         
+                <a href="{% url 'home' %}" class="btn btn-secondary">Volver</a>
+            </div class="card"> 
+
+            <div class="col-md-12">
+                <h2 class="text-center">Guardia de turno</h2>
+
+                
+                <div class="col-md-12">
+                    <div class="card">
+
+                       
+
+                        <div class="card-body">
+                            <h5 class="card-title">{{ guard.vet }}</h5>
+                            <p class="card-text" style="font-size: 20px;">Dirreccion: {{ guard.address }}</p>
+                            <p class="card-text" style="font-size: 20px;">Fecha: {{ guard.date_of_guards }}</p>
+                        
+
+                            <div class="text-center">
+                                {% if user.is_veterinario %}
+                                <!-- si el post pertenece al usuario, el usuario está loggeado y el post no está adoptado: -->
+                                
+                                    {% csrf_token %}
+                        
+                                    <a href="{% url 'guard_register_modification' guard.id %}" class="btn btn-danger">Modificar</a>
+                                
+                                {% endif %}
+                            </div>
+
+                            
+                        
+                        </div>
+
+{% endblock content %}

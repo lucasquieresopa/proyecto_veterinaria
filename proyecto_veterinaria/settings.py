@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'perdidos',
     'found',
     'donations',
+    'guards',
     
 
 ]

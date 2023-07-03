@@ -3,7 +3,7 @@ from datetime import date, datetime
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from accounts.models import CustomUser
 from dogs.models import Dog
-from django.core.validators import MinValueValidator
+from django.core.validators import MaxLengthValidator, MaxValueValidator, MinValueValidator
 
 
 

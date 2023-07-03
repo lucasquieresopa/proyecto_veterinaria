@@ -25,7 +25,7 @@
 
 <main>
     
-  <a href="{% url 'home' %}" class="btn btn-secondary">Atrás</a>
+  <a href="{% url 'list_users' %}" class="btn btn-secondary">Atrás</a>
 <div class="container card-izq " >
   <div class="row row-1" >
     <div class="col-md-3" >
@@ -120,7 +120,7 @@
                   </table>
             {% else %}
             <div>
-              <a>El usuario no posee perros visibles</a>
+              <a>No hay ningún perro para ver</a>
             </div>
             {% endif %}
       </div>

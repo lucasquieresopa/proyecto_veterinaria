@@ -53,6 +53,15 @@ class CampaignForm(forms.ModelForm):
             else:
                 return self.cleaned_data['target_date']
             
+    def clean_target_money(self):
+        if self.is_valid():
+            target_money = self.cleaned_data['target_money']
+
+            if target_money < 50:
+                raise forms.ValidationError('El dinero objetivo debe ser mayor a 50 dolares')
+            else: 
+                return self.cleaned_data['target_money']
+            
 
     def clean(self):
         """Comprueba que no exista otro post con los mismos datos"""

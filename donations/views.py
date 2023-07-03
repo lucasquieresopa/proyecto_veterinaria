@@ -80,7 +80,7 @@ def charge(request, campaign_id):
         )
 
         campaign = Campaign.objects.get(pk=campaign_id)
-        campaign.actual_money += 500
+        campaign.actual_money += 500/100
         campaign.save()
 
     return redirect('donation_succeed')

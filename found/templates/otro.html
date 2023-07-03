@@ -40,21 +40,20 @@
 <main>
     {% if user.is_authenticated %}
     <div class="text-left">
-        <a href="{% url 'found_post_form' %}" class="btn btn-primary">Publicar perro encontrado</a>
-        <a href="{% url 'client_found_posts' %}" class="btn btn-info">Ver mis publicaciones</a>
+        <a href="{% url 'lost_post_form' %}" class="btn btn-primary">Publicar perro perdido</a>
+        <a href="{% url 'client_lost_posts' %}" class="btn btn-info">Ver mis publicaciones</a>
     </div>
     {% endif %}
     <div class="container">
         <div class="row">
 
             <div class="col-md-12">
-                <h2 class="text-center">Perros encontrados</h2>
+                <h2 class="text-center">Perros perdidos</h2>
 
                     <form method="get">
                         {{filter.form}}
                         <button class="btn btn-primary" type="submit">Filtrar</button>
                     </form>
-            {% if posts.exists %}
             {% for post in posts %}
             <div class="col-md-12">
                 <div class="card">
@@ -62,19 +61,19 @@
                     <img src="{{ post.image.url }}" class="card-img-top" alt="Imagen del post">
                     {% endif %}
                     <div class="card-body">
-                        <h5 class="card-title">{{ post.description }}</h5>
+                        <h5 class="card-title">{{ post.name }}</h5>
                         <p class="card-text" style="font-size: 20px;">Edad: {{ post.age }}</p>
                         <p class="card-text" style="font-size: 20px;">Sexo: {{ post.sex }}</p>
                         <p class="card-text" style="font-size: 20px;">Raza: {{ post.breed }}</p>
                         <p class="card-text" style="font-size: 20px;">Color: {{ post.color }}</p>
                         <p class="card-text" style="font-size: 20px;">Tamaño: {{ post.size }}</p>
-                        <p class="card-text" style="font-size: 20px;">Zona donde lo encontre: {{ post.zone }}</p>
+                        <p class="card-text" style="font-size: 20px;">Zona donde se perdió: {{ post.zone }}</p>
                         <!-- Botones y funcionalidades -->
                         <div class="text-center">
                             {% if post.author.id == actual_user_id and user.is_authenticated and not post.was_found %}
                             <!-- si el post pertenece al usuario, el usuario está loggeado y el post no está adoptado: -->
-                            <a href="{% url 'found_post_modification' post.id %}" class="bi bi-pencil-square btn btn-outline-primary btn-sm"></a>
-                            <form method="POST" action="{% url 'delete_found_post_from_general' post.id %}">
+                            <a href="{% url 'lost_post_modification' post.id %}" class="bi bi-pencil-square btn btn-outline-primary btn-sm"></a>
+                            <form method="POST" action="{% url 'delete_lost_post_from_general' post.id %}">
                                 {% csrf_token %}
                                 <input name="_method" type="hidden" value="Borrar">
                                 <button type="submit" class="bi bi-trash red-color btn btn-outline-danger btn-sm show_confirm_delete" data-toggle="tooltip" title='Borrar'></button>
@@ -84,17 +83,17 @@
                     </div>
                     <div class="card-footer">
                         <div class="text-center">
-                            {% if post.was_delivered %}
-                            <button type="button" class="btn btn-success btn-sm" disabled>Entregado!</button>
+                            {% if post.was_found %}
+                            <button type="button" class="btn btn-success btn-sm" disabled>Encontrado!</button>
                             {% else %}
                             {% if post.author.id == actual_user_id and user.is_authenticated %}
-                            <form method="POST" action="{% url 'mark_as_delivered_from_general' post.id %}">
+                            <form method="POST" action="{% url 'mark_as_found_from_general' post.id %}">
                                 {% csrf_token %}
                                 <input name="_method" type="hidden" value="Marcar como encontrado">
-                                <button type="submit" class="btn btn-success btn-sm show_confirm_delivered" data-toggle="tooltip" title='Marcar como entregado'>Marcar como entregado</button>
+                                <button type="submit" class="btn btn-success btn-sm show_confirm_found" data-toggle="tooltip" title='Marcar como encontrado'>Marcar como encontrado</button>
                             </form>
                             {% else %}
-                            <a href="{% url 'confirm_delivered' post.id %}" class="btn btn-secondary btn-sm">Ese es mi perro</a>
+                            <a href="{% url 'confirm_found' post.id %}" class="btn btn-secondary btn-sm">Tengo a este perro</a>
                             {% endif %}
                             {% endif %}
                         </div>
@@ -103,11 +102,6 @@
             </div>
             </div>
             {% endfor %}
-            {%else%}
-            <p style="text-align:center;">
-                No hay publicaciones para ver
-            </p>
-            {% endif %}
         </div>
     </div>
 
@@ -130,12 +124,12 @@
                 });
         });
 
-        $('.show_confirm_delivered').click(function (event) {
+        $('.show_confirm_found').click(function (event) {
             var form = $(this).closest("form");
             var name = $(this).data("name");
             event.preventDefault();
             swal({
-                title: `¿Estás seguro de marcar esta publicación como entregado?`,
+                title: `¿Estás seguro de marcar esta publicación como encontrado?`,
                 text: "No podrás deshacer tu elección",
                 icon: "warning",
                 buttons: ['Cancelar', 'Si'], // primer botón del array es 'cancel' y segundo 'confirm'

@@ -38,6 +38,9 @@
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Inicio</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="{% url 'campaigns' %}">Donar</a>
+                            </li>
 
                             {% if user.is_authenticated %}
 
@@ -82,9 +85,7 @@
                                     <li class="nav-item">
                                         <a class="nav-link active" aria-current="page" href="{% url 'shifts_panel_user' user.id  %}">Mis turnos</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link active" aria-current="page" href="{% url 'campaigns' %}">Donar</a>
-                                    </li>
+                                    
 
                                 {% endif %}
 

@@ -155,7 +155,7 @@ class CampaignModificationForm(forms.ModelForm):
             target_money = self.cleaned_data['target_money']
 
             if self.user.campaign_set.filter(campaign_name=campaign_name, description=description, 
-                                        target_date=target_date, target_money=target_money):
+                                        target_date=target_date, target_money=target_money).exclude(id=self.instance.id):
                 raise forms.ValidationError("Ya posee una colecta con exactamente la misma información")
             
             return self.cleaned_data

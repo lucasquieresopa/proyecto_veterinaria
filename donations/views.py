@@ -19,13 +19,10 @@ def campaigns_list(request):
     context = {
         'campaigns': campaigns,
         'actual_user_id': request.user.id,
-        'progress': 45,
     }
     
     return render(request, 'campaigns_list.html', context)
 
-def get_progress(id):
-    return 20
 
 
 

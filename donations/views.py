@@ -96,27 +96,47 @@ def donation_succeed(request):
 
 
 
-# def calculate_order_amount(items):
-#     # Replace this constant with a calculation of the order's amount
-#     # Calculate the order total on the server to prevent
-#     # people from directly manipulating the amount on the client
-#     return 1400
+@login_required
+def campaign_modification(request, campaign_id):
+
+    campaign = Campaign.objects.get(id=campaign_id)
+
+    if request.POST:
+        form = LostPostModificationForm(request.POST, request.FILES, instance=campaign, user=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('lost_post_modification_succeed')
+    else:
+        form = LostPostModificationForm(
+            initial = {
+                'name': post.name,
+                'age': post.age,
+                'sex': post.sex,
+                'breed': post.breed,
+                'color': post.color,
+                'size': post.size,
+                'zone':post.zone,
+                
+            },
+            user=request.user,
+            instance=campaign
+        )
+        form = LostPostModificationForm(instance=post, user=request.user)
+    
+    context = {
+        'lost_post_modification_form': form,
+    }
+
+    return render(request, 'lost_post_modification_form.html', context)
+
+@login_required
+def campaign_modification_succeed(request):
+    return render(request, 'campaign_modification_succeed.html')
 
 
-# @app.route('/create-payment-intent', methods=['POST'])
-# def create_payment():
-#     try:
-#         data = json.loads(request.data)
-#         # Create a PaymentIntent with the order amount and currency
-#         intent = stripe.PaymentIntent.create(
-#             amount=calculate_order_amount(data['items']),
-#             currency='eur',
-#             automatic_payment_methods={
-#                 'enabled': True,
-#             },
-#         )
-#         return jsonify({
-#             'clientSecret': intent['client_secret']
-#         })
-#     except Exception as e:
-#         return jsonify(error=str(e)), 403
+
+def delete_campaign(request, campaign_id):
+    """borrado de post en la pestaña de posts propios"""
+    campaign = Campaign.objects.get(pk=campaign_id)
+    campaign.delete()
+    return redirect('campaigns')

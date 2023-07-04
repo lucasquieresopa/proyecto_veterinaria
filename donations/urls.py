@@ -12,5 +12,9 @@ urlpatterns = [
     #path("donate/error/", views.donation_error, name='donation_error'),
     path("charge/<campaign_id>", views.charge, name='charge'),
 
+    path('campaign_modification/<campaign_id>', views.campaign_modification, name='campaign_modification'),
+    path('campaign_modification/done/', views.campaign_modification_succeed, name='campaign_modification_succeed'),
+    path('delete_campaign/<campaign_id>', views.delete_campaign, name='delete_campaign'),
+    
 
 ]

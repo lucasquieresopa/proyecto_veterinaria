@@ -8,6 +8,18 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+
+    <script>
+        function setProgressBarWidth(actual, target) {
+          const progressBar = document.getElementById('progress-bar');
+          const calculo = (actual / target) * 100
+          progressBar.style.width = calculo + '%';
+          progressBar.textContent = calculo + '%';
+
+        }
+    </script>
+
 </head>
 <style>
     .card {
@@ -68,6 +80,21 @@
                                 {% endif %}
                             </p>
                             <p class="card-text" style="font-size: 20px;">Reacudación actual: {{ campaign.actual_money }}</p>
+                            
+                            <div class="progress" style="height: 20px;">
+                                {% if campaign.target_money > campaign.actual_money %}
+                                    <div id="progress-bar" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div> 
+                                    
+                                    <script>
+                                        const actual = {{campaign.actual_money}};
+                                        const target = {{campaign.target_money}};
+                                        setProgressBarWidth(actual, target);
+                                    </script>
+
+                                {% else %}
+                                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 100%">Logrado</div>    
+                                {% endif %}
+                                </div>
 
                             
                             <!-- Botones y funcionalidades -->
@@ -110,40 +137,7 @@
         </div>
     </div>
     <script type="text/javascript">
-        $('.show_confirm_delete').click(function (event) {
-            var form = $(this).closest("form");
-            var name = $(this).data("name");
-            event.preventDefault();
-            swal({
-                title: `¿Estás seguro de borrar esta publicación?`,
-                text: "Si lo borras, desaparecerá para siempre",
-                icon: "warning",
-                buttons: ['Cancelar', 'Borrar'], // primer botón del array es 'cancel' y segundo 'confirm'
-                dangerMode: true,
-            })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        form.submit();
-                    }
-                });
-        });
 
-        $('.show_confirm_delivered').click(function (event) {
-            var form = $(this).closest("form");
-            var name = $(this).data("name");
-            event.preventDefault();
-            swal({
-                title: `¿Estás seguro de marcar esta publicación como entregado?`,
-                text: "No podrás deshacer tu elección",
-                icon: "warning",
-                buttons: ['Cancelar', 'Si'], // primer botón del array es 'cancel' y segundo 'confirm'
-            })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        form.submit();
-                    }
-                });
-        });
 
         $('.show_confirm_delete').click(function(event) {
             var form = $(this).closest("form");
@@ -162,6 +156,9 @@
                 }
             });
         });
+
+        
+
 
     </script>
 </main>

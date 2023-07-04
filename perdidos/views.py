@@ -106,6 +106,7 @@ def lost_post_modification(request, post_id):
 
     return render(request, 'lost_post_modification_form.html', context)
 
+
 @login_required
 def lost_post_modification_succeed(request):
     return render(request, 'lost_post_modification_succeed.html')

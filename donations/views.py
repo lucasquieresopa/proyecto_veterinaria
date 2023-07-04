@@ -2,7 +2,7 @@ from datetime import date
 import datetime
 from django.shortcuts import redirect, render
 from .models import Campaign
-from .forms import CampaignForm
+from .forms import CampaignForm, CampaignModificationForm
 from django.contrib.auth.decorators import login_required
 
 import stripe
@@ -18,10 +18,14 @@ def campaigns_list(request):
 
     context = {
         'campaigns': campaigns,
-        'actual_user_id': request.user.id
+        'actual_user_id': request.user.id,
+        'progress': 45,
     }
     
     return render(request, 'campaigns_list.html', context)
+
+def get_progress(id):
+    return 20
 
 
 
@@ -102,32 +106,30 @@ def campaign_modification(request, campaign_id):
     campaign = Campaign.objects.get(id=campaign_id)
 
     if request.POST:
-        form = LostPostModificationForm(request.POST, request.FILES, instance=campaign, user=request.user)
+        form = CampaignModificationForm(request.POST, request.FILES, instance=campaign, user=request.user)
         if form.is_valid():
             form.save()
-            return redirect('lost_post_modification_succeed')
+            return redirect('campaign_modification_succeed')
     else:
-        form = LostPostModificationForm(
+        form = CampaignModificationForm(
             initial = {
-                'name': post.name,
-                'age': post.age,
-                'sex': post.sex,
-                'breed': post.breed,
-                'color': post.color,
-                'size': post.size,
-                'zone':post.zone,
+                'campaign_name': campaign.campaign_name,
+                'description': campaign.description,
+                'target_date': campaign.target_date,
+                'target_money': campaign.target_money,
                 
             },
             user=request.user,
             instance=campaign
         )
-        form = LostPostModificationForm(instance=post, user=request.user)
+        form = CampaignModificationForm(instance=campaign, user=request.user)
     
     context = {
-        'lost_post_modification_form': form,
+        'campaign_modification_form': form,
     }
 
-    return render(request, 'lost_post_modification_form.html', context)
+    return render(request, 'campaign_modification.html', context)
+
 
 @login_required
 def campaign_modification_succeed(request):

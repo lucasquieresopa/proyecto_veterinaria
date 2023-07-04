@@ -1,3 +1,5 @@
+from datetime import date
+import datetime
 from django.shortcuts import redirect, render
 from .models import Campaign
 from .forms import CampaignForm
@@ -12,7 +14,7 @@ stripe.api_key = "sk_test_51NL2vMF7u9x15zyl0VVAsEpA72PT0Y5Jn1ZCtVex9yvIe1dB8NxtT
 
 def campaigns_list(request):
 
-    campaigns = Campaign.objects.all()
+    campaigns = Campaign.objects.filter(target_date__gte=date.today())
 
     context = {
         'campaigns': campaigns,

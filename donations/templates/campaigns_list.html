@@ -61,7 +61,12 @@
                             <h5 class="card-title">{{ campaign.campaign_name }}</h5>
                             <p class="card-text" style="font-size: 20px;">Descripción: {{ campaign.description }}</p>
                             <p class="card-text" style="font-size: 20px;">Fecha objetivo: {{ campaign.target_date }}</p>
-                            <p class="card-text" style="font-size: 20px;">Dinero objetivo: {{ campaign.target_money }}</p>
+                            <p class="card-text" style="font-size: 20px;">
+                                Dinero objetivo: {{ campaign.target_money }}
+                                {% if campaign.target_money <= campaign.actual_money %}
+                                    (¡Logrado!)
+                                {% endif %}
+                            </p>
                             <p class="card-text" style="font-size: 20px;">Reacudación actual: {{ campaign.actual_money }}</p>
 
                             
@@ -81,7 +86,19 @@
 
                         <div class="card-footer">
                             <div class="text-center">
-                                <a href="{% url 'donate' campaign.id %}" class="btn btn-primary">Donar</a>
+                                
+                                    {% if campaign.target_money > campaign.actual_money %}
+                                    <a href="{% url 'donate' campaign.id %}" class="btn btn-primary">
+                                        Donar
+                                    </a>
+                                    {% else %}
+                                    <a href="{% url 'donate' campaign.id %}" class="btn btn-secondary">
+                                        Continuar donando
+                                    </a>
+                                        
+                                    {% endif %}
+
+                                
                             </div>
                         </div>
                     </div>

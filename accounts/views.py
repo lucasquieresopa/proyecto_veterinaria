@@ -43,7 +43,9 @@ def user_registration_view(request):
 
             if(Discount.objects.filter(email=email).exists()):
                 user.has_discount = True
-                
+                discount = Discount.objects.filter(email=email)
+                discount.delete()
+
             user.save()
             #dog_context['dog_registration'] 
             

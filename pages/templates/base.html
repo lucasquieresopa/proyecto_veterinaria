@@ -60,7 +60,7 @@
                                         <a class="nav-link active" aria-current="page" href="{% url 'calendar' user.id %}">Pedir turnos</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link active" aria-current="page" href="{% url 'guard_form'  %}">Registrar guardias</a>
+                                        <a class="nav-link active" aria-current="page" href="{% url 'guards_calendar'  %}">Guardias</a>
                                     </li>
                                     
                                     
@@ -118,9 +118,7 @@
                                                 <li>
                                                     <a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a>
                                                 </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="{% url 'guards_calendar' %}">Calendario de guardias</a>
-                                                </li>
+                                                
 
 
                                             </ul>

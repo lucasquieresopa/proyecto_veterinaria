@@ -21,6 +21,7 @@
     </script>
 
 </head>
+
 <style>
     .card {
         width: 100%;
@@ -28,7 +29,9 @@
     }
 
     .card-img-top {
-        height: 400px;
+
+        width:  300px;
+        height: 300px;
         object-fit: cover;
     }
 
@@ -47,6 +50,9 @@
         font-size: 14px;
         color: #888;
     }
+
+
+
 </style>
 
 <main>
@@ -62,11 +68,11 @@
                 <h2 class="text-center">Campañas de donación</h2>
 
                 {% for campaign in campaigns %}
-                <div class="col-md-12">
+                <div class="col-md-10">
                     <div class="card">
 
                         {% if campaign.image %}
-                        <img src="{{ campaign.image.url }}" class="card-img-top" alt="Imagen del post">
+                        <img src="{{ campaign.image.url }}" class="card-img-top" alt="Imagen del post" width="200" height="200">
                         {% endif %}
 
                         <div class="card-body">

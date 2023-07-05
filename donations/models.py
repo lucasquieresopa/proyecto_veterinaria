@@ -38,3 +38,10 @@ class Campaign(models.Model):
         blank=True,
         default=0,
     )
+
+class Discount(models.Model):
+    email = models.EmailField(
+        verbose_name="email", 
+        unique=True,
+        max_length=40,
+    )

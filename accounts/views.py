@@ -15,6 +15,7 @@ from pages.email_sending import send_mail_to_user
 from django.db.models import Q
 from django.db.models import Value
 from django.db.models.functions import Concat
+from donations.models import Discount
 
 
 @login_required
@@ -30,7 +31,6 @@ def user_registration_view(request):
 
         if form.is_valid():
             password = get_random_string(length=6)
-            print (password)
 
             user = form.save(commit=False)
             user.set_password(password)
@@ -41,8 +41,12 @@ def user_registration_view(request):
                                "ohmydog@gmail.com",
                                 [email])
 
+            if(Discount.objects.filter(email=email).exists()):
+                user.has_discount = True
+                discount = Discount.objects.filter(email=email)
+                discount.delete()
+
             user.save()
-            #dog_context['dog_registration'] 
             
             return redirect('dog_registration', pk=user.id)
      

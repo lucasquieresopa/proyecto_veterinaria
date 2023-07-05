@@ -47,7 +47,6 @@ def user_registration_view(request):
                 discount.delete()
 
             user.save()
-            #dog_context['dog_registration'] 
             
             return redirect('dog_registration', pk=user.id)
      

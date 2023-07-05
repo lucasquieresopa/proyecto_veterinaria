@@ -80,6 +80,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_veterinario = models.BooleanField(
         default=False,
     )
+    has_discount = models.BooleanField(
+        default=False,
+    )
 
     
 

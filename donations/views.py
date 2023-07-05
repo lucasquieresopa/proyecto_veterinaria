@@ -4,6 +4,7 @@ from django.shortcuts import redirect, render
 from .models import Campaign, Discount
 from .forms import CampaignForm, CampaignModificationForm
 from django.contrib.auth.decorators import login_required
+from accounts.models import CustomUser
 
 import stripe
 
@@ -69,33 +70,42 @@ def donate(request, campaign_id):
 
 def charge(request, campaign_id):
 
-    email_entered = request.POST['email']
+    
     if request.method == "POST":
 
+        email_entered = request.POST['email']
         amount = int(request.POST['amount'])
 
+        #creo un "cliente" de Stripe
         customer = stripe.Customer.create(
             email=email_entered,
             source=request.POST['stripeToken'],
-            
         )
 
+        #creo un "pago" de Stripe
         charge = stripe.Charge.create(
             customer=customer,
             amount=amount*100,
             currency="usd",
-            #source=request.POST['stripeToken'],
             description="Donación",
         )
 
+        #sumo el dinero de la donacion a la campaña
         campaign = Campaign.objects.get(pk=campaign_id)
         campaign.actual_money += amount
         campaign.save()
 
-        if(amount == 2000 and not Discount.objects.filter(email=email_entered).exists()):
-            discount = Discount.objects.create(email=email_entered)
-            discount.save()
-            print(Discount.objects.all())
+        #aplico descuento al cliente o no cliente
+        if(amount == 2000):
+            if(CustomUser.objects.filter(email=email_entered).exists()):
+                user = CustomUser.objects.get(email=email_entered)
+                if(user.has_discount == False):
+                    user.has_discount = True
+                    user.save()
+            else:
+                if(not Discount.objects.filter(email=email_entered).exists()):
+                    discount = Discount.objects.create(email=email_entered)
+                    discount.save()
 
     return redirect('donation_succeed')
 

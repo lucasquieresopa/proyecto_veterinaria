@@ -1,7 +1,7 @@
 from datetime import date
 import datetime
 from django.shortcuts import redirect, render
-from .models import Campaign
+from .models import Campaign, Discount
 from .forms import CampaignForm, CampaignModificationForm
 from django.contrib.auth.decorators import login_required
 
@@ -69,12 +69,13 @@ def donate(request, campaign_id):
 
 def charge(request, campaign_id):
 
+    email_entered = request.POST['email']
     if request.method == "POST":
 
         amount = int(request.POST['amount'])
 
         customer = stripe.Customer.create(
-            email=request.POST['email'],
+            email=email_entered,
             source=request.POST['stripeToken'],
             
         )
@@ -90,6 +91,11 @@ def charge(request, campaign_id):
         campaign = Campaign.objects.get(pk=campaign_id)
         campaign.actual_money += amount
         campaign.save()
+
+        if(amount == 2000 and not Discount.objects.filter(email=email_entered).exists()):
+            discount = Discount.objects.create(email=email_entered)
+            discount.save()
+            print(Discount.objects.all())
 
     return redirect('donation_succeed')
 

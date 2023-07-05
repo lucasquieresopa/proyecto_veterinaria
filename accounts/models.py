@@ -80,6 +80,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_veterinario = models.BooleanField(
         default=False,
     )
+
     
 
     USERNAME_FIELD = "email"    #variable por la cual se ingresa, dice username pero seria como 'campo que representa el inicio de sesion'
@@ -98,4 +99,3 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return True
     
 
-    

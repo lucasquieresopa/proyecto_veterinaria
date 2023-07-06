@@ -80,12 +80,12 @@
                             <p class="card-text" style="font-size: 20px;">Descripción: {{ campaign.description }}</p>
                             <p class="card-text" style="font-size: 20px;">Fecha objetivo: {{ campaign.target_date }}</p>
                             <p class="card-text" style="font-size: 20px;">
-                                Dinero objetivo: {{ campaign.target_money }}
+                                Dinero objetivo: ${{ campaign.target_money }}
                                 {% if campaign.target_money <= campaign.actual_money %}
                                     (¡Logrado!)
                                 {% endif %}
                             </p>
-                            <p class="card-text" style="font-size: 20px;">Reacudación actual: {{ campaign.actual_money }}</p>
+                            <p class="card-text" style="font-size: 20px;">Reacudación actual: ${{ campaign.actual_money }}</p>
                             
                             <div class="progress" style="height: 20px;">
                                 {% if campaign.target_money > campaign.actual_money %}

@@ -5,6 +5,7 @@ from .models import Campaign, Discount
 from .forms import CampaignForm, CampaignModificationForm
 from django.contrib.auth.decorators import login_required
 from accounts.models import CustomUser
+from pages.email_sending import send_mail_to_user
 
 import stripe
 
@@ -93,16 +94,21 @@ def charge(request, campaign_id):
         campaign.save()
 
         #aplico descuento al cliente o no cliente
-        if(amount == 2000):
-            if(CustomUser.objects.filter(email=email_entered).exists()):
-                user = CustomUser.objects.get(email=email_entered)
-                if(user.has_discount == False):
-                    user.has_discount = True
-                    user.save()
-            else:
-                if(not Discount.objects.filter(email=email_entered).exists()):
-                    discount = Discount.objects.create(email=email_entered)
-                    discount.save()
+        if(CustomUser.objects.filter(email=email_entered).exists()):
+            user = CustomUser.objects.get(email=email_entered)
+            if(user.has_discount == False):
+                user.has_discount = True
+                user.save()
+        else:
+            if(not Discount.objects.filter(email=email_entered).exists()):
+                discount = Discount.objects.create(email=email_entered)
+                discount.save()
+
+        #envio mail
+        send_mail_to_user('Donación realizada', 
+                      f"""Su donación de ${amount} a la causa "{campaign.campaign_name}" fue recibida. \nSi usted es cliente recibirá un descuento del 10% en su próxima visitia. Si no lo es, se asociará el descuento a este email para cuando decida asociarse.\n¡Gracias por su colaboración!\nEquipo de Oh My Dog!""", 
+                      "ohmydog@gmail.com", 
+                      [email_entered])
 
     return redirect('donation_succeed')
 

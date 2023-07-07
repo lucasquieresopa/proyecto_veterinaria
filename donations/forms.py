@@ -160,9 +160,6 @@ class CampaignModificationForm(forms.ModelForm):
             
             return self.cleaned_data
     
-    # def clean_image(self):
-    #     image = self.cleaned_data['image']
-    #     return image
     
     def clean_campaign_name(self):
         campaign_name = self.cleaned_data['campaign_name']

@@ -1,7 +1,11 @@
+from datetime import date
+import datetime
 from django.shortcuts import redirect, render
-from .models import Campaign
-from .forms import CampaignForm
+from .models import Campaign, Discount
+from .forms import CampaignForm, CampaignModificationForm
 from django.contrib.auth.decorators import login_required
+from accounts.models import CustomUser
+from pages.email_sending import send_mail_to_user
 
 import stripe
 
@@ -12,14 +16,15 @@ stripe.api_key = "sk_test_51NL2vMF7u9x15zyl0VVAsEpA72PT0Y5Jn1ZCtVex9yvIe1dB8NxtT
 
 def campaigns_list(request):
 
-    campaigns = Campaign.objects.all()
+    campaigns = Campaign.objects.filter(target_date__gte=date.today())
 
     context = {
         'campaigns': campaigns,
-        'actual_user_id': request.user.id
+        'actual_user_id': request.user.id,
     }
     
     return render(request, 'campaigns_list.html', context)
+
 
 
 
@@ -63,27 +68,47 @@ def donate(request, campaign_id):
 
 def charge(request, campaign_id):
 
+    
     if request.method == "POST":
 
+        email_entered = request.POST['email']
         amount = int(request.POST['amount'])
 
+        #creo un "cliente" de Stripe
         customer = stripe.Customer.create(
-            email=request.POST['email'],
+            email=email_entered,
             source=request.POST['stripeToken'],
-            
         )
 
+        #creo un "pago" de Stripe
         charge = stripe.Charge.create(
             customer=customer,
             amount=amount*100,
             currency="usd",
-            #source=request.POST['stripeToken'],
             description="Donación",
         )
 
+        #sumo el dinero de la donacion a la campaña
         campaign = Campaign.objects.get(pk=campaign_id)
         campaign.actual_money += amount
         campaign.save()
+
+        #aplico descuento al cliente o no cliente
+        if(CustomUser.objects.filter(email=email_entered).exists()):
+            user = CustomUser.objects.get(email=email_entered)
+            if(user.has_discount == False):
+                user.has_discount = True
+                user.save()
+        else:
+            if(not Discount.objects.filter(email=email_entered).exists()):
+                discount = Discount.objects.create(email=email_entered)
+                discount.save()
+
+        #envio mail
+        send_mail_to_user('Donación realizada', 
+                      f"""Su donación de ${amount} a la causa "{campaign.campaign_name}" fue recibida. \nSi usted es cliente recibirá un descuento del 10% en su próxima visitia. Si no lo es, se asociará el descuento a este email para cuando decida asociarse.\n¡Gracias por su colaboración!\nEquipo de Oh My Dog!""", 
+                      "ohmydog@gmail.com", 
+                      [email_entered])
 
     return redirect('donation_succeed')
 
@@ -94,27 +119,45 @@ def donation_succeed(request):
 
 
 
-# def calculate_order_amount(items):
-#     # Replace this constant with a calculation of the order's amount
-#     # Calculate the order total on the server to prevent
-#     # people from directly manipulating the amount on the client
-#     return 1400
+@login_required
+def campaign_modification(request, campaign_id):
+
+    campaign = Campaign.objects.get(id=campaign_id)
+
+    if request.POST:
+        form = CampaignModificationForm(request.POST, request.FILES, instance=campaign, user=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('campaign_modification_succeed')
+    else:
+        form = CampaignModificationForm(
+            initial = {
+                'campaign_name': campaign.campaign_name,
+                'description': campaign.description,
+                'target_date': campaign.target_date,
+                'target_money': campaign.target_money,
+                
+            },
+            user=request.user,
+            instance=campaign
+        )
+        form = CampaignModificationForm(instance=campaign, user=request.user)
+    
+    context = {
+        'campaign_modification_form': form,
+    }
+
+    return render(request, 'campaign_modification.html', context)
 
 
-# @app.route('/create-payment-intent', methods=['POST'])
-# def create_payment():
-#     try:
-#         data = json.loads(request.data)
-#         # Create a PaymentIntent with the order amount and currency
-#         intent = stripe.PaymentIntent.create(
-#             amount=calculate_order_amount(data['items']),
-#             currency='eur',
-#             automatic_payment_methods={
-#                 'enabled': True,
-#             },
-#         )
-#         return jsonify({
-#             'clientSecret': intent['client_secret']
-#         })
-#     except Exception as e:
-#         return jsonify(error=str(e)), 403
+@login_required
+def campaign_modification_succeed(request):
+    return render(request, 'campaign_modification_succeed.html')
+
+
+
+def delete_campaign(request, campaign_id):
+    """borrado de post en la pestaña de posts propios"""
+    campaign = Campaign.objects.get(pk=campaign_id)
+    campaign.delete()
+    return redirect('campaigns')

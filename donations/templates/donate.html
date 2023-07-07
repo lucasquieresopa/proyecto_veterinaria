@@ -12,6 +12,8 @@
         
         
         <style type="text/css">
+
+
             .StripeElement{
                 box-sizing: border-box;
                 height: 40px;
@@ -48,30 +50,33 @@
     
 
     <body>
-        
-        <form action="{% url 'charge' campaign_id %}" method="post" id="payment-form">
-            {% csrf_token %}
 
-            <select required name="amount" id="amount">
-                <option selected value="5">Donar 5 dolares</option>
-                <option value="10">Donar 10 dolares</option>
-                <option value="25">Donar 25 dolares</option>
-            </select>
+            
+            <form action="{% url 'charge' campaign_id %}" method="post" id="payment-form">
+                {% csrf_token %}
 
-            <input required type="text" name="email" placeholder="Email:">
+                <select required name="amount" id="amount">
+                    <option selected value="100">Donar 100 pesos</option>
+                    <option value="500">Donar 500 pesos</option>
+                    <option value="2000">Donar 2000 pesos</option>
+                </select>
 
-            <div class="form-row">
-                <label for="card-element">
-                    Tarjeta
-                </label>
-                <div id="card-element">
+                <input required type="text" name="email" placeholder="Email:" value={{request.user.email}}>
 
+                <div class="form-row" >
+                    <label for="card-element">
+                        Tarjeta
+                    </label>
+                    <div id="card-element" >
+
+                    </div>
+                    <div id="card-errores" role="alert"></div>
                 </div>
-                <div id="card-errores" role="alert"></div>
-            </div>
 
-            <button>Pagar</button>
-        </form>
+                <button>Pagar</button>
+            </form>
+
+    </div>
     </body>
 
     <script src="https://js.stripe.com/v3/"></script>

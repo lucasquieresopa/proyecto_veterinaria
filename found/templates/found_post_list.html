@@ -54,6 +54,7 @@
                         {{filter.form}}
                         <button class="btn btn-primary" type="submit">Filtrar</button>
                     </form>
+            {% if posts.exists %}
             {% for post in posts %}
             <div class="col-md-12">
                 <div class="card">
@@ -102,6 +103,11 @@
             </div>
             </div>
             {% endfor %}
+            {%else%}
+            <p style="text-align:center;">
+                No hay publicaciones para ver
+            </p>
+            {% endif %}
         </div>
     </div>
 

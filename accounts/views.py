@@ -30,6 +30,7 @@ def user_registration_view(request):
 
         if form.is_valid():
             password = get_random_string(length=6)
+            print (password)
 
             user = form.save(commit=False)
             user.set_password(password)

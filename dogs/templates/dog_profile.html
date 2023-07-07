@@ -100,11 +100,12 @@
 <div>
      
     <div class="text-right" >    
-        <a href="{% url 'dog_modification' dog_id=dog.id user_owner_id=user_owner.id %}" class="btn btn-primary">Modificar datos de perro</a>
         
         {% if user.is_veterinario %} 
 
             {% if not dog.hidden %}
+                <a href="{% url 'dog_modification' dog_id=dog.id user_owner_id=user_owner.id %}" class="btn btn-primary">Modificar datos de perro</a>
+        
                 <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#hide_dog" id="hide_or_show_dog_button">
                     Ocultar perro
                 </button>
@@ -118,7 +119,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                        Cuando vuelva al perfil no verá a este perro
+                        Recargue la página para ver los cambios aplicados
                         </div>
                     </div>
                     </div>
@@ -140,7 +141,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                        Cuando vuelva al perfil podrá ver a este perro
+                            Recargue la página para ver los cambios aplicados
                         </div>
                     </div>
                     </div>

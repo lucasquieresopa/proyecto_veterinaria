@@ -38,7 +38,7 @@
 </style>
 
 <main>
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated and user.is_veterinario %}
     <div class="text-left">
         <a href="{% url 'campaign_form' %}" class="btn btn-primary">Publicar campaña de donación</a>
     </div>
@@ -81,7 +81,7 @@
 
                         <div class="card-footer">
                             <div class="text-center">
-                                <a href="{% url 'donate' %}" class="btn btn-primary">Donar</a>
+                                <a href="{% url 'donate' campaign.id %}" class="btn btn-primary">Donar</a>
                             </div>
                         </div>
                     </div>

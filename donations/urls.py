@@ -7,10 +7,10 @@ urlpatterns = [
     path("publish_campaign/", views.publish_campaign, name='campaign_form'),
     path("publish_campaign/done/", views.publish_campaign_succeed, name='campaign_form_succeed'),
 
-    path("donate/", views.donate, name='donate'),
+    path("donate/<campaign_id>", views.donate, name='donate'),
     path("donate/succeed/", views.donation_succeed, name='donation_succeed'),
     #path("donate/error/", views.donation_error, name='donation_error'),
-    path("charge/", views.charge, name='charge'),
+    path("charge/<campaign_id>", views.charge, name='charge'),
 
 
 ]

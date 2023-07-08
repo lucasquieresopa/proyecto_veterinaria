@@ -145,6 +145,7 @@ def attention_registration_view(request, dog_id, client_id):
     """definición del comportamiento de la pantalla de registro de clientes"""
 
     actual_dog = Dog.objects.get(pk=dog_id)
+    actual_client = CustomUser.objects.get(pk=client_id)
 
     if request.POST:
         form = AttentionRegisterForm(request.POST)
@@ -153,17 +154,22 @@ def attention_registration_view(request, dog_id, client_id):
             attention = form.save(commit=False)
             attention.dog = actual_dog
             attention.save()
+            if(actual_client.has_discount):
+                actual_client.has_discount = False
+                actual_client.save()
             return redirect('attention_succeed', user_owner_id=client_id, dog_id=actual_dog.id)
         
         else:
             context = {
-                'attention_form' : form
+                'attention_form' : form,
+                'client': actual_client,
             }
     else:
         form = AttentionRegisterForm()
 
         context = {
-                'attention_form' : form
+                'attention_form' : form,
+                'client': actual_client,
                 }
         
     return render(request, 'attention_form.html', context)

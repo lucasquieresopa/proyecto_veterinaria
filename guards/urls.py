@@ -15,7 +15,7 @@ urlpatterns = [
         views.guard_register_modification, 
         name='guard_register_modification'),
     path(
-        'guard_modification/done/', 
+        'guard_modification/done/<guard_id>', 
         views.guard_register_modification_succeed, 
         name='guard_register_modification_succeed'),
     

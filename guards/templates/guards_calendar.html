@@ -25,8 +25,9 @@
 <br>
 <div>         
     <a href="{% url 'home' %}" class="btn btn-secondary">Volver</a>
+    {% if user.is_veterinario %}
     <a href="{% url 'guard_form' %}" class="btn btn-primary">Registrar guardia</a>
-
+    {% endif %}
 </div class="card"> 
     <h2 class="text-center">Guardias</h2>
     <div id='calendar' class="card" style="padding: 20px;">
@@ -46,7 +47,7 @@
         events: [
             {% for guard in guards %}
                 {
-                    title: "Veterinaria de turno -> {{ guard.vet }}",
+                    title: "{{ guard.vet }}",
                     address: "{{ guard.address }}",
                     date: "{{ guard.date_of_guards | date:'Y-m-d' }}",
                     url: "{% url 'guard_detail' guard.id %}",

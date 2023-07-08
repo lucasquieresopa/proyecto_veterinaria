@@ -9,14 +9,14 @@ class GuardsRegisterForm(forms.ModelForm):
         label="Veterinaria", 
         required=True, 
         help_text="*",
-        max_length=20,
+        max_length=30,
     )
 
     address = forms.CharField(
         label="Dirreccion", 
         required=True, 
         help_text="*",
-        max_length=15,
+        max_length=30,
     )
 
     date_of_guards = forms.DateField(
@@ -56,14 +56,14 @@ class GuardsRegisterModificationForm(forms.ModelForm):
         label="Veterinaria", 
         required=True, 
         help_text="*",
-        max_length=20,
+        max_length=30,
     )
 
     address = forms.CharField(
-        label="Dirreccion", 
+        label="Direccion", 
         required=True, 
         help_text="*",
-        max_length=15,
+        max_length=30,
     )
 
     date_of_guards = forms.DateField(

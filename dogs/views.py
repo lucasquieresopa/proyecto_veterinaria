@@ -237,7 +237,7 @@ def vaccination_registration_view(request, dog_id, client_id):
 def vaccinations_list(request, dog_id, client_id):
 
     actual_dog = Dog.objects.get(pk=dog_id)
-    vaccinations = actual_dog.vaccination_set.all()
+    vaccinations = actual_dog.vaccination_set.all().order_by('-date_of_application')
 
     context = {
         'client_id': client_id,

@@ -56,7 +56,7 @@ def guard_register_modification(request, guard_id):
         form = GuardsRegisterModificationForm( request.POST, instance=guard,user=request.user)
         if form.is_valid():
             form.save()
-            return redirect('guard_register_modification_succeed')
+            return redirect('guard_register_modification_succeed', guard_id)
     else:
         form = GuardsRegisterModificationForm(
             initial = {
@@ -79,8 +79,8 @@ def guard_register_modification(request, guard_id):
 
 
 @login_required
-def guard_register_modification_succeed(request):
-    return render(request, 'guard_register_modification_succeed.html')
+def guard_register_modification_succeed(request, guard_id):
+    return render(request, 'guard_register_modification_succeed.html', {'guard_id': guard_id})
 
 
 def guards_calendar(request):

@@ -187,7 +187,7 @@ class Vaccination(models.Model):
     )
     lot = models.CharField(
         max_length=15,
-        validators=[MaxLengthValidator(14, message="El nombre del lote no puede superar los 15 caracteres")],
+        validators=[MaxLengthValidator(15, message="El nombre del lote no puede superar los 15 caracteres")],
         blank=True,
         null=True
     )

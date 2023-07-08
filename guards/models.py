@@ -8,14 +8,14 @@ class Guards(models.Model):
 
 
     vet = models.CharField(
-        max_length=20,
-        validators=[MaxLengthValidator(20, message="El nombre de la veterinaria no puede superar los 20 caracteres")],
+        max_length=30,
+        validators=[MaxLengthValidator(30, message="El nombre de la veterinaria no puede superar los 20 caracteres")],
         blank=True,
         null=True
     )
     address = models.CharField(
-        max_length=15,
-        validators=[MaxLengthValidator(14, message="La direccion no puede superar los 15 caracteres")],
+        max_length=30,
+        validators=[MaxLengthValidator(30, message="La direccion no puede superar los 15 caracteres")],
         blank=True,
         null=True
     )

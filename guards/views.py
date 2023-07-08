@@ -53,7 +53,7 @@ def guard_register_modification(request, guard_id):
     guard = Guards.objects.get(id=guard_id)
 
     if request.POST:
-        form = GuardsRegisterModificationForm(request.POST, instance=guard,)
+        form = GuardsRegisterModificationForm( request.POST, instance=guard,user=request.user)
         if form.is_valid():
             form.save()
             return redirect('guard_register_modification_succeed')
@@ -66,9 +66,10 @@ def guard_register_modification(request, guard_id):
                 
                 
             },
-            instance=guard
+            instance=guard,
+            user=request.user,
         )
-        form = GuardsRegisterModificationForm(instance=guard)
+        form = GuardsRegisterModificationForm(user=request.user,instance=guard)
     
     context = {
         'guard_register_modification_form': form,
@@ -102,3 +103,11 @@ def guard_detail(request, guard_id):
         }
     
         return render(request, 'guard_detail.html', context)
+
+
+def guard_delete(request, guard_id):
+    """borrado de guardia"""
+    guard = Guards.objects.get(pk=guard_id)
+    guard.delete()
+    return redirect('guards_calendar')
+

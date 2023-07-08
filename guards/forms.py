@@ -34,6 +34,7 @@ class GuardsRegisterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')  # cache the user object you pass in
         super(GuardsRegisterForm, self).__init__(*args, **kwargs)
+       
 
 
 
@@ -77,7 +78,11 @@ class GuardsRegisterModificationForm(forms.ModelForm):
         model = Guards
         fields = ('vet', 'address','date_of_guards')
     
-    
+    def __init__(self, *args, **kwargs):
+          # cache the user object you pass in
+        self.user = kwargs.pop('user')
+        super(GuardsRegisterModificationForm, self).__init__(*args, **kwargs)
+        self.initial['date_of_guards'] = self.instance.date_of_guards.isoformat()
 
 
     def clean(self):

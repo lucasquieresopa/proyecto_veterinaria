@@ -28,10 +28,14 @@
 
                                     <label for="dog">Perro:</label>
                                     <select name="dog" id="dog" required>
-                                    {% for dog in dogs_shown %}
-                                      <option value="{{dog.id}}">{{dog.name}}</option>
-                                      <option value="null">otro</option>
-                                    {% endfor %}
+                                
+        
+                                        {% for dog in dogs_shown %}
+                                        <option value="{{dog.id}}">{{dog.name}}</option>
+                                        
+                                        {% endfor %}
+                                        <option value="null">otro</option>
+                                    
                                     </select>
                                     
                                     <button type="submit" class="btn btn-primary btn-lg">Pedir turno</button>

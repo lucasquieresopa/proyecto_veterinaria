@@ -102,6 +102,78 @@
 
 </div>
 
+<div class="shadow p-4 mb-5 bg-body bg-body rounded text-black  m-5 ">
+  {% if items_old.exists %}
+  <h1 class="text-center mt-5 mb-5">Solicitudes de turnos Pasados </h1>
+
+  <br>
+
+  <div class="table-responsive">
+
+    <table class="table table-bordered table-striped table-hover mx-auto">
+      <thead>
+        <tr>
+          <th class="text-center" scope="col">Dia</th>
+          <th class="text-center" scope="col">Turno</th>
+          <th class="text-center" scope="col">Cliente</th>
+          <th class="text-center" scope="col">Perro</th>
+          <th class="text-center" scope="col">Mail</th>
+          <th class="text-center" scope="col">Aceptar/Rechazar</th>
+          <th class="text-center" scope="col">Mensaje enviado</th>
+          <th class="text-center" scope="col"></th>
+
+        </tr>
+      </thead>
+      <tbody id="myTable">
+        {% for item in items_old %}
+        <tr>
+          <td class="text-center">{{item.day}}</td>
+          <td class="text-center">{{item.time}}</td>
+          <td class="text-center">{{item.user.name}} {{item.user.surname}}</td>
+          {% if item.dog == None %}
+          <td class="text-center">Otro</td>
+          {% else %}
+          <td class="text-center">{{item.dog.name}}</td>
+          {% endif %}
+          <td class="text-center">{{item.user.email}}</td>
+
+
+
+
+          
+          <td class="text-center">{{ item.status }}</td>
+          
+
+
+          <td class="text-center">{{item.description}}</td>
+
+          <td class="text-center">
+            <form method="POST" action="{% url 'shift_delete' item.id %}">
+              {% csrf_token %}    
+              <input name="_method" type="hidden" value="Borrar">
+              <button type="submit" class="bi bi-trash red-color btn btn-outline-danger btn-sm show_confirm_delete" data-toggle="tooltip" title='Borrar'></button>
+          </form>
+
+           
+          </td>
+
+
+
+
+
+        </tr>
+        {% endfor %}
+
+
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <h4 class="text-center">No hay turnos pendientes</h1>
+    {% endif %}
+
+</div>
+
 {% else %}
 
 <div class="shadow p-4 mb-5 bg-body bg-body rounded text-black  m-5">
@@ -115,6 +187,26 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script>
+
+    $('.show_confirm_delete').click(function(event) {
+        var form = $(this).closest("form");
+        var name = $(this).data("name");
+        event.preventDefault();
+        swal({
+            title: `¿Estas seguro de borrar este turno?`,
+            text: "Si lo borras, desaparecerá para siempre",
+            icon: "warning",
+            buttons: ['Cancelar', 'Borrar'], //primer boton del array es 'cancel' y segundo 'confirm'
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                form.submit();
+            }
+        });
+    });
+
+    
   $(document).ready(function () {
     $("#myInput").on("keyup", function () {
       var value = $(this).val().toLowerCase();

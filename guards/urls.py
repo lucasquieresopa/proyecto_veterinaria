@@ -22,5 +22,8 @@ urlpatterns = [
     path('guards_detail/<guard_id>', 
         views.guard_detail, 
         name="guard_detail"),
+    path('guards_delete/<guard_id>', 
+        views.guard_delete, 
+        name="guard_delete"),
 
 ]

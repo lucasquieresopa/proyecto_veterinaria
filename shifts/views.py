@@ -24,19 +24,31 @@ from .forms import EmailForm, ReprogramEmailForm
 @login_required
 def shifts_panel_view(request):
     today = datetime.today()
+    new_date = today.replace(year=2023, month=1, day=1)
     minDate = today.strftime('%Y-%m-%d')
+    minNewDate = new_date.strftime('%Y-%m-%d')
     deltatime = today + timedelta(days=360)
+    deltatimeold = today - timedelta(days=1)
+    strdeltatimeold = deltatimeold.strftime('%Y-%m-%d')
     strdeltatime = deltatime.strftime('%Y-%m-%d')
     maxDate = strdeltatime
+    maxOldDate = strdeltatimeold
     #Only show the Appointments 21 days from today
     items = Appointment.objects.filter(day__range=[minDate, maxDate]).order_by('day','time')
+    items_old = Appointment.objects.filter(day__range=[minNewDate, maxOldDate]).order_by('day','time')
     if request.method == 'POST':
         description = request.POST.get('description')
         redirect('shifts_panel')
 
     return render(request, 'shifts_panel.html', {
-        'items':items,
+        'items':items,'items_old':items_old,
     })
+
+def shift_delete(request, shift_id):
+    """borrado de turno"""
+    shift = Appointment.objects.get(pk=shift_id)
+    shift.delete()
+    return redirect('shifts_panel')
 
 
 def dayToWeekday(x):

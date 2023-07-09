@@ -36,7 +36,11 @@
             <tbody id="myTable">
                 {% for item in items %}
                 <tr>
+                  {%if item.dog.name%}
                     <td class="text-center">{{item.dog.name}}</td>
+                  {%else%}
+                    <td class="text-center">Otro</td>
+                  {%endif%}
                     <td class="text-center">{{item.day}}</td>
                     <td class="text-center">{{item.time}}</td>
                     <td class="text-center">{{item.status}}</td>

@@ -1,0 +1,41 @@
+<!-- template.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Publicar Perro</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('input[name="opcion"]').change(function() {
+                var seleccion = $(this).val();
+                if (seleccion === 'si') {
+                    $('#lista-perros').show();
+                } else if (seleccion === 'no') {
+                    window.location.href = '{% url 'lost_post_form' %}';
+                    $('#lista-perros').hide();
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>¿Quieres publicar un perro que tienes registrado?</h1>
+    <form>
+        <input type="radio" name="opcion" value="no"> No<br>
+        <input type="radio" name="opcion" value="si"> Sí<br>
+    </form>
+
+    <div id="lista-perros" style="display: none;">
+        <h2>Perros Registrados:</h2>
+        <ul>
+            {% for dog in dogs %}
+                <li><a href="{% url 'lost_post_form_preload' dog.id %}">{{ dog.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
+{% endblock content %}

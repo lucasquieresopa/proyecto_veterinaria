@@ -4,7 +4,9 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    path('lost_post_form/', views.lost_post_form_view, name= 'lost_post_form'),
+    path('lost_post_form/', views.lost_post_form_view, name= 'lost_post_form'), 
+    path('lost_post_form_preload/<dog_id>/', views.lost_post_form_preload_view, name= 'lost_post_form_preload'), 
+    path('dog_question/<user_id>/', views.dog_question_view, name='dog_question'),
     path('lost_post_form/published/', views.lost_post_form_succeed , name= 'lost_post_form_succeed'),
     path('lostposts/', views.lost_posts_list, name='lost_posts'),
     path('lostposts/own_posts/', views.client_lost_posts_list, name='client_lost_posts'),

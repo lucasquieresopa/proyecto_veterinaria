@@ -5,10 +5,23 @@ from perdidos.models import LostPost
 from .forms import LostPostForm, LostPostModificationForm, ConfirmFoundForm
 from django.contrib.auth.decorators import login_required
 from pages.email_sending import send_mail_to_user
+from .models import Dog
 
 from .filtros import OrderFilter
 
 # Create your views here.
+@login_required
+def dog_question_view(request, user_id):
+    user_owner = CustomUser.objects.get(pk=user_id)
+    dogs = user_owner.dog_set.all()
+
+    context = { 
+        'dogs':dogs.filter(hidden=False),
+        'user': request.user,
+        }
+
+    return render(request, 'dog_question.html', context)
+
 
 @login_required
 def lost_post_form_view(request):
@@ -33,6 +46,48 @@ def lost_post_form_view(request):
                 }
         
     return render(request, 'lost_post_form.html', context)
+
+@login_required
+def lost_post_form_preload_view(request, dog_id):
+    user = request.user
+    dog = Dog.objects.get(pk=dog_id)
+    
+    if request.POST:
+        form = LostPostForm(request.POST, request.FILES, user=user)
+
+        if form.is_valid():
+            lost_post = form.save(commit=False)
+            lost_post.author = user
+            lost_post.save()
+            return redirect('lost_post_form_succeed')   
+        else:
+            form = LostPostForm(user=user,
+                initial={
+                'name': dog.name,
+                'breed': dog.breed,
+                'sex': dog.sex,
+                'color': dog.color,
+                'size': dog.size
+        })
+            context = {
+                'lost_post_form' : form
+            }    
+    else:
+        form = LostPostForm(user=user,
+            initial={
+            'name': dog.name,
+            'breed': dog.breed,
+            'sex': dog.sex,
+            'color': dog.color,
+            'size': dog.size
+        })
+
+    context = {
+        'lost_post_form': form
+    }
+        
+    return render(request, 'lost_post_form_preload.html', context)
+
 
 @login_required
 def lost_post_form_succeed(request):

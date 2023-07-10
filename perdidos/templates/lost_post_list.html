@@ -40,7 +40,7 @@
 <main>
     {% if user.is_authenticated %}
     <div class="text-left">
-        <a href="{% url 'lost_post_form' %}" class="btn btn-primary">Publicar perro perdido</a>
+        <a href="{% url 'dog_question' user.id %}" class="btn btn-primary">Publicar perro perdido</a>
         <a href="{% url 'client_lost_posts' %}" class="btn btn-info">Ver mis publicaciones</a>
     </div>
     {% endif %}

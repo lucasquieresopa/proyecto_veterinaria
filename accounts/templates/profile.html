@@ -76,6 +76,7 @@
               {{ client.telephone }}
             </div>
           </div>
+          {% if not client.is_veterinario %}
           <hr>
           <div class="row">
             <div class="col-sm-3">
@@ -89,7 +90,9 @@
                   Ninguno
                 {% endif %}
             </div>
+            
           </div>
+          {% endif %}
         </div>
       </div>
 

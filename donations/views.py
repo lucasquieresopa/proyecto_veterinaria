@@ -96,19 +96,31 @@ def charge(request, campaign_id):
         #aplico descuento al cliente o no cliente
         if(CustomUser.objects.filter(email=email_entered).exists()):
             user = CustomUser.objects.get(email=email_entered)
-            if(user.has_discount == False):
-                user.has_discount = True
-                user.save()
+            if(user.is_veterinario):
+                send_mail_to_user('Donación realizada', 
+                      f"""Su donación de ${amount} a la causa "{campaign.campaign_name}" fue recibida.¡Gracias por su colaboración!\nEquipo de Oh My Dog!""", 
+                      "ohmydog@gmail.com", 
+                      [email_entered])
+            else:
+                if(user.has_discount == False):
+                    user.has_discount = True
+                    user.save()
+                send_mail_to_user('Donación realizada', 
+                      f"""Su donación de ${amount} a la causa "{campaign.campaign_name}" fue recibida. \nRecibirá un descuento del 10% en su próxima visita (si no tiene un descuento pendiente).\n¡Gracias por su colaboración!\nEquipo de Oh My Dog!""", 
+                      "ohmydog@gmail.com", 
+                      [email_entered])
+                
         else:
             if(not Discount.objects.filter(email=email_entered).exists()):
                 discount = Discount.objects.create(email=email_entered)
                 discount.save()
-
-        #envio mail
-        send_mail_to_user('Donación realizada', 
-                      f"""Su donación de ${amount} a la causa "{campaign.campaign_name}" fue recibida. \nSi usted es cliente recibirá un descuento del 10% en su próxima visitia. Si no lo es, se asociará el descuento a este email para cuando decida asociarse.\n¡Gracias por su colaboración!\nEquipo de Oh My Dog!""", 
+                send_mail_to_user('Donación realizada', 
+                      f"""Su donación de ${amount} a la causa "{campaign.campaign_name}" fue recibida. \nSi usted no es cliente aún, recibirá un descuento del 10% en su próxima visita si se asocia a la veterinaria.\n¡Gracias por su colaboración!\nEquipo de Oh My Dog!""", 
                       "ohmydog@gmail.com", 
                       [email_entered])
+
+
+        
 
     return redirect('donation_succeed')
 
